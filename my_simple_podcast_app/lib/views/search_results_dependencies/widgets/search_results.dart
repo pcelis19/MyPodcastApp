@@ -16,6 +16,7 @@ class SearchResults extends StatefulWidget {
   _SearchResultsState createState() => _SearchResultsState();
 }
 
+// TODO fix search bug, why is it not responding to change notifier
 class _SearchResultsState extends State<SearchResults> {
   @override
   Widget build(BuildContext context) {
