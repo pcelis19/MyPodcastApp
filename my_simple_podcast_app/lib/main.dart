@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_simple_podcast_app/views/app_bottom_navigation_bar.dart';
 import 'package:my_simple_podcast_app/views/search_results_screen.dart';
 
 void main() {
@@ -28,6 +29,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return SearchScreen();
+    return AppBottomNavigationBar();
   }
 }

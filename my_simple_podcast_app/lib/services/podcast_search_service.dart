@@ -1,7 +1,8 @@
 import 'package:my_simple_podcast_app/models/podcast_show.dart';
 import 'package:my_simple_podcast_app/services/shared_preferences_service.dart';
 import 'package:podcast_search/podcast_search.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+const int LIMIT = 8;
 
 class PodcastSearchService {
   /// Creation of singleton
@@ -15,6 +16,31 @@ class PodcastSearchService {
   /// instance variables
 
   Search _search = Search();
+
+  Future<List<PodcastShow>> get topPodcastShows async {
+    // TODO get permissions from user so that country is relative to their
+    // location
+    SearchResult searchResult =
+        await _search.charts(limit: LIMIT, country: Country.UNITED_STATES);
+    List<PodcastShow> podcastShows = [];
+    for (Item result in searchResult.items) {
+      Set<String> genres = Set<String>();
+      result.genre.forEach((element) {
+        genres.add(element.name.toLowerCase());
+      });
+      PodcastShow podcastShow = PodcastShow(
+          artistName: result.artistName,
+          contentAdvisoryRating: result.contentAdvisoryRating,
+          country: result.country,
+          feedUrl: result.feedUrl,
+          genres: genres,
+          imageUrl: result.artworkUrl600,
+          releaseDate: result.releaseDate,
+          showName: result.collectionName);
+      podcastShows.add(podcastShow);
+    }
+    return podcastShows;
+  }
 
   /// instance methods
 
