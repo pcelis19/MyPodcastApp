@@ -32,11 +32,12 @@ class _SearchResultsState extends State<SearchResults> {
     });
   }
 
-  FutureBuilder<List<String>> previousSearchTerms(String deleteBecauseTesting) {
+  FutureBuilder<List<dynamic>> previousSearchTerms(
+      dynamic deleteBecauseTesting) {
     log('previousSearchTerms [$deleteBecauseTesting]');
-    return FutureBuilder<List<String>>(
+    return FutureBuilder<List<dynamic>>(
       future: PodcastSearchService().previousSearchTerms,
-      builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data == null) {
             return Center(
@@ -50,16 +51,19 @@ class _SearchResultsState extends State<SearchResults> {
           }
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 5),
-            child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: snapshot.data.length,
-                itemBuilder: (context, index) {
-                  return Chip(
-                    label: Text(
-                      snapshot.data[index],
-                    ),
-                  );
-                }),
+            child: Container(
+              alignment: Alignment.topLeft,
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (context, index) {
+                    return Chip(
+                      label: Text(
+                        snapshot.data[index],
+                      ),
+                    );
+                  }),
+            ),
           );
         } else {
           return Center(

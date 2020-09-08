@@ -26,15 +26,16 @@ class SharedPreferencesService {
   /// checks if there is cache.
   /// * Returns the following
   /// ** if no cache returns null
-  /// ** else returns List<String>
-  Future<List<String>> get previousSearchTerms async {
+  /// ** else returns List<dynamic>
+  Future<List<dynamic>> get previousSearchTerms async {
     await _initializeSharedPreferences();
     if (!_sharedPreferences.containsKey(_keyForPreviousSearchTerms)) {
       return null;
     }
     String cachedData =
         _sharedPreferences.getString(_keyForPreviousSearchTerms);
-    List<String> savedData = jsonDecode(cachedData)[_keyForPreviousSearchTerms];
+    List<dynamic> savedData =
+        jsonDecode(cachedData)[_keyForPreviousSearchTerms];
     return savedData;
   }
 
@@ -42,19 +43,20 @@ class SharedPreferencesService {
   /// * if cache exists
   /// ** adds [searchTerm] to cache
   /// * else
-  /// ** creates a [List<String>]
+  /// ** creates a [List<dynamic>]
   /// ** maps list to [_keyForPreviousSearchTerms]
   /// ** saves map to cache
   ///
   Future<void> addSearchTerm(String searchTerm) async {
     await _initializeSharedPreferences();
     if (!_sharedPreferences.containsKey(_keyForPreviousSearchTerms)) {
-      List<String> starterList = List<String>();
+      List<dynamic> starterList = List<dynamic>();
       _saveListOfSearchTermsToCache(starterList);
     }
     String cachedData =
         _sharedPreferences.getString(_keyForPreviousSearchTerms);
-    List<String> savedData = jsonDecode(cachedData)[_keyForPreviousSearchTerms];
+    List<dynamic> savedData =
+        jsonDecode(cachedData)[_keyForPreviousSearchTerms];
     if (savedData.contains(searchTerm)) {
       savedData.remove(searchTerm);
     }
@@ -63,9 +65,9 @@ class SharedPreferencesService {
     _saveListOfSearchTermsToCache(savedData);
   }
 
-  /// saves previous search terms [List<String] to cache
+  /// saves previous search terms [List<dynamic] to cache
   Future<void> _saveListOfSearchTermsToCache(
-      List<String> previousSearchTerms) async {
+      List<dynamic> previousSearchTerms) async {
     await _initializeSharedPreferences();
     Map<String, dynamic> jsonData = {
       _keyForPreviousSearchTerms: previousSearchTerms

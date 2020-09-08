@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:my_simple_podcast_app/models/podcast_show.dart';
 import 'package:my_simple_podcast_app/services/shared_preferences_service.dart';
 import 'package:podcast_search/podcast_search.dart';
@@ -46,7 +48,11 @@ class PodcastSearchService {
 
   /// returns a list of podcast shows with a given search [searchTerm]
   Future<List<PodcastShow>> searchTerm(String searchTerm) async {
-    await SharedPreferencesService().addSearchTerm(searchTerm);
+    try {
+      await SharedPreferencesService().addSearchTerm(searchTerm);
+    } catch (e) {
+      log('[ERROR: SharedPreferencesService().addSearchTerm(searchTerm)]:[${e.toString()}]');
+    }
     SearchResult searchResult = await _search.search(searchTerm);
     List<Item> results = searchResult.items;
     List<PodcastShow> podcastShows = List<PodcastShow>();
@@ -71,9 +77,16 @@ class PodcastSearchService {
 
   /// checks if there is cache.
   /// * Returns the following
-  /// ** if no cache returns null
+  /// ** if no cache returns empty List<String>
   /// ** else returns List<String>
-  Future<List<String>> get previousSearchTerms async {
-    return await SharedPreferencesService().previousSearchTerms;
+  Future<List<dynamic>> get previousSearchTerms async {
+    List<dynamic> previousSearchTerms = [];
+    try {
+      previousSearchTerms =
+          await SharedPreferencesService().previousSearchTerms;
+    } catch (e) {
+      log("[ERROR: SharedPreferencesService().previousSearchTerms]: ${e.toString()}");
+    }
+    return previousSearchTerms;
   }
 }
