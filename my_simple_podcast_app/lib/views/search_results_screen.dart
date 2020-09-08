@@ -1,39 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:my_simple_podcast_app/components/podcast_show_tile.dart';
 import 'package:my_simple_podcast_app/globals/size_config.dart';
-import 'package:my_simple_podcast_app/models/podcast_show.dart';
-import 'package:my_simple_podcast_app/services/podcast_search_service.dart';
+import 'package:my_simple_podcast_app/views/search_results_dependencies/providers/search_term_notifier.dart';
+import 'package:my_simple_podcast_app/views/search_results_dependencies/widgets/search_bar.dart';
+import 'package:my_simple_podcast_app/views/search_results_dependencies/widgets/search_results.dart';
+import 'package:provider/provider.dart';
 
-class SearchResultsScreen extends StatelessWidget {
-  const SearchResultsScreen({Key key, this.searchTerm}) : super(key: key);
-  final String searchTerm;
+class SearchScreen extends StatelessWidget {
+  const SearchScreen({
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
     SizeConfig().init(context);
-    return Container(
-      color: themeData.backgroundColor,
-      child: Scaffold(
-        body: SafeArea(
-            child: FutureBuilder<List<PodcastShow>>(
-          future: PodcastSearchService().searchTerm(searchTerm),
-          builder: (BuildContext context,
-              AsyncSnapshot<List<PodcastShow>> snapshot) {
-            if (snapshot.hasData) {
-              return Container(
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (context, index) {
-                      return PodcastShowTile(snapshot.data[index]);
-                    }),
-              );
-            } else {
-              return Center(child: Text("Waiting..."));
-            }
-          },
-        )),
+    return ChangeNotifierProvider<SearchTermNotifier>.value(
+      value: SearchTermNotifier(),
+      child: Container(
+        color: themeData.backgroundColor,
+        height: SizeConfig.screenHeight,
+        child: SafeArea(
+          child: Scaffold(
+            body: Column(
+              children: [
+                SearchBar(),
+                SearchResults(),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -24,6 +24,9 @@ dependencies:
   flutter:
     sdk: flutter
   podcast_search: ^0.3.6
+  auto_size_text: ^2.1.0
+  provider: ^4.3.2+2
+  shared_preferences: ^0.5.10
 
 
   # The following adds the Cupertino Icons font to your application.
