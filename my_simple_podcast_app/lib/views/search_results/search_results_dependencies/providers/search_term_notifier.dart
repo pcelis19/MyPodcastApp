@@ -7,7 +7,8 @@ class SearchTermNotifier extends ChangeNotifier {
   }
 
   void setSearchTerm(String searchTerm) {
-    if (searchTerm != null && searchTerm != _searchTerm) {
+    if (searchTerm == null) return;
+    if (_searchTerm != null && searchTerm != _searchTerm) {
       this._searchTerm = searchTerm;
       notifyListeners();
     }

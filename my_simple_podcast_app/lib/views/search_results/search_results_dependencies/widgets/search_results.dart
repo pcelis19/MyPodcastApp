@@ -52,6 +52,7 @@ class _SearchResultsState extends State<SearchResults> {
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 5),
             child: Container(
+              //Wrap, add children then wrap horizontally or vertically
               alignment: Alignment.topLeft,
               child: ListView.builder(
                   shrinkWrap: true,
