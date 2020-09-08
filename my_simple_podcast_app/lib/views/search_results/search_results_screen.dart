@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/globals/size_config.dart';
-import 'package:my_simple_podcast_app/views/search_results_dependencies/providers/search_term_notifier.dart';
-import 'package:my_simple_podcast_app/views/search_results_dependencies/widgets/search_bar.dart';
-import 'package:my_simple_podcast_app/views/search_results_dependencies/widgets/search_results.dart';
+import 'package:my_simple_podcast_app/views/search_results/search_results_dependencies/providers/search_term_notifier.dart';
+import 'package:my_simple_podcast_app/views/search_results/search_results_dependencies/widgets/search_bar.dart';
+import 'package:my_simple_podcast_app/views/search_results/search_results_dependencies/widgets/search_results.dart';
 import 'package:provider/provider.dart';
 
 class SearchScreen extends StatelessWidget {
@@ -19,14 +19,12 @@ class SearchScreen extends StatelessWidget {
       child: Container(
         color: themeData.backgroundColor,
         height: SizeConfig.screenHeight,
-        child: SafeArea(
-          child: Scaffold(
-            body: Column(
-              children: [
-                SearchBar(),
-                SearchResults(),
-              ],
-            ),
+        child: Scaffold(
+          body: Column(
+            children: [
+              SearchBar(),
+              SearchResults(),
+            ],
           ),
         ),
       ),

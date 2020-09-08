@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_simple_podcast_app/views/home_page.dart';
-import 'package:my_simple_podcast_app/views/search_results_screen.dart';
+import 'package:my_simple_podcast_app/views/home_page/home_page_screen.dart';
+import 'package:my_simple_podcast_app/views/search_results/search_results_screen.dart';
 import 'package:tuple/tuple.dart';
 
 const List<Tuple2<BottomNavigationBarItem, Widget>> _feed = [

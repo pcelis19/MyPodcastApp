@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_simple_podcast_app/views/app_bottom_navigation_bar.dart';
-import 'package:my_simple_podcast_app/views/search_results_screen.dart';
+import 'package:my_simple_podcast_app/views/app_bottom_navigation_bar/app_bottom_navigation_bar.dart';
 
 void main() {
   runApp(MyApp());

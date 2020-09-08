@@ -1,5 +1,5 @@
 import 'package:my_simple_podcast_app/models/podcast_show.dart';
-import 'package:my_simple_podcast_app/services/shared_preferences_service.dart';
+import 'package:my_simple_podcast_app/views/search_results_dependencies/services/shared_preferences_service.dart';
 import 'package:podcast_search/podcast_search.dart';
 
 const int LIMIT = 8;

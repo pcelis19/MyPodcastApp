@@ -3,8 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/components/podcast_show_tile.dart';
 import 'package:my_simple_podcast_app/models/podcast_show.dart';
-import 'package:my_simple_podcast_app/services/podcast_search_service.dart';
-import 'package:my_simple_podcast_app/views/search_results_dependencies/providers/search_term_notifier.dart';
+import 'package:my_simple_podcast_app/views/search_results/search_results_dependencies/providers/search_term_notifier.dart';
+import 'package:my_simple_podcast_app/views/search_results/search_results_dependencies/services/podcast_search_service.dart';
+
 import 'package:provider/provider.dart';
 
 class SearchResults extends StatefulWidget {

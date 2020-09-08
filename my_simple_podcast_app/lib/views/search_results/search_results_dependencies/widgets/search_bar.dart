@@ -1,8 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/util/validators.dart';
-import 'package:my_simple_podcast_app/views/search_results_dependencies/providers/search_term_notifier.dart';
+import 'package:my_simple_podcast_app/views/search_results/search_results_dependencies/providers/search_term_notifier.dart';
 import 'package:provider/provider.dart';
 
 class SearchBar extends StatefulWidget {

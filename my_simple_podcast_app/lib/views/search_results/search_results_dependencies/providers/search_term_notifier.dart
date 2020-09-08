@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/foundation.dart';
 
 class SearchTermNotifier extends ChangeNotifier {
