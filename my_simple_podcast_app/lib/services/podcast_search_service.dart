@@ -1,5 +1,7 @@
 import 'package:my_simple_podcast_app/models/podcast_show.dart';
+import 'package:my_simple_podcast_app/services/shared_preferences_service.dart';
 import 'package:podcast_search/podcast_search.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PodcastSearchService {
   /// Creation of singleton
@@ -16,9 +18,10 @@ class PodcastSearchService {
 
   /// instance methods
 
-  /// returns a list of podcast shows with a given search [term]
-  Future<List<PodcastShow>> searchTerm(String term) async {
-    SearchResult searchResult = await _search.search(term);
+  /// returns a list of podcast shows with a given search [searchTerm]
+  Future<List<PodcastShow>> searchTerm(String searchTerm) async {
+    await SharedPreferencesService().addSearchTerm(searchTerm);
+    SearchResult searchResult = await _search.search(searchTerm);
     List<Item> results = searchResult.items;
     List<PodcastShow> podcastShows = List<PodcastShow>();
     for (Item result in results) {
@@ -38,5 +41,13 @@ class PodcastSearchService {
       podcastShows.add(podcastShow);
     }
     return podcastShows;
+  }
+
+  /// checks if there is cache.
+  /// * Returns the following
+  /// ** if no cache returns null
+  /// ** else returns List<String>
+  Future<List<String>> get previousSearchTerms async {
+    return await SharedPreferencesService().previousSearchTerms;
   }
 }
