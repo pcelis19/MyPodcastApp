@@ -1,8 +1,8 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:my_simple_podcast_app/components/podcast_show_tile.dart';
-import 'package:my_simple_podcast_app/models/podcast_show.dart';
+import 'package:my_simple_podcast_app/global_components/podcast_show_tile/podcast_show_tile.dart';
+import 'package:my_simple_podcast_app/global_models/podcast_show.dart';
 import 'package:my_simple_podcast_app/views/search_results/search_results_dependencies/providers/search_term_notifier.dart';
 import 'package:my_simple_podcast_app/views/search_results/search_results_dependencies/services/podcast_search_service.dart';
 
@@ -94,7 +94,10 @@ class _SearchResultsState extends State<SearchResults> {
                 shrinkWrap: true,
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
-                  return PodcastShowTile(snapshot.data[index]);
+                  return PodcastShowTile(
+                    podcastShow: snapshot.data[index],
+                    maxTileSize: .15,
+                  );
                 }),
           );
         } else {

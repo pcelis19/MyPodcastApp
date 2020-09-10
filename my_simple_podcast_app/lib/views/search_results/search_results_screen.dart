@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_simple_podcast_app/globals/size_config.dart';
+import 'package:my_simple_podcast_app/global_utils/size_config.dart';
 import 'package:my_simple_podcast_app/views/search_results/search_results_dependencies/providers/search_term_notifier.dart';
 import 'package:my_simple_podcast_app/views/search_results/search_results_dependencies/widgets/search_bar.dart';
 import 'package:my_simple_podcast_app/views/search_results/search_results_dependencies/widgets/search_results.dart';

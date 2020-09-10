@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_simple_podcast_app/globals/size_config.dart';
+import 'package:my_simple_podcast_app/global_utils/size_config.dart';
 import 'package:my_simple_podcast_app/views/app_bottom_navigation_bar/app_bottom_navigation_bar_dependencies/models/tab_meta_data.dart';
 
 class AppBottomNavigationBar extends StatefulWidget {
