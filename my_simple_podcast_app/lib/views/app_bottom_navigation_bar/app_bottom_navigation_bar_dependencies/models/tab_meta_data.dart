@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_simple_podcast_app/views/home_page/home_page_screen.dart';
-import 'package:my_simple_podcast_app/views/search_results/search_results_screen.dart';
+import 'package:my_simple_podcast_app/views/home/home_screen.dart';
+import 'package:my_simple_podcast_app/views/search/search_screen.dart';
 import 'package:tuple/tuple.dart';
 
 const List<Tuple2<BottomNavigationBarItem, Widget>> _feed = [
@@ -14,7 +14,7 @@ const List<Tuple2<BottomNavigationBarItem, Widget>> _feed = [
   Tuple2(
     BottomNavigationBarItem(
       icon: Icon(Icons.search),
-      title: Text('Show Search'),
+      title: Text('Search'),
     ),
     SearchScreen(),
   )

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:my_simple_podcast_app/global_components/podcast_show_tile/widgets/cover_art_widget.dart';
 import 'package:my_simple_podcast_app/global_utils/size_config.dart';
 import 'package:my_simple_podcast_app/global_models/podcast_show.dart';
 
+import 'widgets/cover_art_widget/cover_art_widget.dart';
 import 'widgets/show_information/show_information_widget.dart';
 
 class PodcastShowTile extends StatelessWidget {
@@ -13,7 +13,14 @@ class PodcastShowTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    return decoration(
+      CoverArt(imageUrl: podcastShow.imageUrl),
+      ShowInformation(podcastShow: podcastShow),
+    );
+  }
 
+  /// This is the decoration applied to both widgets.
+  Widget decoration(CoverArt coverArt, ShowInformation showInformation) {
     return Container(
       height: SizeConfig.screenHeight * maxTileSize,
       child: Card(
@@ -24,15 +31,11 @@ class PodcastShowTile extends StatelessWidget {
             children: [
               Expanded(
                 flex: 1,
-                child: CoverArt(
-                  imageUrl: podcastShow.imageUrl,
-                ),
+                child: coverArt,
               ),
               Expanded(
                 flex: 4,
-                child: ShowInformation(
-                  podcastShow: podcastShow,
-                ),
+                child: showInformation,
               )
             ],
           ),

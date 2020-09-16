@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_models/podcast_show.dart';
-import 'package:my_simple_podcast_app/views/search_results/search_results_dependencies/services/podcast_search_service.dart';
+import 'package:my_simple_podcast_app/global_services/podcast_search_service.dart';
 
 class TopPodcastsShowcase extends StatefulWidget {
   const TopPodcastsShowcase({Key key}) : super(key: key);

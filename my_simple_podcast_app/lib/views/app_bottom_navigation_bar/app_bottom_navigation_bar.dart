@@ -20,20 +20,20 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
     return Container(
       height: SizeConfig.screenHeight,
       color: themeData.backgroundColor,
-      child: Scaffold(
-        body: SafeArea(
-          child: PageView(
+      child: SafeArea(
+        child: Scaffold(
+          body: PageView(
             controller: _pageController,
             children: _tabMetaData.screens,
             onPageChanged: onTabTapped,
           ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          onTap: _onItemTapped,
-          items: _tabMetaData.icons,
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: _selectedIndex,
+            showSelectedLabels: true,
+            showUnselectedLabels: true,
+            onTap: _onItemTapped,
+            items: _tabMetaData.icons,
+          ),
         ),
       ),
     );

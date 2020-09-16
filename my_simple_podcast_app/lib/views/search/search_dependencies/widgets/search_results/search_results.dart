@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_components/podcast_show_tile/podcast_show_tile.dart';
 import 'package:my_simple_podcast_app/global_models/podcast_show.dart';
-import 'package:my_simple_podcast_app/views/search_results/search_results_dependencies/providers/search_term_notifier.dart';
-import 'package:my_simple_podcast_app/views/search_results/search_results_dependencies/services/podcast_search_service.dart';
+import 'package:my_simple_podcast_app/global_services/podcast_search_service.dart';
+import 'package:my_simple_podcast_app/views/search/search_dependencies/providers/search_term_provider.dart';
 
 import 'package:provider/provider.dart';
 
@@ -21,7 +21,7 @@ class SearchResults extends StatefulWidget {
 class _SearchResultsState extends State<SearchResults> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<SearchTermNotifier>(
+    return Consumer<SearchTermProvider>(
         builder: (context, searchTermProivder, child) {
       return Expanded(
         child: searchTermProivder.searchTerm == null ||
@@ -32,8 +32,7 @@ class _SearchResultsState extends State<SearchResults> {
     });
   }
 
-  FutureBuilder<List<dynamic>> previousSearchTerms(
-      dynamic deleteBecauseTesting) {
+  FutureBuilder previousSearchTerms(dynamic deleteBecauseTesting) {
     log('previousSearchTerms [$deleteBecauseTesting]');
     return FutureBuilder<List<dynamic>>(
       future: PodcastSearchService().previousSearchTerms,
@@ -48,24 +47,26 @@ class _SearchResultsState extends State<SearchResults> {
                 ],
               ),
             );
+          } else {
+            List<Widget> searchTerms = [];
+            for (dynamic term in snapshot.data) {
+              searchTerms.add(
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Chip(
+                    label: Text(term),
+                    elevation: 5,
+                  ),
+                ),
+              );
+            }
+            return Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5),
+              child: Wrap(
+                children: searchTerms,
+              ),
+            );
           }
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5),
-            child: Container(
-              //Wrap, add children then wrap horizontally or vertically
-              alignment: Alignment.topLeft,
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (context, index) {
-                    return Chip(
-                      label: Text(
-                        snapshot.data[index],
-                      ),
-                    );
-                  }),
-            ),
-          );
         } else {
           return Center(
             child: Column(
@@ -80,7 +81,7 @@ class _SearchResultsState extends State<SearchResults> {
     );
   }
 
-  FutureBuilder<List<PodcastShow>> searchResults(String searchTerm) {
+  FutureBuilder searchResults(String searchTerm) {
     log('previousSearchTerms');
 
     return FutureBuilder<List<PodcastShow>>(

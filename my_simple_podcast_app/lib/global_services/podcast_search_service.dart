@@ -6,6 +6,7 @@ import 'package:podcast_search/podcast_search.dart';
 
 const int LIMIT = 8;
 
+//In global because used in both home screen and search screen
 class PodcastSearchService {
   /// Creation of singleton
   static final PodcastSearchService _podcastSearchService =
