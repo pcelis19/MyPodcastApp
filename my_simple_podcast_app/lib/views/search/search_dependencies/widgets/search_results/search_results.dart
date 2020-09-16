@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:my_simple_podcast_app/global_components/pill_button.dart';
 import 'package:my_simple_podcast_app/global_components/podcast_show_tile/podcast_show_tile.dart';
 import 'package:my_simple_podcast_app/global_models/podcast_show.dart';
 import 'package:my_simple_podcast_app/global_services/podcast_search_service.dart';
@@ -26,14 +27,13 @@ class _SearchResultsState extends State<SearchResults> {
       return Expanded(
         child: searchTermProivder.searchTerm == null ||
                 searchTermProivder.searchTerm.isEmpty
-            ? previousSearchTerms(searchTermProivder.searchTerm)
+            ? previousSearchTerms(searchTermProivder)
             : searchResults(searchTermProivder.searchTerm),
       );
     });
   }
 
-  FutureBuilder previousSearchTerms(dynamic deleteBecauseTesting) {
-    log('previousSearchTerms [$deleteBecauseTesting]');
+  FutureBuilder previousSearchTerms(SearchTermProvider searchTermProvider) {
     return FutureBuilder<List<dynamic>>(
       future: PodcastSearchService().previousSearchTerms,
       builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
@@ -51,11 +51,12 @@ class _SearchResultsState extends State<SearchResults> {
             List<Widget> searchTerms = [];
             for (dynamic term in snapshot.data) {
               searchTerms.add(
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Chip(
-                    label: Text(term),
-                    elevation: 5,
+                Container(
+                  margin: EdgeInsets.only(left: 5),
+                  child: PillButton(
+                    function: () => searchTermProvider
+                        .quickPreviousSearchTerm(term.toString()),
+                    label: term,
                   ),
                 ),
               );

@@ -26,6 +26,15 @@ class SearchTermProvider extends ChangeNotifier {
     }
   }
 
+  void quickPreviousSearchTerm(String value) {
+    validateSearchTerm(value);
+    if (isValidSearchTerm) {
+      searchTextEditingController.text = value;
+      searchTerm = value;
+      notifyListeners();
+    }
+  }
+
   void keyboardSubmitSearchTerm(String value) {
     if (isValidSearchTerm) {
       searchTerm = value;

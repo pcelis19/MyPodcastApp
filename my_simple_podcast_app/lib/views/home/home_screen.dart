@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'home_dependencies/widgets/favorite_podcasts.dart';
+import 'home_dependencies/widgets/top_podcasts.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
 
@@ -7,7 +10,8 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
   /** General Layout
      * Coursel top shows
      * * Display names
@@ -19,10 +23,13 @@ class _HomePageState extends State<HomePage> {
      */
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        child: Text('NO HOME PAGE :('),
-      ),
-    );
+    return Scaffold(
+        body: ListView(
+      children: [TopPodcasts(), FavoritePodcasts()],
+    ));
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

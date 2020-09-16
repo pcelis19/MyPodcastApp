@@ -21,6 +21,9 @@ class _SearchBarState extends State<SearchBar> {
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 5),
             child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
               elevation: 8,
               child: ListTile(
                 autofocus: true,
