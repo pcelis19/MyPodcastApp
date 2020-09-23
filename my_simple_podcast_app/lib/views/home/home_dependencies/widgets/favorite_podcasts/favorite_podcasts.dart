@@ -6,8 +6,8 @@ class FavoritePodcasts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
-    return FutureBuilder<List<Podcast>>(
-      future: FavoritePodcastsService().favoritePodcasts,
+    return StreamBuilder<List<Podcast>>(
+      stream: FavoritePodcastsService().favoritePodcasts,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data == null || snapshot.data.isEmpty) {

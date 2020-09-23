@@ -12,7 +12,7 @@ class SharedPreferencesService {
   }
 
   final String _keyForPreviousSearchTerms = 'searchTerms';
-
+  final String _keyForFavoritePodcasts = 'favoriteShows';
   SharedPreferences _sharedPreferences;
 
   /// ensures that [_sharedPreferences] is initialized
@@ -21,6 +21,21 @@ class SharedPreferencesService {
   Future<void> _initializeSharedPreferences() async {
     if (_sharedPreferences == null)
       _sharedPreferences = await SharedPreferences.getInstance();
+  }
+
+  /// checks if there is cache.
+  /// * Returns the following
+  /// ** if no cache returns null
+  /// ** else returns List<Map<String, dynamic>> (list of shows)
+  Future<List<Map<String, dynamic>>> get favoritePodcasts async {
+    await _initializeSharedPreferences();
+    if (!_sharedPreferences.containsKey(_keyForFavoritePodcasts)) {
+      return null;
+    }
+    String cachedData = _sharedPreferences.getString(_keyForFavoritePodcasts);
+    List<Map<String, dynamic>> savedData =
+        jsonDecode(cachedData)[_keyForFavoritePodcasts];
+    return savedData;
   }
 
   /// checks if there is cache.
