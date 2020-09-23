@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_models/podcast.dart';
-import 'package:my_simple_podcast_app/global_services/favorites_podcasts_service.dart';
+import 'package:my_simple_podcast_app/global_services/favorite_podcasts/favorites_podcasts_service.dart';
 
 class FavoritePodcasts extends StatelessWidget {
   @override

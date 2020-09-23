@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_models/podcast.dart';
-import 'package:my_simple_podcast_app/global_services/podcast_search_service.dart';
+import 'package:my_simple_podcast_app/global_services/podcast_search/podcast_search_service.dart';
 import 'package:my_simple_podcast_app/global_utils/size_config.dart';
 
 import 'widgets/list_podcast_banners.dart';

@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:my_simple_podcast_app/global_models/podcast.dart';
 
-import 'shared_preferences_service.dart';
+import 'favorites_podcasts_shared_preferences_service.dart';
 
 class FavoritePodcastsService {
   static final FavoritePodcastsService _favoritesPodcastsService =
@@ -11,9 +11,10 @@ class FavoritePodcastsService {
   factory FavoritePodcastsService() {
     return _favoritesPodcastsService;
   }
+  FavoritePodcastsService.internal();
+
   StreamController<List<Podcast>> _streamController =
       StreamController<List<Podcast>>.broadcast();
-  FavoritePodcastsService.internal();
   List<Podcast> _favoritePodcasts = [];
   bool _loadedFavorites = false;
 
@@ -24,25 +25,25 @@ class FavoritePodcastsService {
   }
 
   Future<bool> isFavorite(Podcast podcast) async {
-    await _intializeFavorites();
+    await intializeFavorites();
     return _favoritePodcasts.contains(podcast);
   }
 
   Future<void> removePodcastFromFavorites(Podcast podcast) async {
-    await _intializeFavorites();
+    await intializeFavorites();
     if (_favoritePodcasts.contains(podcast)) {
       _favoritePodcasts.remove(podcast);
       _streamController.add(_favoritePodcasts);
-      SharedPreferencesService().removePodcast(podcast);
+      FavoritePodcastsSharedPreferencesService().removePodcast(podcast);
     }
   }
 
   Future<void> addPodcastToFavorites(Podcast podcast) async {
-    await _intializeFavorites();
+    await intializeFavorites();
     if (!_favoritePodcasts.contains(podcast)) {
       _favoritePodcasts.add(podcast);
       _streamController.add(_favoritePodcasts);
-      SharedPreferencesService().addPodcast(podcast);
+      FavoritePodcastsSharedPreferencesService().addPodcast(podcast);
     }
   }
 
@@ -72,12 +73,12 @@ class FavoritePodcastsService {
 
   /// make sure that things
   /// are intialized
-  Future<void> _intializeFavorites() async {
+  Future<void> intializeFavorites() async {
     // no need to redo this intensive work over and over
     if (!_loadedFavorites) {
       try {
         List<Map<String, dynamic>> jsonPodcasts =
-            await SharedPreferencesService().favoritePodcasts;
+            await FavoritePodcastsSharedPreferencesService().favoritePodcasts;
 
         _favoritePodcasts =
             jsonPodcasts == null ? [] : _unpackJsonPodcast(jsonPodcasts);

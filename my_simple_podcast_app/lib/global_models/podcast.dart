@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:my_simple_podcast_app/global_services/favorites_podcasts_service.dart';
-import 'package:my_simple_podcast_app/views/home/home_dependencies/widgets/favorite_podcasts/favorite_podcasts.dart';
+import 'package:my_simple_podcast_app/global_services/favorite_podcasts/favorites_podcasts_service.dart';
 
 const String PODCAST_ID = "podcastId";
 const String ARTIST_NAME = "artistName";
@@ -66,11 +65,20 @@ class Podcast with ChangeNotifier {
     return await FavoritePodcastsService().isFavorite(this);
   }
 
-  Future<void> removeFromFavorites() async {
+  Future<void> toggleFavorites() async {
+    bool isFavorite = await isFavorited;
+    if (isFavorite)
+      _removeFromFavorites();
+    else
+      _addToFavorites();
+    notifyListeners();
+  }
+
+  Future<void> _removeFromFavorites() async {
     await FavoritePodcastsService().removePodcastFromFavorites(this);
   }
 
-  Future<void> addToFavorites() async {
+  Future<void> _addToFavorites() async {
     await FavoritePodcastsService().addPodcastToFavorites(this);
   }
 }

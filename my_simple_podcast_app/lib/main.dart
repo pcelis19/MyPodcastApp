@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/views/app_bottom_navigation_bar/app_bottom_navigation_bar.dart';
 
-void main() {
+import 'global_services/favorite_podcasts/favorites_podcasts_service.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await FavoritePodcastsService().intializeFavorites();
   runApp(MyApp());
 }
 
