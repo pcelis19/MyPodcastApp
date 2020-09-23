@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_utils/size_config.dart';
-import 'package:my_simple_podcast_app/global_models/podcast_show.dart';
+import 'package:my_simple_podcast_app/global_models/podcast.dart';
 
 import 'widgets/cover_art_widget/cover_art_widget.dart';
 import 'widgets/show_information/show_information_widget.dart';

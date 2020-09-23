@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_simple_podcast_app/global_models/podcast_show.dart';
+import 'package:my_simple_podcast_app/global_models/podcast.dart';
 import 'package:my_simple_podcast_app/global_services/podcast_search_service.dart';
 import 'package:my_simple_podcast_app/global_utils/size_config.dart';
 

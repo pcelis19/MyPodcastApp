@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:my_simple_podcast_app/global_models/podcast_show.dart';
+import 'package:my_simple_podcast_app/global_models/podcast.dart';
 import 'package:my_simple_podcast_app/global_services/shared_preferences_service.dart';
 import 'package:podcast_search/podcast_search.dart' as PodcastSearch;
 
