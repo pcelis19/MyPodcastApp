@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SharedPreferencesService {
+class PodcastSearchSharedPreferencesService {
   //Creation of singleton
-  static final SharedPreferencesService _sharedPreferencesService =
-      SharedPreferencesService._internal();
-  SharedPreferencesService._internal();
-  factory SharedPreferencesService() {
+  static final PodcastSearchSharedPreferencesService _sharedPreferencesService =
+      PodcastSearchSharedPreferencesService._internal();
+  PodcastSearchSharedPreferencesService._internal();
+  factory PodcastSearchSharedPreferencesService() {
     return _sharedPreferencesService;
   }
 

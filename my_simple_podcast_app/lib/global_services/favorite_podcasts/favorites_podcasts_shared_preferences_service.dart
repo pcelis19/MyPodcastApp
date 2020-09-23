@@ -20,19 +20,17 @@ class FavoritePodcastsSharedPreferencesService {
   /// checks if there is cache.
   /// * Returns the following
   /// ** if no cache returns null
-  /// ** else returns List<Map<String, dynamic>> (list of shows)
-  Future<List<Map<String, dynamic>>> get favoritePodcasts async {
+  /// ** else returns List<dynamic> (list of shows)
+  Future<List<dynamic>> get unpackedFavoritePodcasts async {
     await _initializeSharedPreferences();
     if (!_sharedPreferences.containsKey(_keyForFavoritePodcasts)) {
-      List<Map<String, dynamic>> starterList = List<Map<String, dynamic>>();
+      List<dynamic> starterList = List<dynamic>();
       _saveListOfFavoritePodcastsToCache(starterList);
       return null;
     }
     String cachedData = _sharedPreferences.getString(_keyForFavoritePodcasts);
-    log(jsonDecode(cachedData));
 
-    List<Map<String, dynamic>> savedData =
-        jsonDecode(cachedData)[_keyForFavoritePodcasts];
+    List<dynamic> savedData = jsonDecode(cachedData)[_keyForFavoritePodcasts];
     return savedData;
   }
 
@@ -44,18 +42,34 @@ class FavoritePodcastsSharedPreferencesService {
   /// ** maps list to [_keyForFavorites]
   /// ** saves map to cache
   ///
+  ///
+  /*
+  TODO: https://stackoverflow.com/questions/61316208/how-to-save-listobject-to-sharedpreferences-flutter
+You should do these steps
+
+to save the object:
+
+convert your object to map
+encode your map to string
+save the string to shared preferences
+for restoring your object:
+
+decode shared preference string to a map
+use fromJson() method to get your Music object
+  */
   Future<void> addPodcast(Podcast podcast) async {
     await _initializeSharedPreferences();
     if (!_sharedPreferences.containsKey(_keyForFavoritePodcasts)) {
-      List<Map<String, dynamic>> starterList = List<Map<String, dynamic>>();
+      List<dynamic> starterList = List<dynamic>();
       _saveListOfFavoritePodcastsToCache(starterList);
     }
     String cachedData = _sharedPreferences.getString(_keyForFavoritePodcasts);
-    List<Map<String, dynamic>> savedData =
-        jsonDecode(cachedData)[_keyForFavoritePodcasts];
+    List<dynamic> savedData = jsonDecode(cachedData)[_keyForFavoritePodcasts];
 
     // add term at the top of the list
     savedData.insert(0, podcast.toJsonObject);
+    List<Map<String, dynamic>> packedJsonData = [];
+    for (dynamic item in savedData) {}
     _saveListOfFavoritePodcastsToCache(savedData);
   }
 
@@ -70,12 +84,11 @@ class FavoritePodcastsSharedPreferencesService {
   Future<void> removePodcast(Podcast podcast) async {
     await _initializeSharedPreferences();
     if (!_sharedPreferences.containsKey(_keyForFavoritePodcasts)) {
-      List<Map<String, dynamic>> starterList = List<Map<String, dynamic>>();
+      List<dynamic> starterList = List<dynamic>();
       _saveListOfFavoritePodcastsToCache(starterList);
     }
     String cachedData = _sharedPreferences.getString(_keyForFavoritePodcasts);
-    List<Map<String, dynamic>> savedData =
-        jsonDecode(cachedData)[_keyForFavoritePodcasts];
+    List<dynamic> savedData = jsonDecode(cachedData)[_keyForFavoritePodcasts];
 
     // add term at the top of the list
     savedData.remove(podcast.toJsonObject);
@@ -95,10 +108,10 @@ class FavoritePodcastsSharedPreferencesService {
   }
 
   Future<void> _saveListOfFavoritePodcastsToCache(
-      List<dynamic> previousSearchTerms) async {
+      List<Map<String, dynamic>> packedFavoritedPodcasts) async {
     await _initializeSharedPreferences();
     Map<String, dynamic> jsonData = {
-      _keyForFavoritePodcasts: previousSearchTerms
+      _keyForFavoritePodcasts: packedFavoritedPodcasts
     };
     String jsonString = jsonEncode(jsonData);
     _sharedPreferences.setString(_keyForFavoritePodcasts, jsonString);

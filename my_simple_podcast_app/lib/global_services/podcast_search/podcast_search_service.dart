@@ -40,7 +40,7 @@ class PodcastSearchService {
           feedUrl: result.feedUrl,
           genres: genres,
           imageUrl: result.artworkUrl600,
-          releaseDate: result.releaseDate,
+          releaseDate: result.releaseDate.toString(),
           showName: result.collectionName);
       podcasts.add(podcastShow);
     }
@@ -72,7 +72,7 @@ class PodcastSearchService {
           feedUrl: result.feedUrl,
           genres: genres,
           imageUrl: result.artworkUrl600,
-          releaseDate: result.releaseDate,
+          releaseDate: result.releaseDate.toString(),
           showName: result.collectionName);
       podcasts.add(podcast);
     }

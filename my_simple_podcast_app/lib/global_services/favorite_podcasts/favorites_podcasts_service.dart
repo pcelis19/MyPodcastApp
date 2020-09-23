@@ -51,9 +51,9 @@ class FavoritePodcastsService {
   //$$$$$$$$$$Private Functions$$$$$$$$$$$$$$$$$$$$$$$$
   //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
-  /// receives a List<Map<String, dynamic>> that will unpack
+  /// receives a List<dynamic> that will unpack
   /// each json file and return a List<Podcast>
-  List<Podcast> _unpackJsonPodcast(List<Map<String, dynamic>> jsonPodcasts) {
+  List<Podcast> _unpackJsonPodcast(List<dynamic> jsonPodcasts) {
     List<Podcast> unpackedPodcasts = [];
     for (Map<String, dynamic> jsonPodcast in jsonPodcasts) {
       Podcast unpackedPodcast = Podcast(
@@ -76,18 +76,19 @@ class FavoritePodcastsService {
   Future<void> intializeFavorites() async {
     // no need to redo this intensive work over and over
     if (!_loadedFavorites) {
-      try {
-        List<Map<String, dynamic>> jsonPodcasts =
-            await FavoritePodcastsSharedPreferencesService().favoritePodcasts;
+      // try {
+      List<dynamic> jsonPodcasts =
+          await FavoritePodcastsSharedPreferencesService()
+              .unpackedFavoritePodcasts;
 
-        _favoritePodcasts =
-            jsonPodcasts == null ? [] : _unpackJsonPodcast(jsonPodcasts);
-        _loadedFavorites = true;
-        _streamController.add(_favoritePodcasts);
-      } catch (e) {
-        log("[ERROR: SharedPreferencesService().favoritePodcasts]: ${e.toString()}");
-        _loadedFavorites = false;
-      }
+      _favoritePodcasts =
+          jsonPodcasts == null ? [] : _unpackJsonPodcast(jsonPodcasts);
+      _loadedFavorites = true;
+      _streamController.add(_favoritePodcasts);
+      // } catch (e) {
+      //   log("[ERROR: FavoritePodcastsSharedPreferencesService().favoritePodcasts]: ${e.toString()}");
+      //   _loadedFavorites = false;
+      // }
     }
   }
 }

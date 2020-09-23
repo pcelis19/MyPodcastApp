@@ -27,7 +27,7 @@ class Podcast with ChangeNotifier {
   final String feedUrl;
   final String showName;
   final String imageUrl;
-  final DateTime releaseDate;
+  final String releaseDate;
   final String contentAdvisoryRating;
   final String country;
   Set<String> genres;
