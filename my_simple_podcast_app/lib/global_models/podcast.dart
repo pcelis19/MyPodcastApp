@@ -1,4 +1,6 @@
 import 'package:flutter/foundation.dart';
+import 'package:my_simple_podcast_app/global_services/favorites_podcasts_service.dart';
+import 'package:my_simple_podcast_app/views/home/home_dependencies/widgets/favorite_podcasts/favorite_podcasts.dart';
 
 const String PODCAST_ID = "podcastId";
 const String ARTIST_NAME = "artistName";
@@ -58,5 +60,17 @@ class Podcast with ChangeNotifier {
       COUNTRY: country,
       GENRES: genres,
     };
+  }
+
+  Future<bool> get isFavorited async {
+    return await FavoritePodcastsService().isFavorite(this);
+  }
+
+  Future<void> removeFromFavorites() async {
+    await FavoritePodcastsService().removePodcastFromFavorites(this);
+  }
+
+  Future<void> addToFavorites() async {
+    await FavoritePodcastsService().addPodcastToFavorites(this);
   }
 }

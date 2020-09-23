@@ -11,37 +11,40 @@ class FavoritePodcastsService {
   factory FavoritePodcastsService() {
     return _favoritesPodcastsService;
   }
-  StreamController<List<Podcast>> streamController =
+  StreamController<List<Podcast>> _streamController =
       StreamController<List<Podcast>>.broadcast();
   FavoritePodcastsService.internal();
   List<Podcast> _favoritePodcasts = [];
-
-  /// make sure that things
-  /// are intialized
-  Future<void> intializeFavorites() async {
-    try {
-      List<Map<String, dynamic>> jsonPodcasts =
-          await SharedPreferencesService().favoritePodcasts;
-
-      _favoritePodcasts =
-          jsonPodcasts == null ? [] : _unpackJsonPodcast(jsonPodcasts);
-      streamController.add(_favoritePodcasts);
-    } catch (e) {
-      log("[ERROR: SharedPreferencesService().favoritePodcasts]: ${e.toString()}");
-    }
-  }
+  bool _loadedFavorites = false;
 
   /// this returns a stream of podcast shows because podcast shows may be added and deleted, therefore
   /// we have to continue to listen to this stream
   Stream<List<Podcast>> get favoritePodcasts {
-    return streamController.stream;
+    return _streamController.stream;
   }
 
-  bool isFavorite(Podcast podcast) {
+  Future<bool> isFavorite(Podcast podcast) async {
+    await _intializeFavorites();
     return _favoritePodcasts.contains(podcast);
   }
-  // Future<void> addFavoriteShow(Podcast podcast) {}
-  // Future<void> removeFavoriteShow(Podcast podcast) {}
+
+  Future<void> removePodcastFromFavorites(Podcast podcast) async {
+    await _intializeFavorites();
+    if (_favoritePodcasts.contains(podcast)) {
+      _favoritePodcasts.remove(podcast);
+      _streamController.add(_favoritePodcasts);
+      SharedPreferencesService().removePodcast(podcast);
+    }
+  }
+
+  Future<void> addPodcastToFavorites(Podcast podcast) async {
+    await _intializeFavorites();
+    if (!_favoritePodcasts.contains(podcast)) {
+      _favoritePodcasts.add(podcast);
+      _streamController.add(_favoritePodcasts);
+      SharedPreferencesService().addPodcast(podcast);
+    }
+  }
 
   //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
   //$$$$$$$$$$Private Functions$$$$$$$$$$$$$$$$$$$$$$$$
@@ -65,5 +68,25 @@ class FavoritePodcastsService {
       unpackedPodcasts.add(unpackedPodcast);
     }
     return unpackedPodcasts;
+  }
+
+  /// make sure that things
+  /// are intialized
+  Future<void> _intializeFavorites() async {
+    // no need to redo this intensive work over and over
+    if (!_loadedFavorites) {
+      try {
+        List<Map<String, dynamic>> jsonPodcasts =
+            await SharedPreferencesService().favoritePodcasts;
+
+        _favoritePodcasts =
+            jsonPodcasts == null ? [] : _unpackJsonPodcast(jsonPodcasts);
+        _loadedFavorites = true;
+        _streamController.add(_favoritePodcasts);
+      } catch (e) {
+        log("[ERROR: SharedPreferencesService().favoritePodcasts]: ${e.toString()}");
+        _loadedFavorites = false;
+      }
+    }
   }
 }
