@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'home_dependencies/widgets/favorite_podcasts.dart';
-import 'home_dependencies/widgets/top_podcasts.dart';
+import 'home_dependencies/widgets/favorite_podcasts/favorite_podcasts.dart';
+import 'home_dependencies/widgets/top_podcasts/top_podcasts.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
   /** General Layout
-     * Coursel top shows
+     * Coursel top podcasts
      * * Display names
      * * Display country <- that'll be cool
      * Favorites
@@ -23,10 +23,36 @@ class _HomePageState extends State<HomePage>
      */
   @override
   Widget build(BuildContext context) {
+    ThemeData themeData = Theme.of(context);
     return Scaffold(
-        body: ListView(
-      children: [TopPodcasts(), FavoritePodcasts()],
-    ));
+        backgroundColor: themeData.primaryColorLight,
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListView(
+            children: [
+              topPodcastHeader(context),
+              TopPodcasts(),
+              yourFavoritesHeader(context),
+              FavoritePodcasts()
+            ],
+          ),
+        ));
+  }
+
+  Widget topPodcastHeader(BuildContext context) {
+    ThemeData themeData = Theme.of(context);
+    return Text(
+      'Top Podcasts',
+      style: themeData.accentTextTheme.headline2,
+    );
+  }
+
+  Widget yourFavoritesHeader(BuildContext context) {
+    ThemeData themeData = Theme.of(context);
+    return Text(
+      'Your Favorites',
+      style: themeData.accentTextTheme.headline2,
+    );
   }
 
   @override

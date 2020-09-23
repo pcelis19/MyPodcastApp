@@ -1,5 +1,7 @@
-class PodcastShow {
-  PodcastShow({
+import 'package:flutter/cupertino.dart';
+
+class Podcast with ChangeNotifier {
+  Podcast({
     this.artistName,
     this.showName,
     this.imageUrl,
@@ -17,4 +19,19 @@ class PodcastShow {
   final String contentAdvisoryRating;
   final String country;
   Set<String> genres;
+
+  bool _hasFocus = false;
+  bool get hasFocus {
+    return _hasFocus;
+  }
+
+  void removeFocus() {
+    _hasFocus = false;
+    notifyListeners();
+  }
+
+  void giveFocus() {
+    _hasFocus = true;
+    notifyListeners();
+  }
 }

@@ -5,7 +5,7 @@ import 'package:my_simple_podcast_app/global_models/podcast_show.dart';
 class OtherShowInformation extends StatelessWidget {
   const OtherShowInformation({Key key, @required this.podcastShow})
       : super(key: key);
-  final PodcastShow podcastShow;
+  final Podcast podcastShow;
   Widget build(BuildContext context) {
     return Expanded(
       child: Row(
@@ -18,7 +18,7 @@ class OtherShowInformation extends StatelessWidget {
     );
   }
 
-  Widget genrePills(PodcastShow podcastShow) {
+  Widget genrePills(Podcast podcastShow) {
     // think of better implementation
     List<Widget> genrePills = [];
     bool darkGrey = true;

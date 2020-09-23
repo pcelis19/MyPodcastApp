@@ -85,10 +85,9 @@ class _SearchResultsState extends State<SearchResults> {
   FutureBuilder searchResults(String searchTerm) {
     log('previousSearchTerms');
 
-    return FutureBuilder<List<PodcastShow>>(
+    return FutureBuilder<List<Podcast>>(
       future: PodcastSearchService().searchTerm(searchTerm),
-      builder:
-          (BuildContext context, AsyncSnapshot<List<PodcastShow>> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<List<Podcast>> snapshot) {
         if (snapshot.hasData) {
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 5),

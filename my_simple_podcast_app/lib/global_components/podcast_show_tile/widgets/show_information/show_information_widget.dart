@@ -10,7 +10,7 @@ class ShowInformation extends StatelessWidget {
     Key key,
     @required this.podcastShow,
   }) : super(key: key);
-  final PodcastShow podcastShow;
+  final Podcast podcastShow;
   @override
   Widget build(BuildContext context) {
     return Column(

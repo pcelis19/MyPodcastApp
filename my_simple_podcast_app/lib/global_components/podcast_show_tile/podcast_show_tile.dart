@@ -8,7 +8,7 @@ import 'widgets/show_information/show_information_widget.dart';
 class PodcastShowTile extends StatelessWidget {
   const PodcastShowTile(
       {@required this.podcastShow, @required this.maxTileSize});
-  final PodcastShow podcastShow;
+  final Podcast podcastShow;
   final double maxTileSize;
   @override
   Widget build(BuildContext context) {

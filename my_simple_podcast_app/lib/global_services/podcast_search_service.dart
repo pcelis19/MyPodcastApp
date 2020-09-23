@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:my_simple_podcast_app/global_models/podcast_show.dart';
 import 'package:my_simple_podcast_app/global_services/shared_preferences_service.dart';
-import 'package:podcast_search/podcast_search.dart';
+import 'package:podcast_search/podcast_search.dart' as PodcastSearch;
 
 const int LIMIT = 8;
 
@@ -18,20 +18,20 @@ class PodcastSearchService {
 
   /// instance variables
 
-  Search _search = Search();
+  PodcastSearch.Search _search = PodcastSearch.Search();
 
-  Future<List<PodcastShow>> get topPodcastShows async {
+  Future<List<Podcast>> get topPodcasts async {
     // TODO get permissions from user so that country is relative to their
     // location
-    SearchResult searchResult =
-        await _search.charts(limit: LIMIT, country: Country.UNITED_STATES);
-    List<PodcastShow> podcastShows = [];
-    for (Item result in searchResult.items) {
+    PodcastSearch.SearchResult searchResult = await _search.charts(
+        limit: LIMIT, country: PodcastSearch.Country.UNITED_STATES);
+    List<Podcast> podcasts = [];
+    for (PodcastSearch.Item result in searchResult.items) {
       Set<String> genres = Set<String>();
       result.genre.forEach((element) {
         genres.add(element.name.toLowerCase());
       });
-      PodcastShow podcastShow = PodcastShow(
+      Podcast podcastShow = Podcast(
           artistName: result.artistName,
           contentAdvisoryRating: result.contentAdvisoryRating,
           country: result.country,
@@ -40,29 +40,29 @@ class PodcastSearchService {
           imageUrl: result.artworkUrl600,
           releaseDate: result.releaseDate,
           showName: result.collectionName);
-      podcastShows.add(podcastShow);
+      podcasts.add(podcastShow);
     }
-    return podcastShows;
+    return podcasts;
   }
 
   /// instance methods
 
   /// returns a list of podcast shows with a given search [searchTerm]
-  Future<List<PodcastShow>> searchTerm(String searchTerm) async {
+  Future<List<Podcast>> searchTerm(String searchTerm) async {
     try {
       await SharedPreferencesService().addSearchTerm(searchTerm);
     } catch (e) {
       log('[ERROR: SharedPreferencesService().addSearchTerm(searchTerm)]:[${e.toString()}]');
     }
-    SearchResult searchResult = await _search.search(searchTerm);
-    List<Item> results = searchResult.items;
-    List<PodcastShow> podcastShows = List<PodcastShow>();
-    for (Item result in results) {
+    PodcastSearch.SearchResult searchResult = await _search.search(searchTerm);
+    List<PodcastSearch.Item> results = searchResult.items;
+    List<Podcast> podcasts = List<Podcast>();
+    for (PodcastSearch.Item result in results) {
       Set<String> genres = Set<String>();
       result.genre.forEach((element) {
         genres.add(element.name.toLowerCase());
       });
-      PodcastShow podcastShow = PodcastShow(
+      Podcast podcast = Podcast(
           artistName: result.artistName,
           contentAdvisoryRating: result.contentAdvisoryRating,
           country: result.country,
@@ -71,9 +71,9 @@ class PodcastSearchService {
           imageUrl: result.artworkUrl600,
           releaseDate: result.releaseDate,
           showName: result.collectionName);
-      podcastShows.add(podcastShow);
+      podcasts.add(podcast);
     }
-    return podcastShows;
+    return podcasts;
   }
 
   /// checks if there is cache.
