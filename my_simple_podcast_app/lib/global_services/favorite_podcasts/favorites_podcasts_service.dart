@@ -1,10 +1,13 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:my_simple_podcast_app/global_models/podcast.dart';
 
-import 'favorites_podcasts_shared_preferences_service.dart';
+import 'shared_preferences_favorites_podcasts.dart';
 
+/// This handles the services that the UI will see, but hides
+/// any interactions with the cache. Saving to cache takes longer
+/// than saving to ram. So we will update the ram portion first, and
+/// take care of the saving to cache in the background
 class FavoritePodcastsService {
   static final FavoritePodcastsService _favoritesPodcastsService =
       FavoritePodcastsService.internal();
@@ -13,10 +16,20 @@ class FavoritePodcastsService {
   }
   FavoritePodcastsService.internal();
 
+  /// this is the stream controller that other UIs will contect to
   StreamController<List<Podcast>> _streamController =
       StreamController<List<Podcast>>.broadcast();
+
+  /// this is the list of podcasts saved to RAM
   List<Podcast> _favoritePodcasts = [];
+
+  /// internal boolean, so that when initializing  the class we
+  /// do not do redudant work
   bool _loadedFavorites = false;
+
+  //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+  //$$$$$$$$$$ Public Functions $$$$$$$$$$$$$$$$$$$$$$$
+  //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
   /// this returns a stream of podcast shows because podcast shows may be added and deleted, therefore
   /// we have to continue to listen to this stream
@@ -24,20 +37,24 @@ class FavoritePodcastsService {
     return _streamController.stream;
   }
 
-  Future<bool> isFavorite(Podcast podcast) async {
+  /// checks if a podcast is a favorited podcast
+  Future<bool> isPodcastFavorite(Podcast podcast) async {
     await intializeFavorites();
     return _favoritePodcasts.contains(podcast);
   }
 
+  /// removes podcast from favorites
   Future<void> removePodcastFromFavorites(Podcast podcast) async {
     await intializeFavorites();
     if (_favoritePodcasts.contains(podcast)) {
       _favoritePodcasts.remove(podcast);
       _streamController.add(_favoritePodcasts);
+      // remove from cache
       FavoritePodcastsSharedPreferencesService().removePodcast(podcast);
     }
   }
 
+  /// adds podcast to favorites
   Future<void> addPodcastToFavorites(Podcast podcast) async {
     await intializeFavorites();
     if (!_favoritePodcasts.contains(podcast)) {
@@ -48,28 +65,8 @@ class FavoritePodcastsService {
   }
 
   //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-  //$$$$$$$$$$Private Functions$$$$$$$$$$$$$$$$$$$$$$$$
+  //$$$$$$$$$$ Private Functions $$$$$$$$$$$$$$$$$$$$$$
   //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-  /// receives a List<dynamic> that will unpack
-  /// each json file and return a List<Podcast>
-  List<Podcast> _unpackJsonPodcast(List<dynamic> jsonPodcasts) {
-    List<Podcast> unpackedPodcasts = [];
-    for (Map<String, dynamic> jsonPodcast in jsonPodcasts) {
-      Podcast unpackedPodcast = Podcast(
-          podcastId: jsonPodcast[PODCAST_ID],
-          artistName: jsonPodcast[ARTIST_NAME],
-          showName: jsonPodcast[SHOW_NAME],
-          imageUrl: jsonPodcast[SHOW_NAME],
-          feedUrl: jsonPodcast[SHOW_NAME],
-          releaseDate: jsonPodcast[SHOW_NAME],
-          contentAdvisoryRating: jsonPodcast[SHOW_NAME],
-          country: jsonPodcast[SHOW_NAME],
-          genres: jsonPodcast[SHOW_NAME]);
-      unpackedPodcasts.add(unpackedPodcast);
-    }
-    return unpackedPodcasts;
-  }
 
   /// make sure that things
   /// are intialized
@@ -77,12 +74,11 @@ class FavoritePodcastsService {
     // no need to redo this intensive work over and over
     if (!_loadedFavorites) {
       // try {
-      List<dynamic> jsonPodcasts =
+      List<Podcast> unpackedPodcasts =
           await FavoritePodcastsSharedPreferencesService()
               .unpackedFavoritePodcasts;
 
-      _favoritePodcasts =
-          jsonPodcasts == null ? [] : _unpackJsonPodcast(jsonPodcasts);
+      _favoritePodcasts = unpackedPodcasts == null ? [] : unpackedPodcasts;
       _loadedFavorites = true;
       _streamController.add(_favoritePodcasts);
       // } catch (e) {

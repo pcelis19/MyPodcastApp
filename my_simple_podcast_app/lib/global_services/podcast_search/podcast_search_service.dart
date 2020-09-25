@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:my_simple_podcast_app/global_models/podcast.dart';
 import 'package:podcast_search/podcast_search.dart' as PodcastSearch;
 
-import 'podcast_search_shared_preferences.dart';
+import 'shared_preferences_podcast_search.dart';
 
 const int LIMIT = 8;
 
@@ -28,7 +28,7 @@ class PodcastSearchService {
         limit: LIMIT, country: PodcastSearch.Country.UNITED_STATES);
     List<Podcast> podcasts = [];
     for (PodcastSearch.Item result in searchResult.items) {
-      Set<String> genres = Set<String>();
+      List<String> genres = List<String>();
       result.genre.forEach((element) {
         genres.add(element.name.toLowerCase());
       });
@@ -41,7 +41,7 @@ class PodcastSearchService {
           genres: genres,
           imageUrl: result.artworkUrl600,
           releaseDate: result.releaseDate.toString(),
-          showName: result.collectionName);
+          podcastName: result.collectionName);
       podcasts.add(podcastShow);
     }
     return podcasts;
@@ -60,7 +60,7 @@ class PodcastSearchService {
     List<PodcastSearch.Item> results = searchResult.items;
     List<Podcast> podcasts = List<Podcast>();
     for (PodcastSearch.Item result in results) {
-      Set<String> genres = Set<String>();
+      List<String> genres = List<String>();
       result.genre.forEach((element) {
         genres.add(element.name.toLowerCase());
       });
@@ -73,7 +73,7 @@ class PodcastSearchService {
           genres: genres,
           imageUrl: result.artworkUrl600,
           releaseDate: result.releaseDate.toString(),
-          showName: result.collectionName);
+          podcastName: result.collectionName);
       podcasts.add(podcast);
     }
     return podcasts;

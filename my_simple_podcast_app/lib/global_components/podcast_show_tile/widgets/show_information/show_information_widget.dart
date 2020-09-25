@@ -17,7 +17,7 @@ class ShowInformation extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ShowTitle(
-          showName: podcastShow.showName,
+          showName: podcastShow.podcastName,
         ),
         HostInformation(
           artistName: podcastShow.artistName,

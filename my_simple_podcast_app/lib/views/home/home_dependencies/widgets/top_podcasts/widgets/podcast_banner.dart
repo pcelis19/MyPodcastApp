@@ -71,7 +71,7 @@ class _PodcastBannerState extends State<PodcastBanner> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          _podcastShow.showName,
+          _podcastShow.podcastName,
           style: _themeData.primaryTextTheme.headline6,
         ),
         Text(
