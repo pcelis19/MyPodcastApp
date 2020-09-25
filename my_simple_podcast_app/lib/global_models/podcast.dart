@@ -134,4 +134,9 @@ class Podcast with ChangeNotifier {
   Future<void> _addToFavorites() async {
     await FavoritePodcastsService().addPodcastToFavorites(this);
   }
+
+  @override
+  bool operator ==(other) {
+    return other is Podcast && other.podcastId == this.podcastId;
+  }
 }

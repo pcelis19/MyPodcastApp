@@ -46,20 +46,18 @@ class FavoritePodcastsSharedPreferencesService {
   Future<void> _initializeSharedPreferences() async {
     if (_sharedPreferences == null) {
       _sharedPreferences = await SharedPreferences.getInstance();
-      if (!_sharedPreferences.containsKey(_keyForFavoritePodcasts)) {
-        List<Map<String, dynamic>> starterList = List<Map<String, dynamic>>();
-        await _updateListOfFavoritePodcastsToCache(starterList);
-      }
     }
   }
 
-  Future<void> _updateListOfFavoritePodcastsToCache(
-      List<Map<String, dynamic>> packedFavoritedPodcasts) async {
-    Map<String, dynamic> jsonData = {
-      _keyForFavoritePodcasts: packedFavoritedPodcasts
-    };
-    String jsonString = jsonEncode(jsonData);
-    _sharedPreferences.setString(_keyForFavoritePodcasts, jsonString);
+  /// if local cache does not exist, then it creates a cache
+  Future<void> _guarenteeCache() async {
+    // this seems redudant, added here if in the future, other
+    // functions may be deleted.
+    await _initializeSharedPreferences();
+    if (!_sharedPreferences.containsKey(_keyForFavoritePodcasts)) {
+      List<Podcast> starterList = [];
+      await updateListOfFavoritePodcastsToCache(starterList);
+    }
   }
 
   //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -72,6 +70,7 @@ class FavoritePodcastsSharedPreferencesService {
   /// ** else returns List<Podcasts> (list of shows)
   Future<List<Podcast>> get unpackedFavoritePodcasts async {
     await _initializeSharedPreferences();
+    await _guarenteeCache();
     String cachedData = _sharedPreferences.getString(_keyForFavoritePodcasts);
     log(cachedData);
     List<Map<String, dynamic>> packedPodcasts = List<Map<String, dynamic>>.from(
@@ -82,42 +81,22 @@ class FavoritePodcastsSharedPreferencesService {
     return unpackedPodcasts;
   }
 
-  /// adds [podcast] to cache
-  /// * if cache exists
-  /// ** adds [podcast] to cache
-  /// * else
-  /// ** creates a [List<Map<String,dynamic>]
-  /// ** maps list to [_keyForFavorites]
-  /// ** saves map to cache
-  Future<void> addPodcast(Podcast podcast) async {
+  /// updates the cache, with the ram's favorites
+  Future<void> updateListOfFavoritePodcastsToCache(
+      List<Podcast> updatedList) async {
     await _initializeSharedPreferences();
-    String cachedData = _sharedPreferences.getString(_keyForFavoritePodcasts);
-    List<Map<String, dynamic>> savedData = List<Map<String, dynamic>>.from(
-        jsonDecode(cachedData)[_keyForFavoritePodcasts]);
-
-    // add term at the top of the list
-    savedData.insert(0, podcast.toJson());
-    List<Map<String, dynamic>> packedJsonData = [];
-    for (dynamic item in savedData) {}
-    _updateListOfFavoritePodcastsToCache(savedData);
-  }
-
-  /// removes [podcast] to cache
-  /// * if cache exists
-  /// ** removes [podcast] to cache
-  /// * else
-  /// ** creates a [List<Map<String,dynamic>]
-  /// ** maps list to [_keyForFavorites]
-  /// ** saves map to cache
-  ///
-  Future<void> removePodcast(Podcast podcast) async {
-    await _initializeSharedPreferences();
-    String cachedData = _sharedPreferences.getString(_keyForFavoritePodcasts);
-    List<Map<String, dynamic>> savedData = List<Map<String, dynamic>>.from(
-        jsonDecode(cachedData)[_keyForFavoritePodcasts]);
-
-    // add term at the top of the list
-    savedData.remove(podcast.toJson());
-    _updateListOfFavoritePodcastsToCache(savedData);
+    await _sharedPreferences.remove(_keyForFavoritePodcasts);
+    // new list that will be saved to cache
+    List<Map<String, dynamic>> newSetOfPackedFavoritedPodcasts =
+        List<Map<String, dynamic>>();
+    // populating the json formatted podcasts with the updated list
+    updatedList.forEach(
+        (element) => newSetOfPackedFavoritedPodcasts.add(element.toJson()));
+    // adding the mapping, to create jsonData
+    Map<String, dynamic> jsonData = {
+      _keyForFavoritePodcasts: newSetOfPackedFavoritedPodcasts
+    };
+    String jsonString = jsonEncode(jsonData);
+    _sharedPreferences.setString(_keyForFavoritePodcasts, jsonString);
   }
 }

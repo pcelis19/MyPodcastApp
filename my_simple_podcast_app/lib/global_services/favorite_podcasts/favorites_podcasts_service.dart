@@ -50,7 +50,8 @@ class FavoritePodcastsService {
       _favoritePodcasts.remove(podcast);
       _streamController.add(_favoritePodcasts);
       // remove from cache
-      FavoritePodcastsSharedPreferencesService().removePodcast(podcast);
+      FavoritePodcastsSharedPreferencesService()
+          .updateListOfFavoritePodcastsToCache(_favoritePodcasts);
     }
   }
 
@@ -60,7 +61,8 @@ class FavoritePodcastsService {
     if (!_favoritePodcasts.contains(podcast)) {
       _favoritePodcasts.add(podcast);
       _streamController.add(_favoritePodcasts);
-      FavoritePodcastsSharedPreferencesService().addPodcast(podcast);
+      FavoritePodcastsSharedPreferencesService()
+          .updateListOfFavoritePodcastsToCache(_favoritePodcasts);
     }
   }
 
