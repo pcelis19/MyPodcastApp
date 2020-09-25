@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:my_simple_podcast_app/global_services/favorite_podcasts/favorites_podcasts_service.dart';
 import 'package:my_simple_podcast_app/global_utils/size_config.dart';
 import 'package:my_simple_podcast_app/views/app_bottom_navigation_bar/app_bottom_navigation_bar_dependencies/models/tab_meta_data.dart';
+import 'package:provider/provider.dart';
 
 class AppBottomNavigationBar extends StatefulWidget {
   AppBottomNavigationBar({Key key}) : super(key: key);
   final TabMetaData _tabMetaData = TabMetaData();
+  final FavoritePodcastsService _favoritePodcastsService =
+      FavoritePodcastsService();
   @override
   _AppBottomNavigationBarState createState() => _AppBottomNavigationBarState();
 }
@@ -17,25 +21,30 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
   Widget build(BuildContext context) {
     TabMetaData _tabMetaData = widget._tabMetaData;
     ThemeData themeData = Theme.of(context);
-    return Container(
-      height: SizeConfig.screenHeight,
-      color: themeData.backgroundColor,
-      child: SafeArea(
-        child: Scaffold(
-          body: PageView(
-            controller: _pageController,
-            children: _tabMetaData.screens,
-            onPageChanged: onTabTapped,
+    return ChangeNotifierProvider.value(
+      value: widget._favoritePodcastsService,
+      builder: (context, child) {
+        return Container(
+          height: SizeConfig.screenHeight,
+          color: themeData.backgroundColor,
+          child: SafeArea(
+            child: Scaffold(
+              body: PageView(
+                controller: _pageController,
+                children: _tabMetaData.screens,
+                onPageChanged: onTabTapped,
+              ),
+              bottomNavigationBar: BottomNavigationBar(
+                currentIndex: _selectedIndex,
+                showSelectedLabels: true,
+                showUnselectedLabels: true,
+                onTap: _onItemTapped,
+                items: _tabMetaData.icons,
+              ),
+            ),
           ),
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: _selectedIndex,
-            showSelectedLabels: true,
-            showUnselectedLabels: true,
-            onTap: _onItemTapped,
-            items: _tabMetaData.icons,
-          ),
-        ),
-      ),
+        );
+      },
     );
   }
 

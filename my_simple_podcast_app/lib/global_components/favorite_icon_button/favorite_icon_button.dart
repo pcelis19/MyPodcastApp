@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_models/podcast.dart';
 import 'package:provider/provider.dart';
@@ -52,9 +54,8 @@ class UpdateFavoritesIcon extends StatefulWidget {
   _UpdateFavoritesIconState createState() => _UpdateFavoritesIconState();
 }
 
-bool loading = false;
-
 class _UpdateFavoritesIconState extends State<UpdateFavoritesIcon> {
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
     ThemeData _themeData = Theme.of(context);
