@@ -1,28 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_models/podcast.dart';
+import 'package:provider/provider.dart';
 
 class FavoriteIconButton extends StatelessWidget {
   const FavoriteIconButton({
     Key key,
     @required Podcast podcastShow,
-  })  : _podcastShow = podcastShow,
-        super(key: key);
-
-  final Podcast _podcastShow;
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<bool>(
-      future: _podcastShow.isFavorited,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return UpdateFavoritesIcon(
-            podcast: _podcastShow,
-            isFavorite: snapshot.data,
-          );
-        } else {
-          return _waitingIndicator();
-        }
+    return Consumer<Podcast>(
+      builder: (context, podcastShow, child) {
+        return FutureBuilder<bool>(
+          future: podcastShow.isFavorited,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return UpdateFavoritesIcon(
+                podcast: podcastShow,
+                isFavorite: snapshot.data,
+              );
+            } else {
+              return _waitingIndicator();
+            }
+          },
+        );
       },
     );
   }
