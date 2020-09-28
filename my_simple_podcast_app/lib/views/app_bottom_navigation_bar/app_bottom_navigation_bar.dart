@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 
 class AppBottomNavigationBar extends StatefulWidget {
   AppBottomNavigationBar({Key key}) : super(key: key);
-  final TabMetaData _tabMetaData = TabMetaData();
   final FavoritePodcastsService _favoritePodcastsService =
       FavoritePodcastsService();
   @override
@@ -14,47 +13,55 @@ class AppBottomNavigationBar extends StatefulWidget {
 }
 
 class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
-  int _selectedIndex = 0;
-  PageController _pageController = PageController();
-
+  int _currentIndex = 0;
+  List<BottomNavigationBarItem> _icons;
+  List<Widget> _screens;
   @override
-  Widget build(BuildContext context) {
-    TabMetaData _tabMetaData = widget._tabMetaData;
-    ThemeData themeData = Theme.of(context);
-    return ChangeNotifierProvider.value(
-      value: widget._favoritePodcastsService,
-      builder: (context, child) {
-        return Container(
-          height: SizeConfig.screenHeight,
-          color: themeData.backgroundColor,
-          child: SafeArea(
-            child: Scaffold(
-              body: PageView(
-                controller: _pageController,
-                children: _tabMetaData.screens,
-                onPageChanged: onTabTapped,
-              ),
-              bottomNavigationBar: BottomNavigationBar(
-                currentIndex: _selectedIndex,
-                showSelectedLabels: true,
-                showUnselectedLabels: true,
-                onTap: _onItemTapped,
-                items: _tabMetaData.icons,
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _icons = [];
+    _screens = [];
 
-  void onTabTapped(int selectedIndex) {
-    setState(() {
-      _selectedIndex = selectedIndex;
+    feed.forEach((key, value) {
+      _icons.add(key);
+      _screens.add(value);
     });
   }
 
-  void _onItemTapped(int selectedIndex) {
-    _pageController.jumpToPage(selectedIndex);
+  @override
+  Widget build(BuildContext context) {
+    ThemeData themeData = Theme.of(context);
+
+    return Container(
+      height: SizeConfig.screenHeight,
+      color: themeData.backgroundColor,
+      child: SafeArea(
+        child: Scaffold(
+          body: ChangeNotifierProvider.value(
+            value: widget._favoritePodcastsService,
+            builder: (context, child) {
+              return IndexedStack(
+                index: _currentIndex,
+                children: _screens,
+              );
+            },
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: _currentIndex,
+            showSelectedLabels: true,
+            showUnselectedLabels: true,
+            onTap: _onTabBehavior,
+            items: _icons,
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _onTabBehavior(int selectedIndex) {
+    setState(() {
+      _currentIndex = selectedIndex;
+    });
   }
 }

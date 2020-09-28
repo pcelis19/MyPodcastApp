@@ -26,7 +26,18 @@ class FavoritePodcasts extends StatelessWidget {
                   return ListView.builder(
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, i) {
-                        return Text(snapshot.data[i].artistName);
+                        Podcast podcast = snapshot.data[i];
+                        return Card(
+                          child: ListTile(
+                            isThreeLine: true,
+                            leading: Image.network(podcast.imageUrl),
+                            title: Text(podcast.podcastName),
+                            subtitle: Text(podcast.artistName),
+                            trailing: podcast.contentAdvisoryRating != null
+                                ? Text(podcast.contentAdvisoryRating)
+                                : Text('Explicit'),
+                          ),
+                        );
                       });
                 }
               } else if (snapshot.hasError) {
