@@ -11,50 +11,33 @@ class FavoritePodcasts extends StatelessWidget {
       constraints: BoxConstraints(maxHeight: 300, maxWidth: 300),
       child: Consumer<FavoritePodcastsService>(
         builder: (context, favoritePodcastsService, child) {
-          return FutureBuilder<List<Podcast>>(
-            future: favoritePodcastsService.favoritePodcasts,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.data == null || snapshot.data.isEmpty) {
-                  return Center(
-                    child: Text(
-                      'Don\'t forget to press the heart icon to favorite shows',
-                      style: themeData.primaryTextTheme.headline3,
-                    ),
-                  );
-                } else {
-                  return ListView.builder(
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (context, i) {
-                        Podcast podcast = snapshot.data[i];
-                        return Card(
-                          child: ListTile(
-                            isThreeLine: true,
-                            leading: Image.network(podcast.imageUrl),
-                            title: Text(podcast.podcastName),
-                            subtitle: Text(podcast.artistName),
-                            trailing: podcast.contentAdvisoryRating != null
-                                ? Text(podcast.contentAdvisoryRating)
-                                : Text('Explicit'),
-                          ),
-                        );
-                      });
-                }
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text(
-                    'Oh oh, an error occurred!',
-                    style: themeData.primaryTextTheme.headline3,
+          List<Podcast> podcasts = favoritePodcastsService.favoritePodcasts;
+          if (podcasts == null || podcasts.isEmpty) {
+            return Center(
+              child: Text(
+                'Don\'t forget to press the heart icon to favorite shows',
+                style: themeData.primaryTextTheme.headline3,
+              ),
+            );
+          } else {
+            return ListView.builder(
+              itemCount: podcasts.length,
+              itemBuilder: (context, i) {
+                Podcast podcast = podcasts[i];
+                return Card(
+                  child: ListTile(
+                    isThreeLine: true,
+                    leading: Image.network(podcast.imageUrl),
+                    title: Text(podcast.podcastName),
+                    subtitle: Text(podcast.artistName),
+                    trailing: podcast.contentAdvisoryRating != null
+                        ? Text(podcast.contentAdvisoryRating)
+                        : Text('Explicit'),
                   ),
                 );
-              } else {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(child: CircularProgressIndicator()),
-                );
-              }
-            },
-          );
+              },
+            );
+          }
         },
       ),
     );

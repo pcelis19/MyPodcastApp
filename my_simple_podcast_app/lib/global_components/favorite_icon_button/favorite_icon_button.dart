@@ -4,79 +4,49 @@ import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_models/podcast.dart';
 import 'package:provider/provider.dart';
 
-class FavoriteIconButton extends StatelessWidget {
+/// Make sure to house this under a provider
+class FavoriteIconButton extends StatefulWidget {
   const FavoriteIconButton({
     Key key,
-    @required Podcast podcastShow,
+    @required this.podcast,
   }) : super(key: key);
+  final Podcast podcast;
 
   @override
-  Widget build(BuildContext context) {
-    return Consumer<Podcast>(
-      builder: (context, podcastShow, child) {
-        return FutureBuilder<bool>(
-          future: podcastShow.isFavorited,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return UpdateFavoritesIcon(
-                podcast: podcastShow,
-                isFavorite: snapshot.data,
-              );
-            } else {
-              return _waitingIndicator();
-            }
-          },
-        );
-      },
-    );
-  }
-
-  Widget _waitingIndicator() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Center(
-        child: Container(
-            height: 24, width: 24, child: CircularProgressIndicator()),
-      ),
-    );
-  }
+  _FavoriteIconButtonState createState() => _FavoriteIconButtonState();
 }
 
-class UpdateFavoritesIcon extends StatefulWidget {
-  const UpdateFavoritesIcon(
-      {Key key, @required Podcast podcast, bool isFavorite})
-      : _podcast = podcast,
-        _isFavorite = isFavorite,
-        super(key: key);
-  final Podcast _podcast;
-  final bool _isFavorite;
-  @override
-  _UpdateFavoritesIconState createState() => _UpdateFavoritesIconState();
-}
-
-class _UpdateFavoritesIconState extends State<UpdateFavoritesIcon> {
+class _FavoriteIconButtonState extends State<FavoriteIconButton> {
   bool loading = false;
   @override
   Widget build(BuildContext context) {
-    ThemeData _themeData = Theme.of(context);
-    if (loading) return _waitingIndicator();
-    return IconButton(
-      icon: Icon(
-          widget._isFavorite
-              ? Icons.favorite_rounded
-              : Icons.favorite_outline_rounded,
-          color: _themeData.primaryIconTheme.color),
-      onPressed: loading
-          ? null
-          : () async {
-              setState(() {
-                loading = true;
-              });
-              await widget._podcast.toggleFavorites();
-              setState(() {
-                loading = false;
-              });
-            },
+    return ChangeNotifierProvider.value(
+      value: widget.podcast,
+      builder: (context, child) {
+        return Consumer<Podcast>(
+          builder: (context, podcastShow, child) {
+            if (loading) return _waitingIndicator();
+            return IconButton(
+              icon: Icon(
+                  podcastShow.isFavorited
+                      ? Icons.favorite_rounded
+                      : Icons.favorite_outline_rounded,
+                  color: podcastShow.isFavorited ? Colors.red : Colors.grey),
+              onPressed: loading
+                  ? null
+                  : () async {
+                      setState(() {
+                        loading = true;
+                      });
+                      await podcastShow.toggleFavorites();
+                      setState(() {
+                        loading = false;
+                      });
+                    },
+            );
+          },
+        );
+      },
     );
   }
 

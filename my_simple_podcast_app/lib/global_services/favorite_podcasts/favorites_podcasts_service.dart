@@ -31,14 +31,12 @@ class FavoritePodcastsService with ChangeNotifier {
 
   /// this returns a stream of podcast shows because podcast shows may be added and deleted, therefore
   /// we have to continue to listen to this stream
-  Future<List<Podcast>> get favoritePodcasts async {
-    await intializeFavorites();
+  List<Podcast> get favoritePodcasts {
     return _favoritePodcasts;
   }
 
   /// checks if a podcast is a favorited podcast
-  Future<bool> isPodcastFavorite(Podcast podcast) async {
-    await intializeFavorites();
+  bool isPodcastFavorite(Podcast podcast) {
     return _favoritePodcasts.contains(podcast);
   }
 

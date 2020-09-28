@@ -28,6 +28,7 @@ class _PodcastBannerState extends State<PodcastBanner> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData _themeData = Theme.of(context);
     return ConstrainedBox(
       constraints: BoxConstraints(
           maxHeight: widget.maxHeight, maxWidth: widget.maxHeight),
@@ -40,7 +41,7 @@ class _PodcastBannerState extends State<PodcastBanner> {
               value: _podcastShow,
               builder: (context, child) {
                 return Selector<Podcast, bool>(
-                  selector: (_, podcastShow) => podcastShow.hasFocus,
+                  selector: (_, _podcastShow) => _podcastShow.hasFocus,
                   builder: (context, hasFocus, child) {
                     return Column(
                       children: [
@@ -51,7 +52,22 @@ class _PodcastBannerState extends State<PodcastBanner> {
                           duration: Duration(milliseconds: 500),
                           height: hasFocus ? _popUpHeight * .50 : 0,
                           width: double.infinity,
-                          child: moreInformation(context),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                _podcastShow.podcastName,
+                                style: _themeData.primaryTextTheme.headline6,
+                              ),
+                              Text(
+                                _podcastShow.artistName,
+                                style: _themeData.primaryTextTheme.bodyText1,
+                              ),
+                              FavoriteIconButton(
+                                podcast: _podcastShow,
+                              )
+                            ],
+                          ),
                         )
                       ],
                     );
@@ -65,24 +81,6 @@ class _PodcastBannerState extends State<PodcastBanner> {
     );
   }
 
-  Widget moreInformation(BuildContext context) {
-    ThemeData _themeData = Theme.of(context);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          _podcastShow.podcastName,
-          style: _themeData.primaryTextTheme.headline6,
-        ),
-        Text(
-          _podcastShow.artistName,
-          style: _themeData.primaryTextTheme.bodyText1,
-        ),
-        FavoriteIconButton(podcastShow: _podcastShow)
-      ],
-    );
-  }
-
   Widget background(BuildContext context) {
     ThemeData themeData = Theme.of(context);
     return Align(
@@ -91,14 +89,16 @@ class _PodcastBannerState extends State<PodcastBanner> {
         height: _popUpHeight,
         width: widget.maxHeight,
         decoration: BoxDecoration(
-            color: themeData.accentColor,
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(20),
-            ),
-            gradient: LinearGradient(
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
-                colors: [themeData.primaryColor, themeData.accentColor])),
+          color: themeData.accentColor,
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(20),
+          ),
+          gradient: LinearGradient(
+            begin: Alignment.bottomLeft,
+            end: Alignment.topRight,
+            colors: [themeData.primaryColor, themeData.accentColor],
+          ),
+        ),
       ),
     );
   }

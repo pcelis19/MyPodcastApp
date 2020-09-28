@@ -27,9 +27,9 @@ class _SearchScreenState extends State<SearchScreen>
       value: _searchTermNotifier,
       builder: (context, child) {
         return Container(
-          color: themeData.backgroundColor,
           height: SizeConfig.screenHeight,
           child: Scaffold(
+            backgroundColor: themeData.primaryColorLight,
             body: Column(
               children: [
                 SearchBar(),

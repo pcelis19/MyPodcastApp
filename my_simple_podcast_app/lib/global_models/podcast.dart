@@ -106,8 +106,8 @@ class Podcast with ChangeNotifier {
   }
 
   /// returns if the podcast is favorite from cache
-  Future<bool> get isFavorited async {
-    return await FavoritePodcastsService().isPodcastFavorite(this);
+  bool get isFavorited {
+    return FavoritePodcastsService().isPodcastFavorite(this);
   }
 
   /// if the podcast is not a favorite, then it will unfavorite
@@ -136,7 +136,22 @@ class Podcast with ChangeNotifier {
   }
 
   @override
+  // ignore: hash_and_equals
   bool operator ==(other) {
-    return other is Podcast && other.podcastId == this.podcastId;
+    if (other is Podcast) {
+      if (this.podcastId != null && other.podcastId != null) {
+        return this.podcastId == other.podcastId;
+      } else if (this.podcastId == null && other.podcastId == null) {
+        // if both objects have null ids, then check their names + artist name
+        String str1 = podcastName + artistName;
+        String str2 = other.podcastName + other.artistName;
+        return str1.compareTo(str2) == 0;
+      } else {
+        // if one object has null, but the other doesn't then return false
+        return false;
+      }
+    }
+    // default, object being compared to is not a Podcast
+    return false;
   }
 }

@@ -18,11 +18,9 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
   List<Widget> _screens;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _icons = [];
-    _screens = [];
-
+    _icons = <BottomNavigationBarItem>[];
+    _screens = <Widget>[];
     feed.forEach((key, value) {
       _icons.add(key);
       _screens.add(value);
