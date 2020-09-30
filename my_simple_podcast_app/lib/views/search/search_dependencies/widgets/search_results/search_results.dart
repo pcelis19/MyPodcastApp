@@ -7,6 +7,8 @@ import 'package:my_simple_podcast_app/global_components/podcast_show_tile/podcas
 import 'package:my_simple_podcast_app/global_components/podcast_show_tile/widgets/cover_art_widget/cover_art_widget.dart';
 import 'package:my_simple_podcast_app/global_models/podcast.dart';
 import 'package:my_simple_podcast_app/global_services/podcast_search/podcast_search_service.dart';
+import 'package:my_simple_podcast_app/global_utils/route_names.dart';
+import 'package:my_simple_podcast_app/views/podcast_home_screen/podcast_home_screen.dart';
 import 'package:my_simple_podcast_app/views/search/search_dependencies/providers/search_term_provider.dart';
 
 import 'package:provider/provider.dart';
@@ -98,20 +100,21 @@ class _SearchResultsState extends State<SearchResults> {
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
                   Podcast podcast = snapshot.data[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Card(
-                      elevation: 8,
+                  return Card(
+                    elevation: 8,
+                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
                       child: ListTile(
+                        onTap: () => Navigator.pushNamed(
+                            context, kPodcastHomeScreen,
+                            arguments: podcast),
                         leading: CoverArt(imageUrl: podcast.imageUrl),
                         title: Text(podcast.podcastName),
                         subtitle: Text(podcast.artistName),
-                        trailing: Container(
-                            height: 30,
-                            width: 30,
-                            child: FavoriteIconButton(
-                              podcast: podcast,
-                            )),
+                        trailing: FavoriteIconButton(
+                          podcast: podcast,
+                        ),
                       ),
                     ),
                   );

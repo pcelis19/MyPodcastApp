@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_services/favorite_podcasts/favorites_podcasts_service.dart';
 import 'package:my_simple_podcast_app/global_utils/size_config.dart';
-import 'package:my_simple_podcast_app/views/app_bottom_navigation_bar/app_bottom_navigation_bar_dependencies/models/tab_meta_data.dart';
 import 'package:provider/provider.dart';
 
-class AppBottomNavigationBar extends StatefulWidget {
-  AppBottomNavigationBar({Key key}) : super(key: key);
+import 'app_bottom_navigation_bar_dependencies/models/tab_meta_data.dart';
+
+class AppSkeletonWithBar extends StatefulWidget {
+  AppSkeletonWithBar({Key key}) : super(key: key);
   final FavoritePodcastsService _favoritePodcastsService =
       FavoritePodcastsService();
   @override
-  _AppBottomNavigationBarState createState() => _AppBottomNavigationBarState();
+  _AppSkeletonWithBarState createState() => _AppSkeletonWithBarState();
 }
 
-class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
+class _AppSkeletonWithBarState extends State<AppSkeletonWithBar> {
   int _currentIndex = 0;
   List<BottomNavigationBarItem> _icons;
   List<Widget> _screens;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'home_dependencies/widgets/favorite_podcasts/favorite_podcasts.dart';
-import 'home_dependencies/widgets/top_podcasts/top_podcasts.dart';
+import 'home_dependencies/favorite_podcasts/favorite_podcasts.dart';
+import 'home_dependencies/top_podcasts/top_podcasts.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);

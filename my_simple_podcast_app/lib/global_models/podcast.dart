@@ -48,14 +48,17 @@ class Podcast with ChangeNotifier {
   Podcast({
     @required this.podcastId,
     @required this.artistName,
-    @required this.contentAdvisoryRating,
+    String contentAdvisoryRating,
     @required this.country,
     @required this.feedUrl,
     @required this.genres,
     @required this.imageUrl,
     @required this.podcastName,
     @required this.releaseDate,
-  });
+  }) : this.contentAdvisoryRating = contentAdvisoryRating == null ||
+                contentAdvisoryRating.toLowerCase() == 'explicit'
+            ? 'explicit'
+            : '';
 
   /// constructor from json
   Podcast.fromJson(Map<String, dynamic> json)

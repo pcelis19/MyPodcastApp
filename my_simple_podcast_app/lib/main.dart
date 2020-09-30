@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:my_simple_podcast_app/views/app_bottom_navigation_bar/app_bottom_navigation_bar.dart';
+import 'package:my_simple_podcast_app/global_models/podcast.dart';
+import 'package:my_simple_podcast_app/global_utils/route_names.dart';
+import 'package:my_simple_podcast_app/views/podcast_home_screen/podcast_home_screen.dart';
 
 import 'global_services/favorite_podcasts/favorites_podcasts_service.dart';
+import 'views/app_skeleton_with_bar/app_skeleton_with_bar.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,26 +17,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
       theme: ThemeData(
           primarySwatch: Colors.indigo, accentColor: Colors.redAccent),
+      routes: {
+        kDefault: (context) => AppSkeletonWithBar(),
+        kPodcastHomeScreen: (context) => PodcastHomeScreen(
+              podcast: (ModalRoute.of(context).settings.arguments as Podcast),
+            )
+      },
     );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return AppBottomNavigationBar();
   }
 }
