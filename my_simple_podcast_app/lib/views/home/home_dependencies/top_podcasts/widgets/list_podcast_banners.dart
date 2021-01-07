@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_simple_podcast_app/global_models/podcast.dart';
+import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'podcast_banner.dart';
@@ -11,7 +11,7 @@ class ListOfPodcastBanners extends StatefulWidget {
     @required this.maxHeight,
   }) : super(key: key);
 
-  final List<Podcast> listOfPodcasts;
+  final List<PartialPodcastInformation> listOfPodcasts;
   final double maxHeight;
 
   @override
@@ -20,14 +20,14 @@ class ListOfPodcastBanners extends StatefulWidget {
 
 class _ListOfPodcastBannersState extends State<ListOfPodcastBanners> {
   List<Widget> podcasts = [];
-  Podcast currentFocusPodcast;
+  PartialPodcastInformation currentFocusPodcast;
   final PageController _controller = PageController(viewportFraction: 0.8);
   @override
   void initState() {
     super.initState();
     currentFocusPodcast = widget.listOfPodcasts[0];
     currentFocusPodcast.giveFocus();
-    for (Podcast podcastShow in widget.listOfPodcasts) {
+    for (PartialPodcastInformation podcastShow in widget.listOfPodcasts) {
       podcasts.add(
         PodcastBanner(
           podcastShow: podcastShow,
@@ -61,7 +61,7 @@ class _ListOfPodcastBannersState extends State<ListOfPodcastBanners> {
   }
 
   void updateFocusWidget(int index) {
-    Podcast previousFocusPodcast = currentFocusPodcast;
+    PartialPodcastInformation previousFocusPodcast = currentFocusPodcast;
     currentFocusPodcast = widget.listOfPodcasts[index];
     previousFocusPodcast.removeFocus();
     currentFocusPodcast.giveFocus();

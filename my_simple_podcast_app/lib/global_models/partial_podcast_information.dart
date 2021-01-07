@@ -14,7 +14,7 @@ const String CONTENT_ADVISORY_RATING = "contentAdvisoryRating";
 const String COUNTRY = "country";
 const String GENRES = "genres";
 
-class Podcast with ChangeNotifier {
+class PartialPodcastInformation with ChangeNotifier {
   // Data members
   /// the name of owner of the show
   final String artistName;
@@ -45,7 +45,7 @@ class Podcast with ChangeNotifier {
       releaseDate; // TODO check what the release date relates to. Last updated? or when released
 
   /// constructor
-  Podcast({
+  PartialPodcastInformation({
     @required this.podcastId,
     @required this.artistName,
     String contentAdvisoryRating,
@@ -61,7 +61,7 @@ class Podcast with ChangeNotifier {
             : '';
 
   /// constructor from json
-  Podcast.fromJson(Map<String, dynamic> json)
+  PartialPodcastInformation.fromJson(Map<String, dynamic> json)
       : podcastId = json[PODCAST_ID],
         artistName = json[ARTIST_NAME],
         contentAdvisoryRating = json[CONTENT_ADVISORY_RATING],
@@ -141,7 +141,7 @@ class Podcast with ChangeNotifier {
   @override
   // ignore: hash_and_equals
   bool operator ==(other) {
-    if (other is Podcast) {
+    if (other is PartialPodcastInformation) {
       if (this.podcastId != null && other.podcastId != null) {
         return this.podcastId == other.podcastId;
       } else if (this.podcastId == null && other.podcastId == null) {

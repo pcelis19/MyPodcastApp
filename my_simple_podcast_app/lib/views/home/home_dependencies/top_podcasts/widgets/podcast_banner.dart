@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_components/favorite_icon_button/favorite_icon_button.dart';
-import 'package:my_simple_podcast_app/global_models/podcast.dart';
+import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
 import 'package:provider/provider.dart';
 
 class PodcastBanner extends StatefulWidget {
@@ -9,7 +9,7 @@ class PodcastBanner extends StatefulWidget {
     @required this.podcastShow,
     @required this.maxHeight,
   }) : super(key: key);
-  final Podcast podcastShow;
+  final PartialPodcastInformation podcastShow;
   final double maxHeight;
 
   @override
@@ -18,7 +18,7 @@ class PodcastBanner extends StatefulWidget {
 
 class _PodcastBannerState extends State<PodcastBanner> {
   double _popUpHeight;
-  Podcast _podcastShow;
+  PartialPodcastInformation _podcastShow;
   @override
   void initState() {
     super.initState();
@@ -40,7 +40,7 @@ class _PodcastBannerState extends State<PodcastBanner> {
             ChangeNotifierProvider.value(
               value: _podcastShow,
               builder: (context, child) {
-                return Selector<Podcast, bool>(
+                return Selector<PartialPodcastInformation, bool>(
                   selector: (_, _podcastShow) => _podcastShow.hasFocus,
                   builder: (context, hasFocus, child) {
                     return Column(
@@ -64,7 +64,7 @@ class _PodcastBannerState extends State<PodcastBanner> {
                                 style: _themeData.primaryTextTheme.bodyText1,
                               ),
                               FavoriteIconButton(
-                                podcast: _podcastShow,
+                                partialPodcastInformation: _podcastShow,
                               )
                             ],
                           ),

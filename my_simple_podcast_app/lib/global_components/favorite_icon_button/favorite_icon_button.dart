@@ -1,16 +1,16 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:my_simple_podcast_app/global_models/podcast.dart';
+import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
 import 'package:provider/provider.dart';
 
 /// Make sure to house this under a provider
 class FavoriteIconButton extends StatefulWidget {
   const FavoriteIconButton({
     Key key,
-    @required this.podcast,
+    @required this.partialPodcastInformation,
   }) : super(key: key);
-  final Podcast podcast;
+  final PartialPodcastInformation partialPodcastInformation;
 
   @override
   _FavoriteIconButtonState createState() => _FavoriteIconButtonState();
@@ -21,9 +21,9 @@ class _FavoriteIconButtonState extends State<FavoriteIconButton> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-      value: widget.podcast,
+      value: widget.partialPodcastInformation,
       builder: (context, child) {
-        return Consumer<Podcast>(
+        return Consumer<PartialPodcastInformation>(
           builder: (context, podcastShow, child) {
             if (loading) return _waitingIndicator();
             return IconButton(

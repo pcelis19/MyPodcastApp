@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
 import 'package:my_simple_podcast_app/global_utils/size_config.dart';
-import 'package:my_simple_podcast_app/global_models/podcast.dart';
 
 import 'widgets/cover_art_widget/cover_art_widget.dart';
 import 'widgets/show_information/show_information_widget.dart';
 
 class PodcastShowTile extends StatelessWidget {
   const PodcastShowTile(
-      {@required this.podcastShow, @required this.maxTileSize});
-  final Podcast podcastShow;
+      {@required this.partialPodcastInformation, @required this.maxTileSize});
+  final PartialPodcastInformation partialPodcastInformation;
   final double maxTileSize;
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return decoration(
-      CoverArt(imageUrl: podcastShow.imageUrl),
-      ShowInformation(podcastShow: podcastShow),
+      CoverArt(imageUrl: partialPodcastInformation.imageUrl),
+      ShowInformation(podcastShow: partialPodcastInformation),
     );
   }
 

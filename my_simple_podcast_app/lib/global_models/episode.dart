@@ -1,26 +1,16 @@
-import 'package:my_simple_podcast_app/global_models/podcast.dart';
+import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
+import 'package:my_simple_podcast_app/global_utils/converters.dart';
 
 class Episode {
   final String episodeName;
-  final Duration _episodeDuration;
+  final String episodeDuration;
   final String audioSourceUrl;
-  final Podcast podcast;
-  Episode(
-      {this.audioSourceUrl,
-      this.episodeName,
-      Duration episodeDuration,
-      this.podcast})
-      : _episodeDuration = episodeDuration;
-  String get episodeDuration {
-    if (_episodeDuration == null) {
-      return null;
-    } else {
-      String twoDigits(int n) => n.toString().padLeft(2, "0");
-      String twoDigitMinutes =
-          twoDigits(_episodeDuration.inMinutes.remainder(60));
-      String twoDigitSeconds =
-          twoDigits(_episodeDuration.inSeconds.remainder(60));
-      return "${twoDigits(_episodeDuration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
-    }
-  }
+  final PartialPodcastInformation partialPodcastInformation;
+  Episode({
+    String audioSourceUrl,
+    Duration episodeDuration,
+    this.episodeName,
+    this.partialPodcastInformation,
+  })  : episodeDuration = kEpisodeDurationConverter(episodeDuration),
+        audioSourceUrl = kHttpsUrlRequest(audioSourceUrl);
 }

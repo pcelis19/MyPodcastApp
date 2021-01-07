@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
-import 'package:my_simple_podcast_app/global_models/podcast.dart';
+import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
 
 import 'shared_preferences_favorites_podcasts.dart';
 
@@ -19,7 +19,7 @@ class FavoritePodcastsService with ChangeNotifier {
   FavoritePodcastsService.internal();
 
   /// this is the list of podcasts saved to RAM
-  List<Podcast> _favoritePodcasts = [];
+  List<PartialPodcastInformation> _favoritePodcasts = [];
 
   /// internal boolean, so that when initializing  the class we
   /// do not do redudant work
@@ -31,17 +31,18 @@ class FavoritePodcastsService with ChangeNotifier {
 
   /// this returns a stream of podcast shows because podcast shows may be added and deleted, therefore
   /// we have to continue to listen to this stream
-  List<Podcast> get favoritePodcasts {
+  List<PartialPodcastInformation> get favoritePodcasts {
     return _favoritePodcasts;
   }
 
   /// checks if a podcast is a favorited podcast
-  bool isPodcastFavorite(Podcast podcast) {
+  bool isPodcastFavorite(PartialPodcastInformation podcast) {
     return _favoritePodcasts.contains(podcast);
   }
 
   /// removes podcast from favorites
-  Future<void> removePodcastFromFavorites(Podcast podcast) async {
+  Future<void> removePodcastFromFavorites(
+      PartialPodcastInformation podcast) async {
     await intializeFavorites();
     if (_favoritePodcasts.contains(podcast)) {
       _favoritePodcasts.remove(podcast);
@@ -52,7 +53,7 @@ class FavoritePodcastsService with ChangeNotifier {
   }
 
   /// adds podcast to favorites
-  Future<void> addPodcastToFavorites(Podcast podcast) async {
+  Future<void> addPodcastToFavorites(PartialPodcastInformation podcast) async {
     await intializeFavorites();
     if (!_favoritePodcasts.contains(podcast)) {
       _favoritePodcasts.add(podcast);
@@ -72,7 +73,7 @@ class FavoritePodcastsService with ChangeNotifier {
     // no need to redo this intensive work over and over
     if (!_loadedFavorites) {
       try {
-        List<Podcast> unpackedPodcasts =
+        List<PartialPodcastInformation> unpackedPodcasts =
             await FavoritePodcastsSharedPreferencesService()
                 .unpackedFavoritePodcasts;
 

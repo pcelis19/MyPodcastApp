@@ -28,9 +28,9 @@ class _SearchScreenState extends State<SearchScreen>
       builder: (context, child) {
         return Container(
           height: SizeConfig.screenHeight,
-          child: Scaffold(
-            backgroundColor: themeData.primaryColorLight,
-            body: Column(
+          child: Container(
+            color: themeData.primaryColorLight,
+            child: Column(
               children: [
                 SearchBar(),
                 SearchResults(),

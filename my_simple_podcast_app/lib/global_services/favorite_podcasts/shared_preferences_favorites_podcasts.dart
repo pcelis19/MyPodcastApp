@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:my_simple_podcast_app/global_models/podcast.dart';
+import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FavoritePodcastsSharedPreferencesService {
@@ -34,7 +34,7 @@ class FavoritePodcastsSharedPreferencesService {
   //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
   /// List of favorited shows
-  List<Podcast> favoritePodcasts = [];
+  List<PartialPodcastInformation> favoritePartialInfoPodcasts = [];
 
   //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
   //$$$$$$$$$ Private Functions $$$$$$$$$$$$$$$$$$$$$$$
@@ -55,7 +55,7 @@ class FavoritePodcastsSharedPreferencesService {
     // functions may be deleted.
     await _initializeSharedPreferences();
     if (!_sharedPreferences.containsKey(_keyForFavoritePodcasts)) {
-      List<Podcast> starterList = [];
+      List<PartialPodcastInformation> starterList = [];
       await updateListOfFavoritePodcastsToCache(starterList);
     }
   }
@@ -68,22 +68,22 @@ class FavoritePodcastsSharedPreferencesService {
   /// * Returns the following
   /// ** if no cache returns null
   /// ** else returns List<Podcasts> (list of shows)
-  Future<List<Podcast>> get unpackedFavoritePodcasts async {
+  Future<List<PartialPodcastInformation>> get unpackedFavoritePodcasts async {
     await _initializeSharedPreferences();
     await _guarenteeCache();
     String cachedData = _sharedPreferences.getString(_keyForFavoritePodcasts);
-    log(cachedData);
+    //log(cachedData);
     List<Map<String, dynamic>> packedPodcasts = List<Map<String, dynamic>>.from(
         jsonDecode(cachedData)[_keyForFavoritePodcasts]);
-    List<Podcast> unpackedPodcasts = [];
+    List<PartialPodcastInformation> unpackedPodcasts = [];
     for (Map<String, dynamic> packedPodcast in packedPodcasts)
-      unpackedPodcasts.add(Podcast.fromJson(packedPodcast));
+      unpackedPodcasts.add(PartialPodcastInformation.fromJson(packedPodcast));
     return unpackedPodcasts;
   }
 
   /// updates the cache, with the ram's favorites
   Future<void> updateListOfFavoritePodcastsToCache(
-      List<Podcast> updatedList) async {
+      List<PartialPodcastInformation> updatedList) async {
     await _initializeSharedPreferences();
     await _sharedPreferences.remove(_keyForFavoritePodcasts);
     // new list that will be saved to cache

@@ -1,57 +1,60 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:my_simple_podcast_app/global_components/podcast_show_tile/widgets/cover_art_widget/cover_art_widget.dart';
-import 'package:my_simple_podcast_app/global_models/episode.dart';
-import 'package:my_simple_podcast_app/global_models/podcast.dart';
-import 'package:my_simple_podcast_app/global_services/rss_parser.dart';
+import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
+
+import 'widgets/podcast_episodes.dart';
+import 'widgets/podcast_header.dart';
 
 class PodcastHomeScreen extends StatelessWidget {
-  final Podcast podcast;
+  final PartialPodcastInformation partialPodcastInformation;
 
-  const PodcastHomeScreen({Key key, this.podcast}) : super(key: key);
+  const PodcastHomeScreen({Key key, this.partialPodcastInformation})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          leading: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CoverArt(
-              imageUrl: podcast.imageUrl,
+    ThemeData _themeData = Theme.of(context);
+    Color _backgroundColor = _themeData.primaryColorLight;
+    return Container(
+      height: double.infinity,
+      color: _backgroundColor,
+      child: SafeArea(
+        child: Container(
+          color: _backgroundColor,
+          child: Scaffold(
+            appBar: AppBar(
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () => log("Back  Button Pressed"),
+              ),
+              title: Text(partialPodcastInformation.podcastName),
+              centerTitle: true,
+            ),
+            body: Column(
+              children: [
+                /// Show Details
+                Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: PodcastHeader(
+                      partialPodcastInformation: partialPodcastInformation,
+                    ),
+                  ),
+                ),
+
+                /// Show Description and Episodes
+                Expanded(
+                  flex: 3,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: PodcastEpisodes(
+                        partialPodcastInformation: partialPodcastInformation),
+                  ),
+                ),
+              ],
             ),
           ),
-          title: Text(podcast.podcastName),
-          centerTitle: true,
-        ),
-        body: FutureBuilder<List<Episode>>(
-          future: RSSParser().fetchEpisodes(podcast),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData || snapshot.data == null) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else {
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount: snapshot.data.length,
-                itemBuilder: (context, index) {
-                  Episode episode = snapshot.data[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Card(
-                      elevation: 8,
-                      child: ListTile(
-                        leading: CoverArt(imageUrl: episode.podcast.imageUrl),
-                        title: Text(episode.episodeName),
-                        subtitle: episode.episodeDuration != null
-                            ? Text(episode.episodeDuration)
-                            : Container(),
-                      ),
-                    ),
-                  );
-                },
-              );
-            }
-          },
         ),
       ),
     );

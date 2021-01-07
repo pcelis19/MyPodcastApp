@@ -3,12 +3,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_components/favorite_icon_button/favorite_icon_button.dart';
 import 'package:my_simple_podcast_app/global_components/pill_button.dart';
-import 'package:my_simple_podcast_app/global_components/podcast_show_tile/podcast_show_tile.dart';
 import 'package:my_simple_podcast_app/global_components/podcast_show_tile/widgets/cover_art_widget/cover_art_widget.dart';
-import 'package:my_simple_podcast_app/global_models/podcast.dart';
+import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
 import 'package:my_simple_podcast_app/global_services/podcast_search/podcast_search_service.dart';
 import 'package:my_simple_podcast_app/global_utils/route_names.dart';
-import 'package:my_simple_podcast_app/views/podcast_home_screen/podcast_home_screen.dart';
 import 'package:my_simple_podcast_app/views/search/search_dependencies/providers/search_term_provider.dart';
 
 import 'package:provider/provider.dart';
@@ -89,9 +87,10 @@ class _SearchResultsState extends State<SearchResults> {
   FutureBuilder searchResults(String searchTerm) {
     log('previousSearchTerms');
 
-    return FutureBuilder<List<Podcast>>(
+    return FutureBuilder<List<PartialPodcastInformation>>(
       future: PodcastSearchService().searchTerm(searchTerm),
-      builder: (BuildContext context, AsyncSnapshot<List<Podcast>> snapshot) {
+      builder: (BuildContext context,
+          AsyncSnapshot<List<PartialPodcastInformation>> snapshot) {
         if (snapshot.hasData) {
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 5),
@@ -99,7 +98,7 @@ class _SearchResultsState extends State<SearchResults> {
                 shrinkWrap: true,
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
-                  Podcast podcast = snapshot.data[index];
+                  PartialPodcastInformation podcast = snapshot.data[index];
                   return Card(
                     elevation: 8,
                     margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
@@ -113,7 +112,7 @@ class _SearchResultsState extends State<SearchResults> {
                         title: Text(podcast.podcastName),
                         subtitle: Text(podcast.artistName),
                         trailing: FavoriteIconButton(
-                          podcast: podcast,
+                          partialPodcastInformation: podcast,
                         ),
                       ),
                     ),

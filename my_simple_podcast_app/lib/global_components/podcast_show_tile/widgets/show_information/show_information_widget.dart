@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_simple_podcast_app/global_models/podcast.dart';
+import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
 
 import 'widgets/host_information.dart';
 import 'widgets/other_show_information.dart';
@@ -10,7 +10,7 @@ class ShowInformation extends StatelessWidget {
     Key key,
     @required this.podcastShow,
   }) : super(key: key);
-  final Podcast podcastShow;
+  final PartialPodcastInformation podcastShow;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -23,7 +23,7 @@ class ShowInformation extends StatelessWidget {
           artistName: podcastShow.artistName,
         ),
         OtherShowInformation(
-          podcastShow: podcastShow,
+          partialPodcastInformation: podcastShow,
         )
       ],
     );

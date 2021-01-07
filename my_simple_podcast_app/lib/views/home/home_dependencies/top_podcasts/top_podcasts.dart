@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_simple_podcast_app/global_models/podcast.dart';
+import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
 import 'package:my_simple_podcast_app/global_services/podcast_search/podcast_search_service.dart';
 import 'package:my_simple_podcast_app/global_utils/size_config.dart';
 
@@ -13,9 +13,10 @@ class TopPodcasts extends StatelessWidget {
     SizeConfig().init(context);
     double maxHeight = SizeConfig.safeBlockVertical * 50;
     return Container(
-      child: FutureBuilder<List<Podcast>>(
+      child: FutureBuilder<List<PartialPodcastInformation>>(
         future: PodcastSearchService().topPodcasts,
-        builder: (BuildContext context, AsyncSnapshot<List<Podcast>> snapshot) {
+        builder: (BuildContext context,
+            AsyncSnapshot<List<PartialPodcastInformation>> snapshot) {
           if (snapshot.hasData) {
             return ListOfPodcastBanners(
               listOfPodcasts: snapshot.data,

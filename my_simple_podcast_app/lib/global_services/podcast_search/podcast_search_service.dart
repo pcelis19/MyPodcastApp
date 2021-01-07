@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:my_simple_podcast_app/global_models/podcast.dart';
+import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
 import 'package:podcast_search/podcast_search.dart' as PodcastSearch;
 
 import 'shared_preferences_podcast_search.dart';
@@ -21,18 +21,18 @@ class PodcastSearchService {
 
   PodcastSearch.Search _search = PodcastSearch.Search();
 
-  Future<List<Podcast>> get topPodcasts async {
+  Future<List<PartialPodcastInformation>> get topPodcasts async {
     // TODO get permissions from user so that country is relative to their
     // location
     PodcastSearch.SearchResult searchResult = await _search.charts(
         limit: LIMIT, country: PodcastSearch.Country.UNITED_STATES);
-    List<Podcast> podcasts = [];
+    List<PartialPodcastInformation> podcasts = [];
     for (PodcastSearch.Item result in searchResult.items) {
       List<String> genres = List<String>();
       result.genre.forEach((element) {
         genres.add(element.name.toLowerCase());
       });
-      Podcast podcastShow = Podcast(
+      PartialPodcastInformation podcastShow = PartialPodcastInformation(
           podcastId: result.artistId,
           artistName: result.artistName,
           contentAdvisoryRating: result.contentAdvisoryRating,
@@ -50,7 +50,7 @@ class PodcastSearchService {
   /// instance methods
 
   /// returns a list of podcast shows with a given search [searchTerm]
-  Future<List<Podcast>> searchTerm(String searchTerm) async {
+  Future<List<PartialPodcastInformation>> searchTerm(String searchTerm) async {
     try {
       await PodcastSearchSharedPreferencesService().addSearchTerm(searchTerm);
     } catch (e) {
@@ -58,13 +58,14 @@ class PodcastSearchService {
     }
     PodcastSearch.SearchResult searchResult = await _search.search(searchTerm);
     List<PodcastSearch.Item> results = searchResult.items;
-    List<Podcast> podcasts = List<Podcast>();
+    List<PartialPodcastInformation> podcasts =
+        List<PartialPodcastInformation>();
     for (PodcastSearch.Item result in results) {
       List<String> genres = List<String>();
       result.genre.forEach((element) {
         genres.add(element.name.toLowerCase());
       });
-      Podcast podcast = Podcast(
+      PartialPodcastInformation podcast = PartialPodcastInformation(
           podcastId: result.artistId,
           artistName: result.artistName,
           contentAdvisoryRating: result.contentAdvisoryRating,
