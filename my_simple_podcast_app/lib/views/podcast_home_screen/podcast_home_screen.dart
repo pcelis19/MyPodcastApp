@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
 
@@ -25,7 +23,7 @@ class PodcastHomeScreen extends StatelessWidget {
             appBar: AppBar(
               leading: IconButton(
                 icon: Icon(Icons.arrow_back),
-                onPressed: () => log("Back  Button Pressed"),
+                onPressed: () => Navigator.of(context).pop(),
               ),
               title: Text(partialPodcastInformation.podcastName),
               centerTitle: true,

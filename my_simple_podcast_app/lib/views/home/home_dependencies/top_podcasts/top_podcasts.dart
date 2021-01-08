@@ -28,7 +28,7 @@ class TopPodcasts extends StatelessWidget {
               child: Column(
                 children: [
                   Icon(Icons.history),
-                  Text('No search history :('),
+                  Text('Failed Fetch Top Podcast :('),
                 ],
               ),
             );

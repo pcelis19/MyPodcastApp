@@ -1,13 +1,13 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:my_simple_podcast_app/DEPRECATED/views/search/search_dependencies/providers/search_term_provider.dart';
 import 'package:my_simple_podcast_app/global_components/favorite_icon_button/favorite_icon_button.dart';
 import 'package:my_simple_podcast_app/global_components/pill_button.dart';
 import 'package:my_simple_podcast_app/global_components/podcast_show_tile/widgets/cover_art_widget/cover_art_widget.dart';
 import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
 import 'package:my_simple_podcast_app/global_services/podcast_search/podcast_search_service.dart';
 import 'package:my_simple_podcast_app/global_utils/route_names.dart';
-import 'package:my_simple_podcast_app/views/search/search_dependencies/providers/search_term_provider.dart';
 
 import 'package:provider/provider.dart';
 
