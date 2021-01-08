@@ -27,16 +27,22 @@ class _SearchResultsState extends State<SearchResults> {
     return Consumer<SearchTermProvider>(
         builder: (context, searchTermProivder, child) {
       ThemeData themeData = Theme.of(context);
-      return Container(
-        color: themeData.backgroundColor,
-        child: DraggableScrollableSheet(
-          expand: false,
-          builder: (context, scrollController) {
-            return searchResults(
-                searchTermProivder.searchTerm, scrollController);
-          },
-        ),
-      );
+      return searchTermProivder.searchTerm == null ||
+              searchTermProivder.searchTerm.isEmpty
+          ? Container(
+              height: 0,
+              width: 0,
+            )
+          : Container(
+              color: themeData.backgroundColor,
+              child: DraggableScrollableSheet(
+                expand: false,
+                builder: (context, scrollController) {
+                  return searchResults(
+                      searchTermProivder.searchTerm, scrollController);
+                },
+              ),
+            );
 
       // return searchResults(searchTermProivder.searchTerm);
       // return searchTermProivder.searchTerm == null ||
