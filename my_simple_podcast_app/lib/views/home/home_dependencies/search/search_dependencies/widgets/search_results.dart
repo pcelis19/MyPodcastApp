@@ -26,7 +26,19 @@ class _SearchResultsState extends State<SearchResults> {
   Widget build(BuildContext context) {
     return Consumer<SearchTermProvider>(
         builder: (context, searchTermProivder, child) {
-      return searchResults(searchTermProivder.searchTerm);
+      ThemeData themeData = Theme.of(context);
+      return Container(
+        color: themeData.backgroundColor,
+        child: DraggableScrollableSheet(
+          expand: false,
+          builder: (context, scrollController) {
+            return searchResults(
+                searchTermProivder.searchTerm, scrollController);
+          },
+        ),
+      );
+
+      // return searchResults(searchTermProivder.searchTerm);
       // return searchTermProivder.searchTerm == null ||
       //         searchTermProivder.searchTerm.isEmpty
       //     ? previousSearchTerms(searchTermProivder)
@@ -34,7 +46,8 @@ class _SearchResultsState extends State<SearchResults> {
     });
   }
 
-  FutureBuilder searchResults(String searchTerm) {
+  FutureBuilder searchResults(
+      String searchTerm, ScrollController scrollController) {
     log('previousSearchTerms');
 
     return FutureBuilder<List<PartialPodcastInformation>>(
@@ -45,6 +58,7 @@ class _SearchResultsState extends State<SearchResults> {
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 5),
             child: ListView.builder(
+                controller: scrollController,
                 shrinkWrap: true,
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
