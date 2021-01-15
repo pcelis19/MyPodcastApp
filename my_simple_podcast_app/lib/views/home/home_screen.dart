@@ -50,7 +50,6 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            bottomSheet: SearchResults(),
             persistentFooterButtons: [
               CurrentTrackTitle(),
               PlayPauseButton(),

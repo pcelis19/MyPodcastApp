@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
   final FavoritePodcastsService _favoritePodcastsService =
       FavoritePodcastsService();
   final AudioPlayer _audioPlayer = AudioPlayer();
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
