@@ -9,9 +9,6 @@ class FullPodcastInformation extends PartialPodcastInformation {
     ///FullPodcastInformation parameters
     @required this.podcastEpisodes,
     @required this.description,
-
-    /// inheritance parameters
-    @required int podcastId,
     @required String artistName,
     String contentAdvisoryRating,
     @required String country,
@@ -21,7 +18,6 @@ class FullPodcastInformation extends PartialPodcastInformation {
     @required String podcastName,
     @required String releaseDate,
   }) : super(
-            podcastId: podcastId,
             artistName: artistName,
             contentAdvisoryRating: contentAdvisoryRating,
             country: country,

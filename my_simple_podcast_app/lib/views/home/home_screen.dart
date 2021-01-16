@@ -34,30 +34,58 @@ class _HomePageState extends State<HomePage> {
       value: _searchTermProvider,
       builder: (context, child) {
         return SafeArea(
-          child: Scaffold(
-            appBar: SearchBar(),
-            body: Container(
-              color: themeData.primaryColorLight,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListView(
-                  children: [
-                    topPodcastHeader(context),
-                    TopPodcasts(),
-                    yourFavoritesHeader(context),
-                    FavoritePodcasts()
-                  ],
+          child: WillPopScope(
+            onWillPop: () => _onWillPopScope(_searchTermProvider),
+            child: Scaffold(
+              appBar: SearchBar(),
+              body: Container(
+                color: themeData.primaryColorLight,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListView(
+                    children: [
+                      topPodcastHeader(context),
+                      TopPodcasts(),
+                      yourFavoritesHeader(context),
+                      FavoritePodcasts()
+                    ],
+                  ),
                 ),
               ),
+              persistentFooterButtons: [
+                CurrentTrackTitle(),
+                PlayPauseButton(),
+              ],
             ),
-            persistentFooterButtons: [
-              CurrentTrackTitle(),
-              PlayPauseButton(),
-            ],
           ),
         );
       },
     );
+  }
+
+  Future<bool> _onWillPopScope(SearchTermProvider searchTermProvider) async {
+    if (searchTermProvider.searchTerm == null ||
+        searchTermProvider.searchTerm.isEmpty) {
+      return await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          content: Text('Do you want to exit?'),
+          actions: <Widget>[
+            RaisedButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: Text('Yes'),
+            ),
+            RaisedButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text('No'),
+            ),
+          ],
+        ),
+      );
+    } else {
+      searchTermProvider.clearSearchScreen();
+      return false;
+    }
   }
 
   Widget topPodcastHeader(BuildContext context) {

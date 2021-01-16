@@ -32,7 +32,6 @@ class RSSParser {
         genres: partialPodcastInformation.genres,
         imageUrl: partialPodcastInformation.imageUrl,
         podcastEpisodes: fetchedEpisodes,
-        podcastId: partialPodcastInformation.podcastId,
         podcastName: partialPodcastInformation.podcastName,
         releaseDate: partialPodcastInformation.releaseDate,
       );

@@ -11,6 +11,7 @@ import 'global_services/favorite_podcasts/favorites_podcasts_service.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FavoritePodcastsService().intializeFavorites();
+  await AudioPlayer().intializeAudioPlayer();
   runApp(MyApp());
 }
 

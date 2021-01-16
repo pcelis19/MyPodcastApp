@@ -33,7 +33,6 @@ class PodcastSearchService {
         genres.add(element.name.toLowerCase());
       });
       PartialPodcastInformation podcastShow = PartialPodcastInformation(
-          podcastId: result.artistId,
           artistName: result.artistName,
           contentAdvisoryRating: result.contentAdvisoryRating,
           country: result.country,
@@ -66,7 +65,6 @@ class PodcastSearchService {
         genres.add(element.name.toLowerCase());
       });
       PartialPodcastInformation podcast = PartialPodcastInformation(
-          podcastId: result.artistId,
           artistName: result.artistName,
           contentAdvisoryRating: result.contentAdvisoryRating,
           country: result.country,

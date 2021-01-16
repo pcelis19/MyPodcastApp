@@ -56,4 +56,10 @@ class SearchTermProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  void clearSearchScreen() {
+    searchTerm = "";
+    searchTextEditingController.text = searchTerm;
+    notifyListeners();
+  }
 }

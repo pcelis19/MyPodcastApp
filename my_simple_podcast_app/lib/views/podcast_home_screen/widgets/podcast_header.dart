@@ -19,8 +19,9 @@ class PodcastHeader extends StatelessWidget {
           child: Image.network(partialPodcastInformation.imageUrl),
         ),
         Expanded(
+          flex: 2,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               AutoSizeText(
                 partialPodcastInformation.podcastName,

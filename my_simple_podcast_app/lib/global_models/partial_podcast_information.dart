@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:my_simple_podcast_app/global_services/favorite_podcasts/favorites_podcasts_service.dart';
 
 // constants for the following name fields
-const String PODCAST_ID = "podcastId";
+
 const String PODCAST_NAME = "podcastName";
 const String ARTIST_NAME = "artistName";
 const String IMAGE_URL = "imageUrl";
@@ -34,9 +34,6 @@ class PartialPodcastInformation with ChangeNotifier {
   /// podcast's link to their podcast image
   final String imageUrl;
 
-  /// unique identifier
-  final int podcastId;
-
   /// name of the podcast
   final String podcastName;
 
@@ -46,7 +43,6 @@ class PartialPodcastInformation with ChangeNotifier {
 
   /// constructor
   PartialPodcastInformation({
-    @required this.podcastId,
     @required this.artistName,
     String contentAdvisoryRating,
     @required this.country,
@@ -62,8 +58,7 @@ class PartialPodcastInformation with ChangeNotifier {
 
   /// constructor from json
   PartialPodcastInformation.fromJson(Map<String, dynamic> json)
-      : podcastId = json[PODCAST_ID],
-        artistName = json[ARTIST_NAME],
+      : artistName = json[ARTIST_NAME],
         contentAdvisoryRating = json[CONTENT_ADVISORY_RATING],
         country = json[COUNTRY],
         feedUrl = json[FEED_URL],
@@ -102,7 +97,6 @@ class PartialPodcastInformation with ChangeNotifier {
       FEED_URL: feedUrl,
       GENRES: genres,
       IMAGE_URL: imageUrl,
-      PODCAST_ID: podcastId,
       PODCAST_NAME: podcastName,
       RELEASE_DATE: releaseDate,
     };
@@ -142,9 +136,9 @@ class PartialPodcastInformation with ChangeNotifier {
   // ignore: hash_and_equals
   bool operator ==(other) {
     if (other is PartialPodcastInformation) {
-      if (this.podcastId != null && other.podcastId != null) {
-        return this.podcastId == other.podcastId;
-      } else if (this.podcastId == null && other.podcastId == null) {
+      if (this.feedUrl != null && other.feedUrl != null) {
+        return this.feedUrl == other.feedUrl;
+      } else if (this.feedUrl == null && other.feedUrl == null) {
         // if both objects have null ids, then check their names + artist name
         String str1 = podcastName + artistName;
         String str2 = other.podcastName + other.artistName;

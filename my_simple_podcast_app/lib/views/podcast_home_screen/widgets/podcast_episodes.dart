@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_simple_podcast_app/global_components/favorite_icon_button/favorite_icon_button.dart';
 import 'package:my_simple_podcast_app/global_components/podcast_show_tile/widgets/cover_art_widget/cover_art_widget.dart';
 import 'package:my_simple_podcast_app/global_models/episode.dart';
 import 'package:my_simple_podcast_app/global_models/full_podcast_information.dart';
@@ -27,8 +28,19 @@ class PodcastEpisodes extends StatelessWidget {
           return Column(
             children: [
               Expanded(
-                child: SingleChildScrollView(
-                    child: Text(snapshot.data.description)),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 3,
+                      child: SingleChildScrollView(
+                          child: Text(snapshot.data.description)),
+                    ),
+                    Expanded(
+                      child: FavoriteIconButton(
+                          partialPodcastInformation: partialPodcastInformation),
+                    )
+                  ],
+                ),
               ),
               Expanded(
                 flex: 3,
