@@ -37,12 +37,6 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
                 primarySwatch: Colors.indigo, accentColor: Colors.redAccent),
             routes: {
-              ///[Delete the code below after testing]
-              // kDefault: (context) => PodcastHomeScreen(
-              //       partialPodcastInformation: dummyPodcast,
-              //     ),
-
-              /// comment in the code below
               kDefault: (context) => HomePage(),
               kPodcastHomeScreen: (context) => PodcastHomeScreen(
                     partialPodcastInformation: (ModalRoute.of(context)
