@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
 import 'package:my_simple_podcast_app/global_utils/converters.dart';
 
@@ -10,7 +13,8 @@ class Episode {
   final String episodeName;
   final String episodeDuration;
   final String audioSourceUrl;
-  final PartialPodcastInformation partialPodcastInformation;
+  // final PartialPodcastInformation partialPodcastInformation;
+  PartialPodcastInformation partialPodcastInformation;
   Episode({
     String audioSourceUrl,
     Duration episodeDuration,

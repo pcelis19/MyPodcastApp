@@ -48,24 +48,3 @@ class MyApp extends StatelessWidget {
         });
   }
 }
-
-/// TESTING CODE///
-// Map<String, dynamic> dummyJsonFile = {
-//   "artistName": "Ascension Catholic Faith Formation",
-//   "contentAdvisoryRating": "",
-//   "country": "USA",
-//   "feedUrl": "https://feeds.fireside.fm/bibleinayear/rss",
-//   "genres": [
-//     "christianity",
-//     "podcasts",
-//     "religion & spirituality",
-//     "history"
-//   ],
-//   "imageUrl":
-//       "https://is4-ssl.mzstatic.com/image/thumb/Podcasts124/v4/5d/02/0b/5d020b6a-7744-612d-272e-ee7bc9ab7f68/mza_14734368724766946598.jpg/600x600bb.jpg",
-//   "podcastId": null,
-//   "podcastName": "The Bible in a Year (with Fr. Mike Schmitz)",
-//   "releaseDate": "2021-01-03 05:00:00.000Z"
-// };
-// PartialPodcastInformation dummyPodcast =
-//     PartialPodcastInformation.fromJson(dummyJsonFile);

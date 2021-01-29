@@ -6,3 +6,4 @@ const String kMetaArtist = "metaArtist";
 const String kMetaAlbum = "metaAlbum";
 const String kMetaImage = "metaImage";
 const String kAudioPlayer = "audioPlayer";
+const String kPartialPodcastInformation = "partialPodcastInformation";

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
 import 'package:shared_preferences/shared_preferences.dart';

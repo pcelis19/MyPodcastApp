@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:my_simple_podcast_app/global_services/audio_player/audio_player.dart';
 import 'package:my_simple_podcast_app/global_services/audio_player/audio_player_constants.dart';
@@ -44,14 +45,13 @@ class AudioPlayerSharedPreferencesService {
     if (_sharedPreferences.containsKey(_keyForAudioPlayer))
       await _sharedPreferences.remove(_keyForAudioPlayer);
     // new list that will be saved to cache
-    Map<String, dynamic> newCachedAudioInformation = Map<String, dynamic>();
+    Map<String, dynamic> jsonData = Map<String, dynamic>();
     //populate audio with the new audio
-    newCachedAudioInformation[kAudioPlayer] = audioPlayer.toJson();
+    jsonData[kAudioPlayer] = audioPlayer.toJson();
     // adding the mapping, to create jsonData
-    Map<String, dynamic> jsonData = {
-      _keyForAudioPlayer: newCachedAudioInformation
-    };
+
     String jsonString = jsonEncode(jsonData);
+    log("[SAVE_CACHED_DATA]$jsonString");
     _sharedPreferences.setString(_keyForAudioPlayer, jsonString);
   }
 
@@ -63,10 +63,11 @@ class AudioPlayerSharedPreferencesService {
   Future<Map<String, dynamic>> get packedAudioPlayer async {
     await _initializeSharedPreferences();
     if (!_sharedPreferences.containsKey(_keyForAudioPlayer)) {
+      log("Key doesn't exist, returned null");
       return null;
     }
     String cachedData = _sharedPreferences.getString(_keyForAudioPlayer);
-    //log(cachedData);
+    log("[LOAD_CACHED_DATA] $cachedData");
     return jsonDecode(cachedData)[_keyForAudioPlayer];
   }
 }
