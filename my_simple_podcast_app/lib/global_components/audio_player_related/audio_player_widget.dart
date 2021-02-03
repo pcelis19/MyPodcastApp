@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_services/audio_player/audio_player.dart';
 import 'package:my_simple_podcast_app/global_utils/size_config.dart';
+import 'package:my_simple_podcast_app/views/player_home_screen/player_home_screen.dart';
+import 'package:my_simple_podcast_app/views/podcast_home_screen/podcast_home_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'play_pause_widget.dart';
@@ -13,19 +15,38 @@ class AudioPlayerWidget extends StatelessWidget {
     return Consumer<AudioPlayer>(
       builder: (context, audioPlayer, child) {
         SizeConfig().init(context);
-        String title = audioPlayer.currentEpisode != null
-            ? audioPlayer.currentEpisode.episodeName
-            : '';
-        return AnimatedContainer(
-          duration: Duration(milliseconds: 300),
-          height: audioPlayer.currentEpisode != null
-              ? SizeConfig.screenHeight * .11
-              : 0,
-          width: double.infinity,
-          child: Center(
-            child: ListTile(
-              title: Text(title),
-              trailing: PlayPauseButton(),
+
+        String title = 'LET\'S START LISTENING!';
+
+        Widget leading = Container(
+          height: 0,
+          width: 0,
+        );
+
+        Widget trailing = Container(
+          height: 0,
+          width: 0,
+        );
+
+        if (audioPlayer.currentEpisode != null) {
+          leading = Image.network(
+              audioPlayer.currentEpisode.partialPodcastInformation.imageUrl);
+          title = audioPlayer.currentEpisode.episodeName;
+          trailing = PlayPauseButton();
+        }
+
+        return FlatButton(
+          onPressed: () => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => PlayerHomeScreen())),
+          child: Container(
+            height: SizeConfig.screenHeight * .11,
+            width: double.infinity,
+            child: Center(
+              child: ListTile(
+                leading: leading,
+                title: Text(title),
+                trailing: trailing,
+              ),
             ),
           ),
         );

@@ -73,6 +73,10 @@ class AudioPlayer with ChangeNotifier {
     return _audioPlayer._currentEpisode;
   }
 
+  AssetsAudioPlayer get assetsAudioPlayer {
+    return _assetsAudioPlayer;
+  }
+
   /// make sure that things
   /// are intialized
   Future<void> intializeAudioPlayer() async {

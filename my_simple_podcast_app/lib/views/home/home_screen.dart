@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_simple_podcast_app/global_components/audio_player_related/current_track_text.dart';
-import 'package:my_simple_podcast_app/global_components/audio_player_related/play_pause_widget.dart';
+import 'package:my_simple_podcast_app/global_components/audio_player_related/audio_player_widget.dart';
 import 'package:my_simple_podcast_app/views/home/home_dependencies/search/search_dependencies/providers/search_term_provider.dart';
 import 'package:my_simple_podcast_app/views/home/home_dependencies/search/search_dependencies/widgets/search_bar.dart';
 import 'package:provider/provider.dart';
@@ -38,24 +37,32 @@ class _HomePageState extends State<HomePage> {
             onWillPop: () => _onWillPopScope(_searchTermProvider),
             child: Scaffold(
               appBar: SearchBar(),
-              body: Container(
-                color: themeData.primaryColorLight,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListView(
-                    children: [
-                      topPodcastHeader(context),
-                      TopPodcasts(),
-                      yourFavoritesHeader(context),
-                      FavoritePodcasts()
-                    ],
+              body: Stack(
+                children: [
+                  Container(
+                    color: themeData.primaryColorLight,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListView(
+                        children: [
+                          topPodcastHeader(context),
+                          TopPodcasts(),
+                          yourFavoritesHeader(context),
+                          FavoritePodcasts()
+                        ],
+                      ),
+                    ),
                   ),
-                ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      color: Colors.white,
+                      child: AudioPlayerWidget(),
+                    ),
+                  )
+                ],
               ),
-              persistentFooterButtons: [
-                CurrentTrackTitle(),
-                PlayPauseButton(),
-              ],
+              // bottomSheet: AudioPlayerWidget(),
             ),
           ),
         );
