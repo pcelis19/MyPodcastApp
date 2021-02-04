@@ -55,8 +55,6 @@ class _SearchResultsState extends State<SearchResults> {
 
   FutureBuilder searchResults(
       String searchTerm, ScrollController scrollController) {
-    log('previousSearchTerms');
-
     return FutureBuilder<List<PartialPodcastInformation>>(
       future: PodcastSearchService().searchTerm(searchTerm),
       builder: (BuildContext context,
@@ -76,9 +74,8 @@ class _SearchResultsState extends State<SearchResults> {
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: ListTile(
-                        onTap: () => Navigator.pushNamed(
-                            context, kPodcastHomeScreen,
-                            arguments: podcast),
+                        onTap: () => Navigator.of(context)
+                            .pushNamed(kPodcastHomeScreen, arguments: podcast),
                         leading: CoverArt(imageUrl: podcast.imageUrl),
                         title: Text(podcast.podcastName),
                         subtitle: Text(podcast.artistName),

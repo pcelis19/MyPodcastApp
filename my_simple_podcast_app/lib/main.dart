@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_services/user_settings.dart';
 import 'package:my_simple_podcast_app/global_utils/route_names.dart';
@@ -57,9 +59,8 @@ class MyApp extends StatelessWidget {
           case kPodcastHomeScreen:
             return MaterialPageRoute(
               builder: (context) => PodcastHomeScreen(
-                partialPodcastInformation: (ModalRoute.of(context)
-                    .settings
-                    .arguments as PartialPodcastInformation),
+                partialPodcastInformation:
+                    (settings.arguments as PartialPodcastInformation),
               ),
             );
           case kSettings:

@@ -51,37 +51,37 @@ class _PodcastBannerState extends State<PodcastBanner> {
         child: Stack(
           children: [
             background(context),
-            Column(
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Expanded(
+                    flex: 2,
                     child: Center(
                       child: Image.network(podcastShow.imageUrl),
                     ),
                   ),
-                ),
-                spliter(),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        podcastShow.podcastName,
-                        style: _themeData.primaryTextTheme.headline6,
-                      ),
-                      Text(
-                        podcastShow.artistName,
-                        style: _themeData.primaryTextTheme.bodyText1,
-                      ),
-                      FavoriteIconButton(
-                        partialPodcastInformation: podcastShow,
-                      )
-                    ],
-                  ),
-                )
-              ],
+                  spliter(),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          podcastShow.podcastName,
+                          style: _themeData.primaryTextTheme.headline6,
+                        ),
+                        Text(
+                          podcastShow.artistName,
+                          style: _themeData.primaryTextTheme.bodyText1,
+                        ),
+                        FavoriteIconButton(
+                          partialPodcastInformation: podcastShow,
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
             )
           ],
         ),

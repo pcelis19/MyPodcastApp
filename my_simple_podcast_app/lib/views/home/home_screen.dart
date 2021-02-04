@@ -40,23 +40,7 @@ class _HomePageState extends State<HomePage> {
               onWillPop: () => _onWillPopScope(_searchTermProvider),
               child: Scaffold(
                 appBar: SearchBar(),
-                drawer: Drawer(
-                  child: ListView(
-                    children: [
-                      DrawerHeader(
-                        child: Text(
-                          'Simple Podcast Player',
-                          style: themeData.textTheme.headline4,
-                        ),
-                      ),
-                      ListTile(
-                        leading: Icon(Icons.settings),
-                        title: Text('Settings'),
-                        onTap: () => Navigator.pushNamed(context, '/settings'),
-                      ),
-                    ],
-                  ),
-                ),
+                drawer: HomePageDrawer(),
                 body: Stack(
                   children: [
                     Container(
@@ -142,6 +126,34 @@ class _HomePageState extends State<HomePage> {
     return Text(
       'Your Favorites',
       style: themeData.accentTextTheme.headline2,
+    );
+  }
+}
+
+class HomePageDrawer extends StatelessWidget {
+  const HomePageDrawer({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
+    return Drawer(
+      child: ListView(
+        children: [
+          DrawerHeader(
+            child: Text(
+              'Simple Podcast Player',
+              style: themeData.textTheme.headline4,
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text('Settings'),
+            onTap: () => Navigator.pushNamed(context, '/settings'),
+          ),
+        ],
+      ),
     );
   }
 }

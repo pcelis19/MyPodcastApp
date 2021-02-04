@@ -57,7 +57,10 @@ class _FavoriteIconButtonState extends State<FavoriteIconButton> {
       padding: const EdgeInsets.all(8.0),
       child: Center(
         child: Container(
-            height: 24, width: 24, child: CircularProgressIndicator()),
+          height: 24,
+          width: 24,
+          child: CircularProgressIndicator(),
+        ),
       ),
     );
   }

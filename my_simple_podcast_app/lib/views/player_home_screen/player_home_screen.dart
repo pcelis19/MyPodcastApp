@@ -27,16 +27,24 @@ class PlayerHomeScreen extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    audioPlayer
-                        .currentEpisode.partialPodcastInformation.podcastName,
-                    style: textDesign.headline6,
-                  ),
-                  Text(audioPlayer.currentEpisode.episodeName)
-                ],
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 48),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      audioPlayer
+                          .currentEpisode.partialPodcastInformation.podcastName,
+                      style: textDesign.headline6,
+                      textAlign: TextAlign.center,
+                    ),
+                    Text(
+                      audioPlayer.currentEpisode.episodeName,
+                      textAlign: TextAlign.center,
+                    )
+                  ],
+                ),
               ),
             ),
             Expanded(
@@ -72,6 +80,7 @@ class AudioPlayerSlider extends StatelessWidget {
         builder: (context, snapshot) {
           int _seconds = snapshot.data.currentPosition.inSeconds;
           String _label = label(_seconds);
+          String _maxLabel = label(snapshot.data.duration.inSeconds);
           // AudioPlayer audioPlayer = context.watch<AudioPlayer>();
           return Column(
             children: [
@@ -86,7 +95,7 @@ class AudioPlayerSlider extends StatelessWidget {
                   audioPlayer.seek(to);
                 },
               ),
-              Text(_label)
+              Text("${_label} / ${_maxLabel}")
             ],
           );
         },
