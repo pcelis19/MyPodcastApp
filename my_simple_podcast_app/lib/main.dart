@@ -23,28 +23,29 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider.value(
-            value: _favoritePodcastsService,
-          ),
-          ChangeNotifierProvider.value(
-            value: _audioPlayer,
-          ),
-        ],
-        builder: (context, child) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-                primarySwatch: Colors.indigo, accentColor: Colors.redAccent),
-            routes: {
-              kDefault: (context) => HomePage(),
-              kPodcastHomeScreen: (context) => PodcastHomeScreen(
-                    partialPodcastInformation: (ModalRoute.of(context)
-                        .settings
-                        .arguments as PartialPodcastInformation),
-                  )
-            },
-          );
-        });
+      providers: [
+        ChangeNotifierProvider.value(
+          value: _favoritePodcastsService,
+        ),
+        ChangeNotifierProvider.value(
+          value: _audioPlayer,
+        ),
+      ],
+      builder: (context, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+              primarySwatch: Colors.indigo, accentColor: Colors.redAccent),
+          routes: {
+            kDefault: (context) => HomePage(),
+            kPodcastHomeScreen: (context) => PodcastHomeScreen(
+                  partialPodcastInformation: (ModalRoute.of(context)
+                      .settings
+                      .arguments as PartialPodcastInformation),
+                )
+          },
+        );
+      },
+    );
   }
 }

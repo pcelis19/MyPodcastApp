@@ -73,10 +73,6 @@ class AudioPlayer with ChangeNotifier {
     return _audioPlayer._currentEpisode;
   }
 
-  AssetsAudioPlayer get assetsAudioPlayer {
-    return _assetsAudioPlayer;
-  }
-
   /// make sure that things
   /// are intialized
   Future<void> intializeAudioPlayer() async {
@@ -136,6 +132,7 @@ class AudioPlayer with ChangeNotifier {
     notifyListeners();
   }
 
+  /// will pause the current episode
   Future<void> pauseEpisode() async {
     await _assetsAudioPlayer.pause();
     await AudioPlayerSharedPreferencesService()
@@ -143,7 +140,26 @@ class AudioPlayer with ChangeNotifier {
     notifyListeners();
   }
 
-  Stream<bool> get isPlaying {
-    return _assetsAudioPlayer.isPlaying;
+  /// the player will go rewind 10 seconds
+  Future<void> rewindTenSeconds() async {
+    _assetsAudioPlayer.seekBy(const Duration(seconds: -10));
   }
+
+  /// the player will go forward 10 seconds
+  Future<void> forwardTenSeconds() async {
+    _assetsAudioPlayer.seekBy(const Duration(seconds: 10));
+  }
+
+  Future<void> seek(Duration to) async {
+    await _assetsAudioPlayer.seek(to);
+    await AudioPlayerSharedPreferencesService()
+        .updateAudioToCache(_audioPlayer);
+  }
+
+  /// returns a stream of current playing information
+  Stream<RealtimePlayingInfos> get realtimePlayingInfos =>
+      _assetsAudioPlayer.realtimePlayingInfos;
+
+  /// returns a stream if something current being played
+  Stream<bool> get isPlaying => _assetsAudioPlayer.isPlaying;
 }
