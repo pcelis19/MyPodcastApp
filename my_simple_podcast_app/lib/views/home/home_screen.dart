@@ -98,7 +98,7 @@ class _HomePageState extends State<HomePage> {
   Widget topPodcastHeader(BuildContext context) {
     ThemeData themeData = Theme.of(context);
     return Text(
-      'Top Podcasts',
+      'Today\'s Top ',
       style: themeData.accentTextTheme.headline2,
     );
   }

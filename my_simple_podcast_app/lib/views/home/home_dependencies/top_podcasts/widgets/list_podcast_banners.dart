@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -19,14 +21,12 @@ class ListOfPodcastBanners extends StatefulWidget {
 }
 
 class _ListOfPodcastBannersState extends State<ListOfPodcastBanners> {
-  List<Widget> podcasts = [];
-  PartialPodcastInformation currentFocusPodcast;
+  final List<PodcastBanner> podcasts = [];
+  PodcastBanner currentFocusPodcast;
   final PageController _controller = PageController(viewportFraction: 0.8);
   @override
   void initState() {
     super.initState();
-    currentFocusPodcast = widget.listOfPodcasts[0];
-    currentFocusPodcast.giveFocus();
     for (PartialPodcastInformation podcastShow in widget.listOfPodcasts) {
       podcasts.add(
         PodcastBanner(
@@ -34,6 +34,7 @@ class _ListOfPodcastBannersState extends State<ListOfPodcastBanners> {
           maxHeight: widget.maxHeight,
         ),
       );
+      currentFocusPodcast = podcasts[0];
     }
   }
 
@@ -61,9 +62,9 @@ class _ListOfPodcastBannersState extends State<ListOfPodcastBanners> {
   }
 
   void updateFocusWidget(int index) {
-    PartialPodcastInformation previousFocusPodcast = currentFocusPodcast;
-    currentFocusPodcast = widget.listOfPodcasts[index];
-    previousFocusPodcast.removeFocus();
-    currentFocusPodcast.giveFocus();
+    PodcastBanner previousFocusPodcast = currentFocusPodcast;
+    currentFocusPodcast = podcasts[index];
+    // previousFocusPodcast.removeFocus();
+    // currentFocusPodcast.giveFocus();
   }
 }

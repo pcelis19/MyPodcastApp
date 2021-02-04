@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
 import 'package:my_simple_podcast_app/global_services/podcast_search/podcast_search_service.dart';
@@ -22,8 +23,8 @@ class TopPodcasts extends StatelessWidget {
               listOfPodcasts: snapshot.data,
               maxHeight: maxHeight,
             );
-          } else {
-            // TODO: remove this, and add a loading indicator
+          }
+          if (snapshot.hasError) {
             return Center(
               child: Column(
                 children: [
@@ -31,6 +32,11 @@ class TopPodcasts extends StatelessWidget {
                   Text('Failed Fetch Top Podcast :('),
                 ],
               ),
+            );
+          } else {
+            // TODO: remove this, and add a loading indicator
+            return Center(
+              child: CircularProgressIndicator(),
             );
           }
         },

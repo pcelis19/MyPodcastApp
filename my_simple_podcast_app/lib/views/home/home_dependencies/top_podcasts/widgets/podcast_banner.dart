@@ -1,7 +1,9 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_components/favorite_icon_button/favorite_icon_button.dart';
 import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
-import 'package:provider/provider.dart';
 
 class PodcastBanner extends StatefulWidget {
   const PodcastBanner({
@@ -13,17 +15,29 @@ class PodcastBanner extends StatefulWidget {
   final double maxHeight;
 
   @override
-  _PodcastBannerState createState() => _PodcastBannerState();
+  _PodcastBannerState createState() => _PodcastBannerState(
+        popUpHeight: maxHeight,
+        podcastShow: podcastShow,
+      );
 }
 
 class _PodcastBannerState extends State<PodcastBanner> {
-  double _popUpHeight;
-  PartialPodcastInformation _podcastShow;
+  final double popUpHeight;
+  final PartialPodcastInformation podcastShow;
+
+  _PodcastBannerState({
+    @required this.popUpHeight,
+    @required this.podcastShow,
+  });
   @override
   void initState() {
     super.initState();
-    _popUpHeight = widget.maxHeight * .75;
-    _podcastShow = widget.podcastShow;
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
@@ -37,44 +51,38 @@ class _PodcastBannerState extends State<PodcastBanner> {
         child: Stack(
           children: [
             background(context),
-            ChangeNotifierProvider.value(
-              value: _podcastShow,
-              builder: (context, child) {
-                return Selector<PartialPodcastInformation, bool>(
-                  selector: (_, _podcastShow) => _podcastShow.hasFocus,
-                  builder: (context, hasFocus, child) {
-                    return Column(
-                      children: [
-                        Expanded(
-                          child: Image.network(_podcastShow.imageUrl),
-                        ),
-                        AnimatedContainer(
-                          duration: Duration(milliseconds: 500),
-                          height: hasFocus ? _popUpHeight * .50 : 0,
-                          width: double.infinity,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                _podcastShow.podcastName,
-                                style: _themeData.primaryTextTheme.headline6,
-                              ),
-                              Text(
-                                _podcastShow.artistName,
-                                style: _themeData.primaryTextTheme.bodyText1,
-                              ),
-                              FavoriteIconButton(
-                                partialPodcastInformation: _podcastShow,
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    );
-                  },
-                );
-              },
-            ),
+            Column(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Image.network(podcastShow.imageUrl),
+                    ),
+                  ),
+                ),
+                spliter(),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        podcastShow.podcastName,
+                        style: _themeData.primaryTextTheme.headline6,
+                      ),
+                      Text(
+                        podcastShow.artistName,
+                        style: _themeData.primaryTextTheme.bodyText1,
+                      ),
+                      FavoriteIconButton(
+                        partialPodcastInformation: podcastShow,
+                      )
+                    ],
+                  ),
+                )
+              ],
+            )
           ],
         ),
       ),
@@ -86,7 +94,7 @@ class _PodcastBannerState extends State<PodcastBanner> {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
-        height: _popUpHeight,
+        height: popUpHeight,
         width: widget.maxHeight,
         decoration: BoxDecoration(
           color: themeData.accentColor,
@@ -99,6 +107,16 @@ class _PodcastBannerState extends State<PodcastBanner> {
             colors: [themeData.primaryColor, themeData.accentColor],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget spliter() {
+    return Center(
+      child: Container(
+        width: 48,
+        height: 1,
+        color: Colors.white,
       ),
     );
   }

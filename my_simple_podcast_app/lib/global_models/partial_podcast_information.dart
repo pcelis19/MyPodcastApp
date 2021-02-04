@@ -67,27 +67,6 @@ class PartialPodcastInformation with ChangeNotifier {
         podcastName = json[PODCAST_NAME],
         releaseDate = json[RELEASE_DATE];
 
-  /// whether the podcast has focus from an outside widget
-  bool _hasFocus = false;
-
-  /// returns whether a podcast has focus
-  bool get hasFocus {
-    return _hasFocus;
-  }
-
-  /// removes focus from the podcast
-  void removeFocus() {
-    _hasFocus = false;
-    notifyListeners();
-  }
-
-  /// gives the podcast focus
-
-  void giveFocus() {
-    _hasFocus = true;
-    notifyListeners();
-  }
-
   /// makes the object into a json file
   Map<String, dynamic> toJson() {
     return {
@@ -103,7 +82,7 @@ class PartialPodcastInformation with ChangeNotifier {
   }
 
   /// returns if the podcast is favorite from cache
-  bool get isFavorited {
+  bool isFavorited() {
     return FavoritePodcastsService().isPodcastFavorite(this);
   }
 
@@ -111,7 +90,7 @@ class PartialPodcastInformation with ChangeNotifier {
   /// it, or vice versa, i.e., if it is a favorite then it will
   /// remove it from favorites
   Future<void> toggleFavorites() async {
-    bool isFavorite = await isFavorited;
+    bool isFavorite = isFavorited();
     if (isFavorite) {
       log("_removedFromFavorites");
       _removeFromFavorites();

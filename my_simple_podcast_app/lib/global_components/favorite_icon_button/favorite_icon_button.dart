@@ -26,12 +26,14 @@ class _FavoriteIconButtonState extends State<FavoriteIconButton> {
         return Consumer<PartialPodcastInformation>(
           builder: (context, podcastShow, child) {
             if (loading) return _waitingIndicator();
+            bool isFavorited = podcastShow.isFavorited();
             return IconButton(
               icon: Icon(
-                  podcastShow.isFavorited
-                      ? Icons.favorite_rounded
-                      : Icons.favorite_outline_rounded,
-                  color: podcastShow.isFavorited ? Colors.red : Colors.grey),
+                isFavorited
+                    ? Icons.favorite_rounded
+                    : Icons.favorite_outline_rounded,
+                color: isFavorited ? Colors.red : Colors.grey,
+              ),
               onPressed: loading
                   ? null
                   : () async {

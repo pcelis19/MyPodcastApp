@@ -35,7 +35,14 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-              primarySwatch: Colors.indigo, accentColor: Colors.redAccent),
+            primarySwatch: Colors.indigo,
+            accentColor: Colors.redAccent,
+            pageTransitionsTheme: PageTransitionsTheme(
+              builders: {
+                TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+              },
+            ),
+          ),
           routes: {
             kDefault: (context) => HomePage(),
             kPodcastHomeScreen: (context) => PodcastHomeScreen(
