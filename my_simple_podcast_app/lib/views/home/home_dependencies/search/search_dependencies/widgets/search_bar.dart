@@ -69,6 +69,7 @@ class _SearchBarState extends State<SearchBar> {
                     icon: Icon(Icons.menu),
                     onPressed: () {
                       // TODO implement function
+                      Scaffold.of(context).openDrawer();
                     }),
               ),
               Expanded(

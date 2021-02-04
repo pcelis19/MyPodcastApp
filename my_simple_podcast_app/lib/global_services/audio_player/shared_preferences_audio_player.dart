@@ -51,7 +51,7 @@ class AudioPlayerSharedPreferencesService {
     // adding the mapping, to create jsonData
 
     String jsonString = jsonEncode(jsonData);
-    log("[SAVE_CACHED_DATA]$jsonString");
+    // log("[SAVE_CACHED_DATA]$jsonString");
     _sharedPreferences.setString(_keyForAudioPlayer, jsonString);
   }
 
@@ -67,7 +67,7 @@ class AudioPlayerSharedPreferencesService {
       return null;
     }
     String cachedData = _sharedPreferences.getString(_keyForAudioPlayer);
-    log("[LOAD_CACHED_DATA] $cachedData");
+    // log("[LOAD_CACHED_DATA] $cachedData");
     return jsonDecode(cachedData)[_keyForAudioPlayer];
   }
 }

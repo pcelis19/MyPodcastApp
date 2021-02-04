@@ -93,7 +93,7 @@ class AudioPlayer with ChangeNotifier {
 
   /// creates a AudioPlayer from json file
   AudioPlayer.fromJson(Map<String, dynamic> jsonData) {
-    log("[AudioPlayer.fromJson]: ${jsonEncode(jsonData)}");
+    // log("[AudioPlayer.fromJson]: ${jsonEncode(jsonData)}");
 
     _audioPlayer._currentEpisode = Episode.fromJson(jsonData[kCurrentEpisode]);
 
@@ -109,7 +109,7 @@ class AudioPlayer with ChangeNotifier {
       kCurrentEpisode: currentEpisode.toJson(),
       kCurrentLocation: _assetsAudioPlayer.currentPosition.value.inSeconds,
     };
-    log("[AudioPlayer.toJson]: ${jsonEncode(jsonData.toString())}");
+    // log("[AudioPlayer.toJson]: ${jsonEncode(jsonData.toString())}");
 
     return jsonData;
   }

@@ -38,6 +38,7 @@ class _SearchResultsState extends State<SearchResults> {
               child: DraggableScrollableSheet(
                 expand: false,
                 builder: (context, scrollController) {
+                  //todo refactor this, should be more seemless than, should be not be assigning outside of class
                   return searchResults(
                       searchTermProivder.searchTerm, scrollController);
                 },
@@ -88,6 +89,12 @@ class _SearchResultsState extends State<SearchResults> {
                     ),
                   );
                 }),
+          );
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text(
+              snapshot.error.toString(),
+            ),
           );
         } else {
           return Center(child: Text("Waiting..."));

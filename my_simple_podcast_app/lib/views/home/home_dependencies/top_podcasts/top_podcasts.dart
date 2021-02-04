@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
 import 'package:my_simple_podcast_app/global_services/podcast_search/podcast_search_service.dart';
+import 'package:my_simple_podcast_app/global_services/user_settings.dart';
 import 'package:my_simple_podcast_app/global_utils/size_config.dart';
 
 import 'widgets/list_podcast_banners.dart';
@@ -11,6 +12,21 @@ class TopPodcasts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: UserSettings().displayTodaysTopPodcastStream,
+      builder: (builder, snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data)
+            return getDefault(context);
+          else
+            return Container();
+        } else
+          return getDefault(context);
+      },
+    );
+  }
+
+  Widget getDefault(BuildContext context) {
     SizeConfig().init(context);
     double maxHeight = SizeConfig.safeBlockVertical * 50;
     return Container(

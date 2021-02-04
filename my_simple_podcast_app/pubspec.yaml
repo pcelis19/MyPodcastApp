@@ -30,6 +30,7 @@ dependencies:
   smooth_page_indicator: ^0.2.0
   assets_audio_player: ^2.0.10
   sprintf: "^4.0.0"
+  rxdart: ^0.24.1
 
 dev_dependencies:
   flutter_test:
