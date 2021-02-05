@@ -18,15 +18,9 @@ class AudioPlayerWidget extends StatelessWidget {
 
         String title = 'LET\'S START LISTENING!';
 
-        Widget leading = Container(
-          height: 0,
-          width: 0,
-        );
+        Widget leading = Icon(Icons.error_outline);
 
-        Widget trailing = Container(
-          height: 0,
-          width: 0,
-        );
+        Widget trailing = Icon(Icons.error_outline);
 
         if (audioPlayer.currentEpisode != null) {
           leading = Image.network(

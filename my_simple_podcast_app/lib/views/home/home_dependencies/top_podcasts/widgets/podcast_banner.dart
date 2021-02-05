@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_components/favorite_icon_button/favorite_icon_button.dart';
@@ -91,6 +92,7 @@ class _PodcastBannerState extends State<PodcastBanner> {
 
   Widget background(BuildContext context) {
     ThemeData themeData = Theme.of(context);
+    log("[COLOR]: \nprimary: ${themeData.primaryColor.toString()}\nsecondary:${themeData.accentColor.toString()} ");
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
