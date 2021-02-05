@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
 import 'package:my_simple_podcast_app/global_services/favorite_podcasts/favorites_podcasts_service.dart';
 import 'package:my_simple_podcast_app/global_services/user_settings.dart';
-import 'package:my_simple_podcast_app/global_utils/route_names.dart';
+import 'package:my_simple_podcast_app/global_constants/route_names.dart';
 import 'package:my_simple_podcast_app/global_utils/size_config.dart';
 import 'package:provider/provider.dart';
 
@@ -45,8 +45,7 @@ class FavoritePodcasts extends StatelessWidget {
                           elevation: 5,
                           child: OutlineButton(
                             onPressed: () {
-                              Navigator.of(context).pushNamed(
-                                  kPodcastHomeScreen,
+                              Navigator.of(context).pushNamed(kPodcastHomeView,
                                   arguments: podcast);
                             },
                             child: ListTile(

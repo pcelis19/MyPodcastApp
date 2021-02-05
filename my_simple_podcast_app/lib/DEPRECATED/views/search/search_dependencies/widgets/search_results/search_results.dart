@@ -7,7 +7,7 @@ import 'package:my_simple_podcast_app/global_components/pill_button.dart';
 import 'package:my_simple_podcast_app/global_components/podcast_show_tile/widgets/cover_art_widget/cover_art_widget.dart';
 import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
 import 'package:my_simple_podcast_app/global_services/podcast_search/podcast_search_service.dart';
-import 'package:my_simple_podcast_app/global_utils/route_names.dart';
+import 'package:my_simple_podcast_app/global_constants/route_names.dart';
 
 import 'package:provider/provider.dart';
 
@@ -106,7 +106,7 @@ class _SearchResultsState extends State<SearchResults> {
                       padding: const EdgeInsets.all(4.0),
                       child: ListTile(
                         onTap: () => Navigator.pushNamed(
-                            context, kPodcastHomeScreen,
+                            context, kPodcastHomeView,
                             arguments: podcast),
                         leading: CoverArt(imageUrl: podcast.imageUrl),
                         title: Text(podcast.podcastName),

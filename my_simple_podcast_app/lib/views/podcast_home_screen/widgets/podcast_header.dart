@@ -16,7 +16,9 @@ class PodcastHeader extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: Image.network(partialPodcastInformation.imageUrl),
+          child: Hero(
+              tag: partialPodcastInformation.imageUrl,
+              child: Image.network(partialPodcastInformation.imageUrl)),
         ),
         Expanded(
           flex: 2,

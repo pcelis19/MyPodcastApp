@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_components/favorite_icon_button/favorite_icon_button.dart';
 import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
+import 'package:my_simple_podcast_app/global_constants/route_names.dart';
 
 class PodcastBanner extends StatefulWidget {
   const PodcastBanner({
@@ -49,42 +50,49 @@ class _PodcastBannerState extends State<PodcastBanner> {
           maxHeight: widget.maxHeight, maxWidth: widget.maxHeight),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Stack(
-          children: [
-            background(context),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: Center(
-                      child: Image.network(podcastShow.imageUrl),
-                    ),
-                  ),
-                  spliter(),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          podcastShow.podcastName,
-                          style: _themeData.primaryTextTheme.headline6,
+        child: FlatButton(
+          onPressed: () => Navigator.of(context)
+              .pushNamed(kPodcastHomeView, arguments: podcastShow),
+          child: Stack(
+            children: [
+              background(context),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Center(
+                        child: Hero(
+                          tag: podcastShow.imageUrl,
+                          child: Image.network(podcastShow.imageUrl),
                         ),
-                        Text(
-                          podcastShow.artistName,
-                          style: _themeData.primaryTextTheme.bodyText1,
-                        ),
-                        FavoriteIconButton(
-                          partialPodcastInformation: podcastShow,
-                        )
-                      ],
+                      ),
                     ),
-                  )
-                ],
-              ),
-            )
-          ],
+                    spliter(),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            podcastShow.podcastName,
+                            style: _themeData.primaryTextTheme.headline6,
+                          ),
+                          Text(
+                            podcastShow.artistName,
+                            style: _themeData.primaryTextTheme.bodyText1,
+                          ),
+                          FavoriteIconButton(
+                            partialPodcastInformation: podcastShow,
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

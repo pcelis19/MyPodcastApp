@@ -116,6 +116,7 @@ class AudioPlayer with ChangeNotifier {
 
   /// plays the next episode
   Future<void> playNextEpisode(Episode nextEpisode) async {
+    if (currentEpisode == nextEpisode) return;
     Audio audio = _getAudio(nextEpisode);
     await _assetsAudioPlayer.open(audio);
     _audioPlayer._currentEpisode = nextEpisode;

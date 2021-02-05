@@ -39,4 +39,7 @@ class Episode {
       PARTIAL_PODCAST_INFORMATION: partialPodcastInformation.toJson()
     };
   }
+
+  bool operator ==(Object object) =>
+      object is Episode && this.audioSourceUrl == object.audioSourceUrl;
 }

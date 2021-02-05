@@ -2,8 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_services/user_settings.dart';
-import 'package:my_simple_podcast_app/global_utils/route_names.dart';
+import 'package:my_simple_podcast_app/global_constants/route_names.dart';
 import 'package:my_simple_podcast_app/views/home/home_screen.dart';
+import 'package:my_simple_podcast_app/views/player_home_screen/player_home_screen.dart';
 import 'package:my_simple_podcast_app/views/podcast_home_screen/podcast_home_screen.dart';
 import 'package:my_simple_podcast_app/views/settings/settings.dart';
 import 'package:provider/provider.dart';
@@ -56,14 +57,18 @@ class MyApp extends StatelessWidget {
               builder: (context) => HomePage(),
             );
 
-          case kPodcastHomeScreen:
+          case kPodcastHomeView:
             return MaterialPageRoute(
               builder: (context) => PodcastHomeScreen(
                 partialPodcastInformation:
                     (settings.arguments as PartialPodcastInformation),
               ),
             );
-          case kSettings:
+          case kAudioPlayerView:
+            return MaterialPageRoute(
+              builder: (context) => PlayerHomeScreen(),
+            );
+          case kSettingsView:
             return MaterialPageRoute(
               builder: (context) => UserSettingsPage(),
             );

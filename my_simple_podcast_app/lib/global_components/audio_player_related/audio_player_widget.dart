@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:my_simple_podcast_app/global_constants/route_names.dart';
 import 'package:my_simple_podcast_app/global_services/audio_player/audio_player.dart';
 import 'package:my_simple_podcast_app/global_utils/size_config.dart';
 import 'package:my_simple_podcast_app/views/player_home_screen/player_home_screen.dart';
-import 'package:my_simple_podcast_app/views/podcast_home_screen/podcast_home_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'play_pause_widget.dart';
@@ -30,8 +30,9 @@ class AudioPlayerWidget extends StatelessWidget {
         }
 
         return FlatButton(
-          onPressed: () => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => PlayerHomeScreen())),
+          onPressed: audioPlayer.currentEpisode != null
+              ? () => Navigator.of(context).pushNamed(kAudioPlayerView)
+              : null,
           child: Container(
             height: SizeConfig.screenHeight * .11,
             width: double.infinity,

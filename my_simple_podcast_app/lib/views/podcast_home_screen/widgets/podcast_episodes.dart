@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_components/favorite_icon_button/favorite_icon_button.dart';
 import 'package:my_simple_podcast_app/global_components/podcast_show_tile/widgets/cover_art_widget/cover_art_widget.dart';
+import 'package:my_simple_podcast_app/global_constants/route_names.dart';
 import 'package:my_simple_podcast_app/global_models/episode.dart';
 import 'package:my_simple_podcast_app/global_models/full_podcast_information.dart';
 import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
 import 'package:my_simple_podcast_app/global_services/audio_player/audio_player.dart';
+import 'package:my_simple_podcast_app/global_services/audio_player/audio_player_constants.dart';
 import 'package:my_simple_podcast_app/global_services/rss_parser.dart';
 
 class PodcastEpisodes extends StatelessWidget {
@@ -52,7 +54,11 @@ class PodcastEpisodes extends StatelessWidget {
                     return Card(
                       elevation: 4,
                       child: ListTile(
-                        onTap: () => AudioPlayer().playNextEpisode(episode),
+                        onTap: () async {
+                          await AudioPlayer().playNextEpisode(episode);
+
+                          Navigator.of(context).pushNamed(kAudioPlayerView);
+                        },
                         leading: CoverArt(
                             imageUrl:
                                 episode.partialPodcastInformation.imageUrl),

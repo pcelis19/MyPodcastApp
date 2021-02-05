@@ -22,8 +22,12 @@ class PlayerHomeScreen extends StatelessWidget {
               flex: 4,
               child: Padding(
                 padding: const EdgeInsets.all(24.0),
-                child: Image.network(audioPlayer
-                    .currentEpisode.partialPodcastInformation.imageUrl),
+                child: Hero(
+                  tag: audioPlayer
+                      .currentEpisode.partialPodcastInformation.imageUrl,
+                  child: Image.network(audioPlayer
+                      .currentEpisode.partialPodcastInformation.imageUrl),
+                ),
               ),
             ),
             Expanded(
