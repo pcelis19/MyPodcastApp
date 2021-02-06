@@ -5,24 +5,14 @@ import 'package:my_simple_podcast_app/global_utils/size_config.dart';
 import 'widgets/cover_art_widget/cover_art_widget.dart';
 import 'widgets/show_information/show_information_widget.dart';
 
+/// Make sure to wrap this in a constrainted box, or else it may throw
+/// UI error
 class PodcastShowTile extends StatelessWidget {
-  const PodcastShowTile(
-      {@required this.partialPodcastInformation, @required this.maxTileSize});
+  const PodcastShowTile({@required this.partialPodcastInformation});
   final PartialPodcastInformation partialPodcastInformation;
-  final double maxTileSize;
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
-    return decoration(
-      CoverArt(imageUrl: partialPodcastInformation.imageUrl),
-      ShowInformation(podcastShow: partialPodcastInformation),
-    );
-  }
-
-  /// This is the decoration applied to both widgets.
-  Widget decoration(CoverArt coverArt, ShowInformation showInformation) {
-    return Container(
-      height: SizeConfig.screenHeight * maxTileSize,
+    return Expanded(
       child: Card(
         elevation: 5.0,
         child: Padding(
