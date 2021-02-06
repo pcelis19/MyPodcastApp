@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:my_simple_podcast_app/global_components/audio_player_related/audio_player_widget.dart';
-import 'package:my_simple_podcast_app/global_services/user_settings.dart';
-import 'package:my_simple_podcast_app/views/home/home_dependencies/search/search_dependencies/providers/search_term_provider.dart';
-import 'package:my_simple_podcast_app/views/home/home_dependencies/search/search_dependencies/widgets/search_bar.dart';
+import 'package:my_simple_podcast_app/components/audio_player_bar.dart';
+import 'package:my_simple_podcast_app/components/list_of_favorite_podcasts.dart';
+import 'package:my_simple_podcast_app/components/search_bar.dart';
+import 'package:my_simple_podcast_app/components/top_podcasts.dart';
+import 'package:my_simple_podcast_app/providers/search_term_provider.dart';
+import 'package:my_simple_podcast_app/services/user_settings.dart';
 import 'package:provider/provider.dart';
-
-import 'home/home_dependencies/favorite_podcasts/favorite_podcasts.dart';
-import 'home/home_dependencies/top_podcasts/top_podcasts.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -52,7 +51,7 @@ class _HomePageState extends State<HomePage> {
                             topPodcastHeader(context),
                             TopPodcasts(),
                             yourFavoritesHeader(context),
-                            FavoritePodcasts()
+                            ListOfFavoritePodcasts()
                           ],
                         ),
                       ),
@@ -61,7 +60,7 @@ class _HomePageState extends State<HomePage> {
                       alignment: Alignment.bottomCenter,
                       child: Container(
                         color: Colors.white,
-                        child: AudioPlayerWidget(),
+                        child: AudioPlayerBar(),
                       ),
                     )
                   ],

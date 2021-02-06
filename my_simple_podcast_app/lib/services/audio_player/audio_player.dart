@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:my_simple_podcast_app/models/episode.dart';
 import 'package:rxdart/rxdart.dart';
@@ -82,6 +83,7 @@ class AudioPlayer {
 
   /// creates a AudioPlayer from json file
   AudioPlayer.fromJson(Map<String, dynamic> jsonData) {
+    log(jsonData.toString());
     Episode loadedEpisode = Episode.fromJson(jsonData[kCurrentEpisode]);
     _currentEpisodeController.sink.add(loadedEpisode);
     Audio audio = _getAudio(loadedEpisode);

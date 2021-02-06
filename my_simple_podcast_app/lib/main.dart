@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_simple_podcast_app/views/home_screen.dart';
-import 'package:my_simple_podcast_app/views/player_home_screen.dart';
-import 'package:my_simple_podcast_app/views/podcast_home_screen.dart';
 import 'package:my_simple_podcast_app/views/settings.dart';
 import 'package:provider/provider.dart';
 
@@ -10,6 +7,9 @@ import 'models/partial_podcast_information.dart';
 import 'services/audio_player/audio_player.dart';
 import 'services/favorite_podcasts/favorites_podcasts_service.dart';
 import 'services/user_settings.dart';
+import 'views/audio_player_view.dart';
+import 'views/home.dart';
+import 'views/podcast_show_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

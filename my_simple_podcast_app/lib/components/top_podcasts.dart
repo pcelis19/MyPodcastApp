@@ -4,7 +4,7 @@ import 'package:my_simple_podcast_app/services/podcast_search/podcast_search_ser
 import 'package:my_simple_podcast_app/services/user_settings.dart';
 import 'package:provider/provider.dart';
 
-import 'list_podcast_banners.dart';
+import 'list_of_podcast_banners.dart';
 
 class TopPodcasts extends StatelessWidget {
   final UserSettings _userSetting = UserSettings();

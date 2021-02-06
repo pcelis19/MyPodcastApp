@@ -10,8 +10,8 @@ import 'package:my_simple_podcast_app/widgets/cover_art_widget.dart';
 import 'package:my_simple_podcast_app/widgets/favorite_icon_button.dart';
 
 /// returns the list of episodes for a given podacst
-class PodcastEpisodes extends StatelessWidget {
-  const PodcastEpisodes({
+class ListOfEpisodes extends StatelessWidget {
+  const ListOfEpisodes({
     Key key,
     @required this.partialPodcastInformation,
   }) : super(key: key);

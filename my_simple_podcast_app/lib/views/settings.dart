@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_simple_podcast_app/global_services/user_settings.dart';
+import 'package:my_simple_podcast_app/services/user_settings.dart';
 
 class UserSettingsPage extends StatelessWidget {
   @override

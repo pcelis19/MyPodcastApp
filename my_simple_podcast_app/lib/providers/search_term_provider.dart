@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:my_simple_podcast_app/global_utils/validators.dart';
+import 'package:my_simple_podcast_app/utils/validators.dart';
 
 class SearchTermProvider extends ChangeNotifier {
   TextEditingController searchTextEditingController = TextEditingController();

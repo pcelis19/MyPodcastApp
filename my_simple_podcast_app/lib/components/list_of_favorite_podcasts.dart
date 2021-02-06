@@ -5,7 +5,7 @@ import 'package:my_simple_podcast_app/services/favorite_podcasts/favorites_podca
 import 'package:my_simple_podcast_app/services/user_settings.dart';
 import 'package:provider/provider.dart';
 
-class FavoritePodcasts extends StatelessWidget {
+class ListOfFavoritePodcasts extends StatelessWidget {
   final UserSettings _userSettings = UserSettings();
 
   @override

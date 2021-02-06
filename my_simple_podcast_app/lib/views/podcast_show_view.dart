@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
-
-import '../components/podcast_episodes.dart';
-import '../components/podcast_header.dart';
+import 'package:my_simple_podcast_app/components/list_of_episodes.dart';
+import 'package:my_simple_podcast_app/models/partial_podcast_information.dart';
+import 'package:my_simple_podcast_app/widgets/podcast_header.dart';
 
 class PodcastHomeScreen extends StatelessWidget {
   final PartialPodcastInformation partialPodcastInformation;
@@ -46,7 +45,7 @@ class PodcastHomeScreen extends StatelessWidget {
                   flex: 3,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: PodcastEpisodes(
+                    child: ListOfEpisodes(
                         partialPodcastInformation: partialPodcastInformation),
                   ),
                 ),

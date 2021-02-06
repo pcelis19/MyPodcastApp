@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/services/audio_player/audio_player.dart';
 
-class PlayPauseButton extends StatefulWidget {
-  PlayPauseButton({Key key}) : super(key: key);
+class PlayPauseButton extends StatelessWidget {
+  const PlayPauseButton({Key key}) : super(key: key);
 
-  @override
-  _PlayPauseButtonState createState() => _PlayPauseButtonState();
-}
-
-class _PlayPauseButtonState extends State<PlayPauseButton> {
-  final AudioPlayer _audioPlayer = AudioPlayer();
   @override
   Widget build(BuildContext context) {
+    final AudioPlayer _audioPlayer = AudioPlayer();
     return StreamBuilder<bool>(
       stream: _audioPlayer.isPlaying,
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
