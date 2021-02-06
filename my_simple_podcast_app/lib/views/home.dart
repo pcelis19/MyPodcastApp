@@ -5,6 +5,7 @@ import 'package:my_simple_podcast_app/components/search_bar.dart';
 import 'package:my_simple_podcast_app/components/top_podcasts.dart';
 import 'package:my_simple_podcast_app/providers/search_term_provider.dart';
 import 'package:my_simple_podcast_app/services/user_settings.dart';
+import 'package:my_simple_podcast_app/utils/size_config.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -27,6 +28,7 @@ class _HomePageState extends State<HomePage> {
      */
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     ThemeData themeData = Theme.of(context);
     return ChangeNotifierProvider<SearchTermProvider>.value(
       value: _searchTermProvider,
@@ -59,6 +61,7 @@ class _HomePageState extends State<HomePage> {
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Container(
+                        height: SizeConfig.screenHeight * .1,
                         color: Colors.white,
                         child: AudioPlayerBar(),
                       ),

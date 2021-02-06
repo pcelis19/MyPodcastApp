@@ -17,8 +17,8 @@ class AudioPlayerBar extends StatelessWidget {
               if (!snapshot.hasData) {
                 return ListTile(
                   leading: Icon(
-                    Icons.error,
-                    color: Colors.yellowAccent,
+                    Icons.error_outline,
+                    color: Colors.red,
                   ),
                   title: const Text("Let\'s start listening!"),
                 );
