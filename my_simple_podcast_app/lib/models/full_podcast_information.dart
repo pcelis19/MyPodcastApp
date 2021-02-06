@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:my_simple_podcast_app/global_models/episode.dart';
-import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
+
+import 'episode.dart';
+import 'partial_podcast_information.dart';
 
 /// unlike [PartialPodcastInformation], [FullPodcastInformation] has all the information
 /// of a podcast show and, therefore a lot more data members

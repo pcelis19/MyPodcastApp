@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
-import 'package:my_simple_podcast_app/global_services/favorite_podcasts/favorites_podcasts_service.dart';
+import 'package:my_simple_podcast_app/services/favorite_podcasts/favorites_podcasts_service.dart';
 
 // constants for the following name fields
 

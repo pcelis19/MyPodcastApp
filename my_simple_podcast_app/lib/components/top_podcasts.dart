@@ -1,9 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
-import 'package:my_simple_podcast_app/global_services/podcast_search/podcast_search_service.dart';
-import 'package:my_simple_podcast_app/global_services/user_settings.dart';
-import 'package:my_simple_podcast_app/global_utils/size_config.dart';
 import 'package:my_simple_podcast_app/models/partial_podcast_information.dart';
 import 'package:my_simple_podcast_app/services/podcast_search/podcast_search_service.dart';
 import 'package:my_simple_podcast_app/services/user_settings.dart';

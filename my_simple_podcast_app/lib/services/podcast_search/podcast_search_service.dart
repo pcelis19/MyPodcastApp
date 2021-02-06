@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
+import 'package:my_simple_podcast_app/models/partial_podcast_information.dart';
 import 'package:podcast_search/podcast_search.dart' as PodcastSearch;
 
 import 'shared_preferences_podcast_search.dart';
@@ -28,7 +28,7 @@ class PodcastSearchService {
         limit: LIMIT, country: PodcastSearch.Country.UNITED_STATES);
     List<PartialPodcastInformation> podcasts = [];
     for (PodcastSearch.Item result in searchResult.items) {
-      List<String> genres = List<String>();
+      List<String> genres = <String>[];
       result.genre.forEach((element) {
         genres.add(element.name.toLowerCase());
       });

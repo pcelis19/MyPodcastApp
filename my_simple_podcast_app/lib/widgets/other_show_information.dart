@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_simple_podcast_app/global_constants/decorations.dart';
-import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
+import 'package:my_simple_podcast_app/constants/decorations.dart';
+import 'package:my_simple_podcast_app/models/partial_podcast_information.dart';
 
 class OtherShowInformation extends StatelessWidget {
   const OtherShowInformation(

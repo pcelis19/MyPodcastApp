@@ -1,8 +1,6 @@
-import 'dart:convert';
-import 'dart:developer';
+import 'package:my_simple_podcast_app/utils/converters.dart';
 
-import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
-import 'package:my_simple_podcast_app/global_utils/converters.dart';
+import 'partial_podcast_information.dart';
 
 const String EPISODE_NAME = "episodeName";
 const String EPISODE_DURATION = "episodeDuration";

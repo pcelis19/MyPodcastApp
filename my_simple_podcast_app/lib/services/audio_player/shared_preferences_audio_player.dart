@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:my_simple_podcast_app/global_services/audio_player/audio_player.dart';
-import 'package:my_simple_podcast_app/global_services/audio_player/audio_player_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'audio_player.dart';
+import 'audio_player_constants.dart';
 
 class AudioPlayerSharedPreferencesService {
   //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$

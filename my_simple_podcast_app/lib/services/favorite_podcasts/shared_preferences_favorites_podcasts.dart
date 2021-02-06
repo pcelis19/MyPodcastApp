@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
+import 'package:my_simple_podcast_app/models/partial_podcast_information.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FavoritePodcastsSharedPreferencesService {
