@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
 import 'package:my_simple_podcast_app/global_utils/size_config.dart';
 
-import 'widgets/cover_art_widget/cover_art_widget.dart';
-import 'widgets/show_information/show_information_widget.dart';
+import 'podcast_show_tile/widgets/cover_art_widget/cover_art_widget.dart';
+import 'show_information_widget.dart';
 
 /// Make sure to wrap this in a constrainted box, or else it may throw
 /// UI error
 class PodcastShowTile extends StatelessWidget {
-  const PodcastShowTile({@required this.partialPodcastInformation});
-  final PartialPodcastInformation partialPodcastInformation;
+  const PodcastShowTile({this.show});
+  final Show show;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -21,11 +21,11 @@ class PodcastShowTile extends StatelessWidget {
             children: [
               Expanded(
                 flex: 1,
-                child: coverArt,
+                child: CoverArt(imageUrl: partialPodcastInformation.imageUrl),
               ),
               Expanded(
                 flex: 4,
-                child: showInformation,
+                child: ShowInformation(podcastShow: null),
               )
             ],
           ),

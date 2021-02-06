@@ -5,7 +5,7 @@ import 'package:my_simple_podcast_app/global_services/podcast_search/podcast_sea
 import 'package:my_simple_podcast_app/global_services/user_settings.dart';
 import 'package:my_simple_podcast_app/global_utils/size_config.dart';
 
-import 'widgets/list_podcast_banners.dart';
+import 'list_podcast_banners.dart';
 
 class TopPodcasts extends StatelessWidget {
   const TopPodcasts({Key key}) : super(key: key);

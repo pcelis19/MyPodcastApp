@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import 'podcast_banner.dart';
+import '../widgets/podcast_banner.dart';
 
 class ListOfPodcastBanners extends StatefulWidget {
   const ListOfPodcastBanners({

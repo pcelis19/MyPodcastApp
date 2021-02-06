@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_constants/route_names.dart';
 import 'package:my_simple_podcast_app/global_services/audio_player/audio_player.dart';
 import 'package:my_simple_podcast_app/global_utils/size_config.dart';
-import 'package:my_simple_podcast_app/views/player_home_screen/player_home_screen.dart';
+import 'package:my_simple_podcast_app/views/player_home_screen.dart';
 import 'package:provider/provider.dart';
 
-import 'play_pause_widget.dart';
+import '../widgets/play_pause_widget.dart';
 
 class AudioPlayerWidget extends StatelessWidget {
   const AudioPlayerWidget({Key key}) : super(key: key);

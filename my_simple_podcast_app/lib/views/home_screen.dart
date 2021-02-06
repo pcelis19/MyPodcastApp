@@ -5,8 +5,8 @@ import 'package:my_simple_podcast_app/views/home/home_dependencies/search/search
 import 'package:my_simple_podcast_app/views/home/home_dependencies/search/search_dependencies/widgets/search_bar.dart';
 import 'package:provider/provider.dart';
 
-import 'home_dependencies/favorite_podcasts/favorite_podcasts.dart';
-import 'home_dependencies/top_podcasts/top_podcasts.dart';
+import 'home/home_dependencies/favorite_podcasts/favorite_podcasts.dart';
+import 'home/home_dependencies/top_podcasts/top_podcasts.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);

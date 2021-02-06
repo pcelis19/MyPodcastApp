@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
 
-import 'widgets/podcast_episodes.dart';
-import 'widgets/podcast_header.dart';
+import '../components/podcast_episodes.dart';
+import '../components/podcast_header.dart';
 
 class PodcastHomeScreen extends StatelessWidget {
   final PartialPodcastInformation partialPodcastInformation;
