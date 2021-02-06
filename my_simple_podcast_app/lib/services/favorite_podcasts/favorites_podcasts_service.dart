@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
-import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
+import 'package:my_simple_podcast_app/models/partial_podcast_information.dart';
 
 import 'shared_preferences_favorites_podcasts.dart';
 
