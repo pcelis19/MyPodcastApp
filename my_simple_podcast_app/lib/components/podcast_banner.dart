@@ -1,53 +1,21 @@
-import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:my_simple_podcast_app/global_components/favorite_icon_button/favorite_icon_button.dart';
-import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
-import 'package:my_simple_podcast_app/global_constants/route_names.dart';
+import 'package:my_simple_podcast_app/constants/route_names.dart';
+import 'package:my_simple_podcast_app/models/partial_podcast_information.dart';
+import 'package:my_simple_podcast_app/widgets/favorite_icon_button.dart';
 
-class PodcastBanner extends StatefulWidget {
+class PodcastBanner extends StatelessWidget {
   const PodcastBanner({
     Key key,
     @required this.podcastShow,
-    @required this.maxHeight,
   }) : super(key: key);
   final PartialPodcastInformation podcastShow;
-  final double maxHeight;
-
-  @override
-  _PodcastBannerState createState() => _PodcastBannerState(
-        popUpHeight: maxHeight,
-        podcastShow: podcastShow,
-      );
-}
-
-class _PodcastBannerState extends State<PodcastBanner> {
-  final double popUpHeight;
-  final PartialPodcastInformation podcastShow;
-
-  _PodcastBannerState({
-    @required this.popUpHeight,
-    @required this.podcastShow,
-  });
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     ThemeData _themeData = Theme.of(context);
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-          maxHeight: widget.maxHeight, maxWidth: widget.maxHeight),
+    return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: FlatButton(
@@ -104,8 +72,6 @@ class _PodcastBannerState extends State<PodcastBanner> {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
-        height: popUpHeight,
-        width: widget.maxHeight,
         decoration: BoxDecoration(
           color: themeData.accentColor,
           borderRadius: BorderRadius.vertical(

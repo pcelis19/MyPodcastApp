@@ -1,51 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:my_simple_podcast_app/global_constants/route_names.dart';
-import 'package:my_simple_podcast_app/global_services/audio_player/audio_player.dart';
-import 'package:my_simple_podcast_app/global_utils/size_config.dart';
-import 'package:my_simple_podcast_app/views/player_home_screen.dart';
-import 'package:provider/provider.dart';
+import 'package:my_simple_podcast_app/constants/hero_identifiers.dart';
+import 'package:my_simple_podcast_app/constants/route_names.dart';
+import 'package:my_simple_podcast_app/models/episode.dart';
+import 'package:my_simple_podcast_app/services/audio_player/audio_player.dart';
+import 'package:my_simple_podcast_app/widgets/play_pause_widget.dart';
 
-import '../widgets/play_pause_widget.dart';
-
-class AudioPlayerWidget extends StatelessWidget {
-  const AudioPlayerWidget({Key key}) : super(key: key);
-
+class AudioPlayerBar extends StatelessWidget {
+  final AudioPlayer _audioPlayer = AudioPlayer();
   @override
   Widget build(BuildContext context) {
-    return Consumer<AudioPlayer>(
-      builder: (context, audioPlayer, child) {
-        SizeConfig().init(context);
-
-        String title = 'LET\'S START LISTENING!';
-
-        Widget leading = Icon(Icons.error_outline);
-
-        Widget trailing = Icon(Icons.error_outline);
-
-        if (audioPlayer.currentEpisode != null) {
-          leading = Image.network(
-              audioPlayer.currentEpisode.partialPodcastInformation.imageUrl);
-          title = audioPlayer.currentEpisode.episodeName;
-          trailing = PlayPauseButton();
-        }
-
-        return FlatButton(
-          onPressed: audioPlayer.currentEpisode != null
-              ? () => Navigator.of(context).pushNamed(kAudioPlayerView)
-              : null,
-          child: Container(
-            height: SizeConfig.screenHeight * .11,
-            width: double.infinity,
-            child: Center(
-              child: ListTile(
-                leading: leading,
-                title: Text(title),
-                trailing: trailing,
-              ),
-            ),
-          ),
-        );
-      },
+    return Expanded(
+      child: Center(
+        child: StreamBuilder<Episode>(
+            stream: _audioPlayer.currentEpisode,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return ListTile(
+                  leading: Icon(
+                    Icons.error,
+                    color: Colors.yellowAccent,
+                  ),
+                  title: const Text("Let\'s start listening!"),
+                );
+              } else {
+                Episode currentEpisode = snapshot.data;
+                return FlatButton(
+                  onPressed: () =>
+                      Navigator.of(context).pushNamed(kAudioPlayerView),
+                  child: ListTile(
+                    leading: Image.network(
+                        currentEpisode.partialPodcastInformation.imageUrl),
+                    title: Text(currentEpisode.episodeName),
+                    trailing: Hero(
+                        tag: kHeroPlayPauseButton, child: PlayPauseButton()),
+                  ),
+                );
+              }
+            }),
+      ),
     );
   }
 }

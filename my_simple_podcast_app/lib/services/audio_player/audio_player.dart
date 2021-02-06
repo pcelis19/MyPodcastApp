@@ -1,14 +1,13 @@
-import 'dart:convert';
-import 'dart:developer';
-
+import 'dart:async';
 import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:my_simple_podcast_app/global_models/episode.dart';
-import 'package:my_simple_podcast_app/global_services/audio_player/audio_player_constants.dart';
-import 'package:my_simple_podcast_app/global_services/audio_player/shared_preferences_audio_player.dart';
+import 'package:my_simple_podcast_app/models/episode.dart';
+import 'package:rxdart/rxdart.dart';
+
+import 'audio_player_constants.dart';
+import 'shared_preferences_audio_player.dart';
 
 /// [AudioPlayer] is a Singleton object
-class AudioPlayer with ChangeNotifier {
+class AudioPlayer {
   //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
   //$$$$$$$$$$ Members $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
   //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -20,33 +19,14 @@ class AudioPlayer with ChangeNotifier {
   static final AssetsAudioPlayer _assetsAudioPlayer = AssetsAudioPlayer();
 
   /// keeps track of the current audio being played
-  Episode _currentEpisode;
+  final StreamController<Episode> _currentEpisodeController =
+      BehaviorSubject<Episode>();
 
   /// checks if the Audio Player has been loaded
   bool _loadedAudioPlayer = false;
 
-  //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-  //$$$$$$$$$$ Private Functions $$$$$$$$$$$$$$$$$$$$$$
-  //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-  Future<void> _loadEpisode(Audio audio, Duration duration) async {
-    await _assetsAudioPlayer.open(audio);
-    _assetsAudioPlayer.seek(duration);
-
-    _assetsAudioPlayer.pause();
-  }
-
-  Audio _getAudio(Episode episode) {
-    return Audio.network(
-      episode.audioSourceUrl,
-      metas: Metas(
-          title: episode.episodeName,
-          artist: episode.partialPodcastInformation.artistName,
-          album: episode.partialPodcastInformation.podcastName,
-          image:
-              MetasImage.network(episode.partialPodcastInformation.imageUrl)),
-    );
-  }
+  /// current episode updated by the stream controller
+  Episode _currentEpisode;
 
   //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
   //$$$$$$$$$$ Public Functions $$$$$$$$$$$$$$$$$$$$$$$
@@ -65,13 +45,22 @@ class AudioPlayer with ChangeNotifier {
     await pauseEpisode();
     _assetsAudioPlayer.stop();
     _assetsAudioPlayer.dispose();
-    super.dispose();
+    _currentEpisodeController.close();
   }
 
+  // GETTERS
+
   /// returns the current episode being played
-  Episode get currentEpisode {
-    return _audioPlayer._currentEpisode;
+  Stream<Episode> get currentEpisode {
+    return _currentEpisodeController.stream;
   }
+
+  /// returns a stream of current playing information
+  Stream<RealtimePlayingInfos> get realtimePlayingInfos =>
+      _assetsAudioPlayer.realtimePlayingInfos;
+
+  /// returns a stream if something current being played
+  Stream<bool> get isPlaying => _assetsAudioPlayer.isPlaying;
 
   /// make sure that things
   /// are intialized
@@ -87,17 +76,15 @@ class AudioPlayer with ChangeNotifier {
         AudioPlayer.fromJson(jsonData);
       }
       _loadedAudioPlayer = true;
-      notifyListeners();
+      _listenToEpisodeChanges();
     }
   }
 
   /// creates a AudioPlayer from json file
   AudioPlayer.fromJson(Map<String, dynamic> jsonData) {
-    // log("[AudioPlayer.fromJson]: ${jsonEncode(jsonData)}");
-
-    _audioPlayer._currentEpisode = Episode.fromJson(jsonData[kCurrentEpisode]);
-
-    Audio audio = _getAudio(_audioPlayer._currentEpisode);
+    Episode loadedEpisode = Episode.fromJson(jsonData[kCurrentEpisode]);
+    _currentEpisodeController.sink.add(loadedEpisode);
+    Audio audio = _getAudio(loadedEpisode);
     Duration previousLocation =
         Duration(seconds: int.parse(jsonData[kCurrentLocation].toString()));
     _loadEpisode(audio, previousLocation);
@@ -106,7 +93,7 @@ class AudioPlayer with ChangeNotifier {
   /// creates json data from an AudioPlayer
   Map<String, dynamic> toJson() {
     Map<String, dynamic> jsonData = {
-      kCurrentEpisode: currentEpisode.toJson(),
+      kCurrentEpisode: _currentEpisode,
       kCurrentLocation: _assetsAudioPlayer.currentPosition.value.inSeconds,
     };
     // log("[AudioPlayer.toJson]: ${jsonEncode(jsonData.toString())}");
@@ -124,13 +111,10 @@ class AudioPlayer with ChangeNotifier {
     //TODO update share preferences
     await AudioPlayerSharedPreferencesService()
         .updateAudioToCache(_audioPlayer);
-
-    notifyListeners();
   }
 
   Future<void> playEpisode() async {
     await _assetsAudioPlayer.play();
-    notifyListeners();
   }
 
   /// will pause the current episode
@@ -138,7 +122,6 @@ class AudioPlayer with ChangeNotifier {
     await _assetsAudioPlayer.pause();
     await AudioPlayerSharedPreferencesService()
         .updateAudioToCache(_audioPlayer);
-    notifyListeners();
   }
 
   /// the player will go rewind 10 seconds
@@ -157,10 +140,34 @@ class AudioPlayer with ChangeNotifier {
         .updateAudioToCache(_audioPlayer);
   }
 
-  /// returns a stream of current playing information
-  Stream<RealtimePlayingInfos> get realtimePlayingInfos =>
-      _assetsAudioPlayer.realtimePlayingInfos;
+  //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+  //$$$$$$$$$$ Private Functions $$$$$$$$$$$$$$$$$$$$$$
+  //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
-  /// returns a stream if something current being played
-  Stream<bool> get isPlaying => _assetsAudioPlayer.isPlaying;
+  /// Will load an episode, and go to the desired location
+  Future<void> _loadEpisode(Audio audio, Duration duration) async {
+    await _assetsAudioPlayer.open(audio);
+    _assetsAudioPlayer.seek(duration);
+    _assetsAudioPlayer.pause();
+  }
+
+  Audio _getAudio(Episode episode) {
+    return Audio.network(
+      episode.audioSourceUrl,
+      metas: Metas(
+          title: episode.episodeName,
+          artist: episode.partialPodcastInformation.artistName,
+          album: episode.partialPodcastInformation.podcastName,
+          image:
+              MetasImage.network(episode.partialPodcastInformation.imageUrl)),
+    );
+  }
+
+  void _listenToEpisodeChanges() {
+    _currentEpisodeController.stream.listen(
+      (Episode nextEpisode) {
+        _currentEpisode = nextEpisode;
+      },
+    );
+  }
 }
