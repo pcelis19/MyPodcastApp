@@ -10,40 +10,39 @@ class ListOfFavoritePodcasts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: StreamBuilder(
-          stream: _userSettings.displayTodaysTopPodcastStream,
-          builder: (context, snapdata) {
-            // if the stream has data, and user opts to not see
-            // top podcasts, then take the entire space
+    return StreamBuilder(
+        stream: _userSettings.displayTodaysTopPodcastStream,
+        builder: (context, snapdata) {
+          // if the stream has data, and user opts to not see
+          // top podcasts, then take the entire space
 
-            final ThemeData themeData = Theme.of(context);
-            return Consumer<FavoritePodcastsService>(
-              builder: (context, favoritePodcastsService, child) {
-                List<PartialPodcastInformation> podcasts =
-                    favoritePodcastsService.favoritePodcasts;
-
+          final ThemeData themeData = Theme.of(context);
+          return Selector<FavoritePodcastsService,
+              List<PartialPodcastInformation>>(
+            selector: (_, favoritePodcastsService) =>
+                favoritePodcastsService.favoritePodcasts,
+            builder: (context, favoritePodcasts, child) {
+              if (favoritePodcasts == null || favoritePodcasts.isEmpty) {
                 /// if the user has not saved anything, then just remind them to
                 /// start favoriting items
                 /// otherwise display their list of favorites, with an additional
                 /// padding at the end
-                if (podcasts == null || podcasts.isEmpty) {
-                  return Center(
-                    child: Text(
-                      'Don\'t forget to press the heart icon to favorite shows',
-                      style: themeData.primaryTextTheme.headline3,
-                    ),
-                  );
-                } else {
-                  return ListView.builder(
-                    itemCount: podcasts.length +
-                        1, // we add 1 so the last item is padding
-                    itemBuilder: (context, i) {
-                      if (i < podcasts.length) {
-                        PartialPodcastInformation podcast = podcasts[i];
+                return Center(
+                  child: Text(
+                    'Don\'t forget to press the heart icon to favorite shows',
+                    style: themeData.primaryTextTheme.headline3,
+                  ),
+                );
+              } else {
+                return SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, i) {
+                      if (i < favoritePodcasts.length) {
+                        PartialPodcastInformation podcast = favoritePodcasts[i];
                         return Card(
                           elevation: 5,
                           child: RaisedButton(
+                            color: Colors.white,
                             onPressed: () {
                               Navigator.of(context).pushNamed(kPodcastHomeView,
                                   arguments: podcast);
@@ -51,7 +50,9 @@ class ListOfFavoritePodcasts extends StatelessWidget {
                             elevation: 8,
                             child: ListTile(
                               isThreeLine: true,
-                              leading: Image.network(podcast.imageUrl),
+                              leading: Hero(
+                                  tag: podcast.imageUrl,
+                                  child: Image.network(podcast.imageUrl)),
                               title: Text(podcast.podcastName),
                               subtitle: Text(podcast.artistName),
                               trailing: podcast.contentAdvisoryRating != null
@@ -67,11 +68,12 @@ class ListOfFavoritePodcasts extends StatelessWidget {
                         );
                       }
                     },
-                  );
-                }
-              },
-            );
-          }),
-    );
+                    childCount: favoritePodcasts.length + 1,
+                  ),
+                );
+              }
+            },
+          );
+        });
   }
 }

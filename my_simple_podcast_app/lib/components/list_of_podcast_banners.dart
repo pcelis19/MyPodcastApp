@@ -1,52 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:my_simple_podcast_app/constants/decorations.dart';
 import 'package:my_simple_podcast_app/models/partial_podcast_information.dart';
 import 'package:my_simple_podcast_app/widgets/podcast_banner.dart';
-import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ListOfPodcastBanners extends StatefulWidget {
+  const ListOfPodcastBanners({Key key, @required this.listOfPodcasts})
+      : super(key: key);
+
   @override
   _ListOfPodcastBannersState createState() => _ListOfPodcastBannersState();
+  final List<PartialPodcastInformation> listOfPodcasts;
 }
 
 class _ListOfPodcastBannersState extends State<ListOfPodcastBanners> {
-  final List<PodcastBanner> podcasts = [];
-  PodcastBanner currentFocusPodcast;
-  final PageController _controller = PageController(viewportFraction: 0.8);
+  final List<PodcastBanner> podcastBanners = [];
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    context.watch<List<PartialPodcastInformation>>().forEach(
-        (PartialPodcastInformation podcast) =>
-            podcasts.add(PodcastBanner(podcastShow: podcast)));
-    currentFocusPodcast = podcasts[0];
+    widget.listOfPodcasts.forEach(
+        (element) => podcastBanners.add(PodcastBanner(podcastShow: element)));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Expanded(
-            child: PageView(
-              controller: _controller,
-              children: podcasts,
-              onPageChanged: updateFocusWidget,
-            ),
-          ),
-          SmoothPageIndicator(
-            controller: _controller,
-            count: podcasts.length,
-          )
-        ],
-      ),
-    );
-  }
+    final PageController _controller =
+        PageController(viewportFraction: kBannerPercentWidth);
 
-  void updateFocusWidget(int index) {
-    PodcastBanner previousFocusPodcast = currentFocusPodcast;
-    currentFocusPodcast = podcasts[index];
-    // previousFocusPodcast.removeFocus();
-    // currentFocusPodcast.giveFocus();
+    return Column(
+      children: [
+        Expanded(
+          child: PageView(
+            controller: _controller,
+            children: podcastBanners,
+          ),
+        ),
+        SmoothPageIndicator(
+          controller: _controller,
+          count: podcastBanners.length,
+        )
+      ],
+    );
   }
 }

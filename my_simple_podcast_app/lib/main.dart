@@ -16,13 +16,12 @@ void main() async {
   await FavoritePodcastsService().intializeFavorites();
   await AudioPlayer().intializeAudioPlayer();
   await UserSettings().initializeUserSettings();
-  final FavoritePodcastsService _favoritePodcastsService =
-      FavoritePodcastsService();
+
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(
-          value: _favoritePodcastsService,
+        ChangeNotifierProvider(
+          create: (_) => FavoritePodcastsService(),
         ),
       ],
       child: MyApp(),
@@ -51,7 +50,6 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
               builder: (context) => HomePage(),
             );
-
           case kPodcastHomeView:
             return MaterialPageRoute(
               builder: (context) => PodcastHomeScreen(

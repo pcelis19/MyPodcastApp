@@ -71,9 +71,10 @@ class AudioPlayer {
       // try {
       Map<String, dynamic> jsonData =
           await AudioPlayerSharedPreferencesService().packedAudioPlayer;
-      // if there is something in the cache, then load the audio player,
-      // just let the AudioPlayer to act like a new player
-      if (jsonData != null) {
+
+      /// if there is something in the cache and the user has listen to something
+      ///(which fill the map), then load the audio player,
+      if (jsonData != null && jsonData[kCurrentEpisode] != null) {
         AudioPlayer.fromJson(jsonData);
       }
       _loadedAudioPlayer = true;

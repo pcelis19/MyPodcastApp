@@ -29,6 +29,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    final double _screenHeight = SizeConfig.safeBlockVertical;
+    final double _screenWidth = SizeConfig.safeBlockHorizontal;
     ThemeData themeData = Theme.of(context);
     return ChangeNotifierProvider<SearchTermProvider>.value(
       value: _searchTermProvider,
@@ -42,30 +44,15 @@ class _HomePageState extends State<HomePage> {
               child: Scaffold(
                 appBar: SearchBar(),
                 drawer: HomePageDrawer(),
+
+                /// established a stack so that the audio player
+                /// is always in the bottom, may in the future try to
+                /// override the bottom navigation bar from [background]
+                /// so that it is easier to see the layout
                 body: Stack(
                   children: [
-                    Container(
-                      color: themeData.primaryColorLight,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListView(
-                          children: [
-                            topPodcastHeader(context),
-                            TopPodcasts(),
-                            yourFavoritesHeader(context),
-                            ListOfFavoritePodcasts()
-                          ],
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Container(
-                        height: SizeConfig.screenHeight * .1,
-                        color: Colors.white,
-                        child: AudioPlayerBar(),
-                      ),
-                    )
+                    background(themeData, _screenHeight, _screenWidth),
+                    foreground(_screenHeight)
                   ],
                 ),
                 // bottomSheet: AudioPlayerWidget(),
@@ -74,6 +61,35 @@ class _HomePageState extends State<HomePage> {
           ),
         );
       },
+    );
+  }
+
+  Align foreground(double _screenHeight) {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Container(
+        height: _screenHeight * .1,
+        color: Colors.white,
+        child: AudioPlayerBar(),
+      ),
+    );
+  }
+
+  Container background(
+      ThemeData themeData, double _screenHeight, double _screenWidth) {
+    return Container(
+      color: themeData.primaryColorLight,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: CustomScrollView(
+          slivers: [
+            topPodcastHeader(themeData),
+            TopPodcasts(),
+            yourFavoritesHeader(themeData),
+            ListOfFavoritePodcasts()
+          ],
+        ),
+      ),
     );
   }
 
@@ -102,11 +118,12 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Widget topPodcastHeader(BuildContext context) {
-    ThemeData themeData = Theme.of(context);
-    Widget kDefault = Text(
-      'Today\'s Top ',
-      style: themeData.accentTextTheme.headline2,
+  Widget topPodcastHeader(ThemeData themeData) {
+    Widget kDefault = SliverToBoxAdapter(
+      child: Text(
+        'Today\'s Top ',
+        style: themeData.accentTextTheme.headline2,
+      ),
     );
     return StreamBuilder<bool>(
         stream: UserSettings().displayTodaysTopPodcastStream,
@@ -123,11 +140,12 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
-  Widget yourFavoritesHeader(BuildContext context) {
-    ThemeData themeData = Theme.of(context);
-    return Text(
-      'Your Favorites',
-      style: themeData.accentTextTheme.headline2,
+  Widget yourFavoritesHeader(ThemeData themeData) {
+    return SliverToBoxAdapter(
+      child: Text(
+        'Your Favorites',
+        style: themeData.accentTextTheme.headline2,
+      ),
     );
   }
 }

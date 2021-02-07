@@ -1,8 +1,11 @@
 import 'dart:developer';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:my_simple_podcast_app/constants/decorations.dart';
 import 'package:my_simple_podcast_app/constants/route_names.dart';
 import 'package:my_simple_podcast_app/models/partial_podcast_information.dart';
+import 'package:my_simple_podcast_app/utils/size_config.dart';
 import 'package:my_simple_podcast_app/widgets/favorite_icon_button.dart';
 
 class PodcastBanner extends StatelessWidget {
@@ -15,9 +18,13 @@ class PodcastBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeData _themeData = Theme.of(context);
-    return Expanded(
+    double height = SizeConfig.screenHeight * kBannerPercentHeight;
+    double width = double.infinity;
+    return Container(
+      height: height,
+      width: width,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: FlatButton(
           onPressed: () => Navigator.of(context)
               .pushNamed(kPodcastHomeView, arguments: podcastShow),
@@ -25,11 +32,13 @@ class PodcastBanner extends StatelessWidget {
             children: [
               background(context),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Expanded(
-                      flex: 2,
+                      flex: 7,
                       child: Center(
                         child: Hero(
                           tag: podcastShow.imageUrl,
@@ -37,19 +46,25 @@ class PodcastBanner extends StatelessWidget {
                         ),
                       ),
                     ),
-                    spliter(),
                     Expanded(
+                      child: spliter(),
+                    ),
+                    Expanded(
+                      flex: 3,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
+                          AutoSizeText(
                             podcastShow.podcastName,
                             style: _themeData.primaryTextTheme.headline6,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          Text(
+                          AutoSizeText(
                             podcastShow.artistName,
                             style: _themeData.primaryTextTheme.bodyText1,
+                            overflow: TextOverflow.fade,
                           ),
+                          Spacer(),
                           FavoriteIconButton(
                             partialPodcastInformation: podcastShow,
                           )
@@ -68,7 +83,6 @@ class PodcastBanner extends StatelessWidget {
 
   Widget background(BuildContext context) {
     ThemeData themeData = Theme.of(context);
-    log("[COLOR]: \nprimary: ${themeData.primaryColor.toString()}\nsecondary:${themeData.accentColor.toString()} ");
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(

@@ -9,35 +9,33 @@ class AudioPlayerBar extends StatelessWidget {
   final AudioPlayer _audioPlayer = AudioPlayer();
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Center(
-        child: StreamBuilder<Episode>(
-            stream: _audioPlayer.currentEpisode,
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return ListTile(
-                  leading: Icon(
-                    Icons.error_outline,
-                    color: Colors.red,
-                  ),
-                  title: const Text("Let\'s start listening!"),
-                );
-              } else {
-                Episode currentEpisode = snapshot.data;
-                return FlatButton(
-                  onPressed: () =>
-                      Navigator.of(context).pushNamed(kAudioPlayerView),
-                  child: ListTile(
-                    leading: Image.network(
-                        currentEpisode.partialPodcastInformation.imageUrl),
-                    title: Text(currentEpisode.episodeName),
-                    trailing: Hero(
-                        tag: kHeroPlayPauseButton, child: PlayPauseButton()),
-                  ),
-                );
-              }
-            }),
-      ),
+    return Center(
+      child: StreamBuilder<Episode>(
+          stream: _audioPlayer.currentEpisode,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return ListTile(
+                leading: Icon(
+                  Icons.error_outline,
+                  color: Colors.red,
+                ),
+                title: const Text("Let\'s start listening!"),
+              );
+            } else {
+              Episode currentEpisode = snapshot.data;
+              return FlatButton(
+                onPressed: () =>
+                    Navigator.of(context).pushNamed(kAudioPlayerView),
+                child: ListTile(
+                  leading: Image.network(
+                      currentEpisode.partialPodcastInformation.imageUrl),
+                  title: Text(currentEpisode.episodeName),
+                  trailing:
+                      Hero(tag: kHeroPlayPauseButton, child: PlayPauseButton()),
+                ),
+              );
+            }
+          }),
     );
   }
 }
