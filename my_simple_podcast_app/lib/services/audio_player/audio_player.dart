@@ -106,10 +106,10 @@ class AudioPlayer {
 
   /// plays the next episode
   Future<void> playNextEpisode(Episode nextEpisode) async {
-    if (currentEpisode == nextEpisode) return;
+    if (_currentEpisode == nextEpisode) return;
     Audio audio = _getAudio(nextEpisode);
     await _assetsAudioPlayer.open(audio);
-    _audioPlayer._currentEpisode = nextEpisode;
+    _updateAudio(nextEpisode);
     // if the nextEpisode is loaded properly then updated the information and cache it
     //TODO update share preferences
     await AudioPlayerSharedPreferencesService()
@@ -172,5 +172,9 @@ class AudioPlayer {
         _currentEpisode = nextEpisode;
       },
     );
+  }
+
+  void _updateAudio(Episode nextEpisode) {
+    _currentEpisodeController.sink.add(nextEpisode);
   }
 }

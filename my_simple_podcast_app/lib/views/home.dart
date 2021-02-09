@@ -29,8 +29,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    final double _screenHeight = SizeConfig.safeBlockVertical;
-    final double _screenWidth = SizeConfig.safeBlockHorizontal;
+    final double _screenHeight = SizeConfig.screenHeight;
+    final double _screenWidth = SizeConfig.screenWidth;
     ThemeData themeData = Theme.of(context);
     return ChangeNotifierProvider<SearchTermProvider>.value(
       value: _searchTermProvider,
@@ -69,7 +69,8 @@ class _HomePageState extends State<HomePage> {
       alignment: Alignment.bottomCenter,
       child: Container(
         height: _screenHeight * .1,
-        color: Colors.white,
+        width: double.infinity,
+        color: Colors.green,
         child: AudioPlayerBar(),
       ),
     );

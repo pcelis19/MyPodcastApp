@@ -50,9 +50,7 @@ class ListOfFavoritePodcasts extends StatelessWidget {
                             elevation: 8,
                             child: ListTile(
                               isThreeLine: true,
-                              leading: Hero(
-                                  tag: podcast.imageUrl,
-                                  child: Image.network(podcast.imageUrl)),
+                              leading: Image.network(podcast.imageUrl),
                               title: Text(podcast.podcastName),
                               subtitle: Text(podcast.artistName),
                               trailing: podcast.contentAdvisoryRating != null

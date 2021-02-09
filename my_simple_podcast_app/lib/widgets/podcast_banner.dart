@@ -62,6 +62,7 @@ class PodcastBanner extends StatelessWidget {
                           AutoSizeText(
                             podcastShow.artistName,
                             style: _themeData.primaryTextTheme.bodyText1,
+                            maxLines: 1,
                             overflow: TextOverflow.fade,
                           ),
                           Spacer(),

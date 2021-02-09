@@ -27,7 +27,6 @@ void main() async {
       child: MyApp(),
     ),
   );
-  AudioPlayer().dispose();
 }
 
 class MyApp extends StatelessWidget {
