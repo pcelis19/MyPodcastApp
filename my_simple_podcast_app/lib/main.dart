@@ -1,27 +1,34 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:my_simple_podcast_app/views/settings.dart';
+import 'package:my_simple_podcast_app/global_services/user_settings.dart';
+import 'package:my_simple_podcast_app/global_constants/route_names.dart';
+import 'package:my_simple_podcast_app/views/home/home_screen.dart';
+import 'package:my_simple_podcast_app/views/player_home_screen/player_home_screen.dart';
+import 'package:my_simple_podcast_app/views/podcast_home_screen/podcast_home_screen.dart';
+import 'package:my_simple_podcast_app/views/settings/settings.dart';
 import 'package:provider/provider.dart';
 
-import 'constants/route_names.dart';
-import 'models/partial_podcast_information.dart';
-import 'services/audio_player/audio_player.dart';
-import 'services/favorite_podcasts/favorites_podcasts_service.dart';
-import 'services/user_settings.dart';
-import 'views/audio_player_view.dart';
-import 'views/home.dart';
-import 'views/podcast_show_view.dart';
+import 'global_models/partial_podcast_information.dart';
+import 'global_services/audio_player/audio_player.dart';
+import 'global_services/favorite_podcasts/favorites_podcasts_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FavoritePodcastsService().intializeFavorites();
   await AudioPlayer().intializeAudioPlayer();
   await UserSettings().initializeUserSettings();
-
+  final FavoritePodcastsService _favoritePodcastsService =
+      FavoritePodcastsService();
+  final AudioPlayer _audioPlayer = AudioPlayer();
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (_) => FavoritePodcastsService(),
+        ChangeNotifierProvider.value(
+          value: _favoritePodcastsService,
+        ),
+        ChangeNotifierProvider.value(
+          value: _audioPlayer,
         ),
       ],
       child: MyApp(),
@@ -49,6 +56,7 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
               builder: (context) => HomePage(),
             );
+
           case kPodcastHomeView:
             return MaterialPageRoute(
               builder: (context) => PodcastHomeScreen(
