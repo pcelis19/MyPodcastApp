@@ -23,7 +23,7 @@ class ListOfPodcastBanners extends StatefulWidget {
 class _ListOfPodcastBannersState extends State<ListOfPodcastBanners> {
   final List<PodcastBanner> podcasts = [];
   PodcastBanner currentFocusPodcast;
-  final PageController _controller = PageController(viewportFraction: 0.8);
+  final PageController _controller = PageController(viewportFraction: 0.9);
   @override
   void initState() {
     super.initState();

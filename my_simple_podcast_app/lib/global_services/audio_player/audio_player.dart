@@ -83,8 +83,10 @@ class AudioPlayer with ChangeNotifier {
           await AudioPlayerSharedPreferencesService().packedAudioPlayer;
       // if there is something in the cache, then load the audio player,
       // just let the AudioPlayer to act like a new player
-      if (jsonData != null) {
+      if (jsonData != null && jsonData["currentEpisode"] != null) {
         AudioPlayer.fromJson(jsonData);
+      } else {
+        log(jsonData.toString());
       }
       _loadedAudioPlayer = true;
       notifyListeners();

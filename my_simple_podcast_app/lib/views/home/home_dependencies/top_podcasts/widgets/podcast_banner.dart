@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/global_components/favorite_icon_button/favorite_icon_button.dart';
 import 'package:my_simple_podcast_app/global_models/partial_podcast_information.dart';
@@ -61,7 +62,7 @@ class _PodcastBannerState extends State<PodcastBanner> {
                 child: Column(
                   children: [
                     Expanded(
-                      flex: 2,
+                      flex: 8,
                       child: Center(
                         child: Hero(
                           tag: podcastShow.imageUrl,
@@ -69,18 +70,24 @@ class _PodcastBannerState extends State<PodcastBanner> {
                         ),
                       ),
                     ),
-                    spliter(),
+                    Expanded(child: spliter()),
                     Expanded(
+                      flex: 3,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
+                          AutoSizeText(
+                            
                             podcastShow.podcastName,
-                            style: _themeData.primaryTextTheme.headline6,
+                            style: _themeData.primaryTextTheme.headline6,maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            minFontSize: _themeData.primaryTextTheme.headline6.fontSize,
                           ),
-                          Text(
+                          AutoSizeText(
                             podcastShow.artistName,
                             style: _themeData.primaryTextTheme.bodyText1,
+                            overflow: TextOverflow.ellipsis,
+                            minFontSize: _themeData.primaryTextTheme.bodyText1.fontSize,
                           ),
                           FavoriteIconButton(
                             partialPodcastInformation: podcastShow,
@@ -100,22 +107,18 @@ class _PodcastBannerState extends State<PodcastBanner> {
 
   Widget background(BuildContext context) {
     ThemeData themeData = Theme.of(context);
-    log("[COLOR]: \nprimary: ${themeData.primaryColor.toString()}\nsecondary:${themeData.accentColor.toString()} ");
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Container(
-        height: popUpHeight,
-        width: widget.maxHeight,
-        decoration: BoxDecoration(
-          color: themeData.accentColor,
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(20),
-          ),
-          gradient: LinearGradient(
-            begin: Alignment.bottomLeft,
-            end: Alignment.topRight,
-            colors: [themeData.primaryColor, themeData.accentColor],
-          ),
+    return Container(
+      height: popUpHeight,
+      width: widget.maxHeight,
+      decoration: BoxDecoration(
+        color: themeData.accentColor,
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
+        ),
+        gradient: LinearGradient(
+          begin: Alignment.bottomLeft,
+          end: Alignment.topRight,
+          colors: [themeData.primaryColor, themeData.accentColor],
         ),
       ),
     );

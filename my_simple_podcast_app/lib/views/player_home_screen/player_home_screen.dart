@@ -82,6 +82,11 @@ class AudioPlayerSlider extends StatelessWidget {
       return StreamBuilder<RealtimePlayingInfos>(
         stream: audioPlayer.realtimePlayingInfos,
         builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: LinearProgressIndicator(),
+            );
+          }
           int _seconds = snapshot.data.currentPosition.inSeconds;
           String _label = label(_seconds);
           String _maxLabel = label(snapshot.data.duration.inSeconds);

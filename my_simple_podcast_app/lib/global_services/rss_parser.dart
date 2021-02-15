@@ -12,7 +12,7 @@ class RSSParser {
       PartialPodcastInformation partialPodcastInformation) async {
     List<Episode> fetchedEpisodes = <Episode>[];
     FullPodcastInformation fullPodcastInformation;
-    await rssParser.Podcast.loadFeed(url: partialPodcastInformation.feedUrl)
+    await rssParser.Podcast.loadFeed( partialPodcastInformation.feedUrl)
         .then((value) {
       value.episodes.forEach((element) {
         fetchedEpisodes.add(
