@@ -21,7 +21,8 @@ class ListOfEpisodes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<FullPodcastInformation>(
-      future: compute(rssParser.fetchEpisodes, partialPodcastInformation),
+      // future: compute(rssParser.fetchEpisodes, partialPodcastInformation),
+      future: rssParser.fetchEpisodes(partialPodcastInformation),
       builder: (context, snapshot) {
         if (!snapshot.hasData || snapshot.data == null) {
           return Center(

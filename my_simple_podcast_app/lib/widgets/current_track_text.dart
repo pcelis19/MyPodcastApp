@@ -1,6 +1,6 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:my_simple_podcast_app/models/episode.dart';
 import 'package:my_simple_podcast_app/services/audio_player/audio_player.dart';
 
 class CurrentTrackTitle extends StatelessWidget {
@@ -8,14 +8,14 @@ class CurrentTrackTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AudioPlayer _audioPlayer = AudioPlayer();
-    return StreamBuilder<Episode>(
-        stream: _audioPlayer.currentEpisode,
+    return StreamBuilder<RealtimePlayingInfos>(
+        stream: _audioPlayer.realtimePlayingInfos,
         builder: (context, snapshot) {
           String title;
           if (!snapshot.hasData) {
             title = '';
           } else {
-            title = snapshot.data.episodeName;
+            title = snapshot.data.current.audio.audio.metas.title;
           }
           return AutoSizeText(
             title,

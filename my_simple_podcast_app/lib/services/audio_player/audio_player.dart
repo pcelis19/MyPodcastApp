@@ -19,10 +19,6 @@ class AudioPlayer {
   /// internal player
   static final AssetsAudioPlayer _assetsAudioPlayer = AssetsAudioPlayer();
 
-  /// keeps track of the current audio being played
-  final StreamController<Episode> _currentEpisodeController =
-      BehaviorSubject<Episode>();
-
   /// checks if the Audio Player has been loaded
   bool _loadedAudioPlayer = false;
 
@@ -46,15 +42,9 @@ class AudioPlayer {
     await pauseEpisode();
     _assetsAudioPlayer.stop();
     _assetsAudioPlayer.dispose();
-    _currentEpisodeController.close();
   }
 
   // GETTERS
-
-  /// returns the current episode being played
-  Stream<Episode> get currentEpisode {
-    return _currentEpisodeController.stream;
-  }
 
   /// returns a stream of current playing information
   Stream<RealtimePlayingInfos> get realtimePlayingInfos =>
@@ -78,7 +68,6 @@ class AudioPlayer {
         AudioPlayer.fromJson(jsonData);
       }
       _loadedAudioPlayer = true;
-      _listenToEpisodeChanges();
     }
   }
 
@@ -86,11 +75,11 @@ class AudioPlayer {
   AudioPlayer.fromJson(Map<String, dynamic> jsonData) {
     log(jsonData.toString());
     Episode loadedEpisode = Episode.fromJson(jsonData[kCurrentEpisode]);
-    _currentEpisodeController.sink.add(loadedEpisode);
     Audio audio = _getAudio(loadedEpisode);
     Duration previousLocation =
         Duration(seconds: int.parse(jsonData[kCurrentLocation].toString()));
     _loadEpisode(audio, previousLocation);
+    _currentEpisode = loadedEpisode;
   }
 
   /// creates json data from an AudioPlayer
@@ -109,7 +98,7 @@ class AudioPlayer {
     if (_currentEpisode == nextEpisode) return;
     Audio audio = _getAudio(nextEpisode);
     await _assetsAudioPlayer.open(audio);
-    _updateAudio(nextEpisode);
+    _currentEpisode = nextEpisode;
     // if the nextEpisode is loaded properly then updated the information and cache it
     //TODO update share preferences
     await AudioPlayerSharedPreferencesService()
@@ -164,17 +153,5 @@ class AudioPlayer {
           image:
               MetasImage.network(episode.partialPodcastInformation.imageUrl)),
     );
-  }
-
-  void _listenToEpisodeChanges() {
-    _currentEpisodeController.stream.listen(
-      (Episode nextEpisode) {
-        _currentEpisode = nextEpisode;
-      },
-    );
-  }
-
-  void _updateAudio(Episode nextEpisode) {
-    _currentEpisodeController.sink.add(nextEpisode);
   }
 }

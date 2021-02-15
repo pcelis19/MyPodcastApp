@@ -11,47 +11,39 @@ class PodcastHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeData _themeData = Theme.of(context);
-    Color _backgroundColor = _themeData.primaryColorLight;
-    return Container(
-      height: double.infinity,
-      color: _backgroundColor,
-      child: SafeArea(
-        child: Container(
-          color: _backgroundColor,
-          child: Scaffold(
-            appBar: AppBar(
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              title: Text(partialPodcastInformation.podcastName),
-              centerTitle: true,
-            ),
-            body: Column(
-              children: [
-                /// Show Details
-                Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: PodcastHeader(
-                      partialPodcastInformation: partialPodcastInformation,
-                    ),
-                  ),
-                ),
-
-                /// Show Description and Episodes
-                Expanded(
-                  flex: 3,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListOfEpisodes(
-                        partialPodcastInformation: partialPodcastInformation),
-                  ),
-                ),
-              ],
-            ),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () => Navigator.of(context).pop(),
           ),
+          title: Text(partialPodcastInformation.podcastName),
+          centerTitle: true,
+        ),
+        body: Column(
+          children: [
+            /// Show Details
+            Expanded(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: PodcastHeader(
+                  partialPodcastInformation: partialPodcastInformation,
+                ),
+              ),
+            ),
+
+            /// Show Description and Episodes
+            Expanded(
+              flex: 3,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListOfEpisodes(
+                    partialPodcastInformation: partialPodcastInformation),
+              ),
+            ),
+          ],
         ),
       ),
     );

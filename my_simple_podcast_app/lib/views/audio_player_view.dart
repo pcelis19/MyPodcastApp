@@ -13,15 +13,15 @@ class PlayerHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     AudioPlayer _audioPlayer = AudioPlayer();
     TextTheme textDesign = Theme.of(context).textTheme;
-    return StreamBuilder<Episode>(
-      stream: _audioPlayer.currentEpisode,
+    return StreamBuilder<RealtimePlayingInfos>(
+      stream: _audioPlayer.realtimePlayingInfos,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Center(
             child: CircularProgressIndicator(),
           );
         } else {
-          Episode currentEpisode = snapshot.data;
+          Metas metas = snapshot.data.current.audio.audio.metas;
           return Scaffold(
             appBar: AppBar(),
             body: Column(
@@ -31,11 +31,7 @@ class PlayerHomeScreen extends StatelessWidget {
                   flex: 4,
                   child: Padding(
                     padding: const EdgeInsets.all(24.0),
-                    child: Hero(
-                      tag: currentEpisode.partialPodcastInformation.imageUrl,
-                      child: Image.network(
-                          currentEpisode.partialPodcastInformation.imageUrl),
-                    ),
+                    child: Image.network(metas.image.path),
                   ),
                 ),
                 Expanded(
@@ -46,12 +42,12 @@ class PlayerHomeScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
-                          currentEpisode.partialPodcastInformation.podcastName,
+                          metas.album,
                           style: textDesign.headline6,
                           textAlign: TextAlign.center,
                         ),
                         Text(
-                          currentEpisode.episodeName,
+                          metas.title,
                           textAlign: TextAlign.center,
                         )
                       ],
@@ -90,6 +86,7 @@ class AudioPlayerSlider extends StatelessWidget {
     return StreamBuilder<RealtimePlayingInfos>(
       stream: _audioPlayer.realtimePlayingInfos,
       builder: (context, snapshot) {
+        if (!snapshot.hasData) return LinearProgressIndicator();
         int _seconds = snapshot.data.currentPosition.inSeconds;
         String _label = label(_seconds);
         String _maxLabel = label(snapshot.data.duration.inSeconds);

@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
       child: Container(
         height: _screenHeight * .1,
         width: double.infinity,
-        color: Colors.green,
+        color: Colors.white,
         child: AudioPlayerBar(),
       ),
     );

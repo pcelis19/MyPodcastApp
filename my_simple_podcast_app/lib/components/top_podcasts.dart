@@ -21,7 +21,7 @@ class TopPodcasts extends StatelessWidget {
           if (displayTopPodcasts)
             return getDefault(context);
           else
-            return SliverToBoxAdapter(child: Container());
+            return Container();
         } else
           return getDefault(context);
       },

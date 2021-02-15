@@ -1,3 +1,4 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:my_simple_podcast_app/constants/hero_identifiers.dart';
 import 'package:my_simple_podcast_app/constants/route_names.dart';
@@ -10,8 +11,8 @@ class AudioPlayerBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: StreamBuilder<Episode>(
-          stream: _audioPlayer.currentEpisode,
+      child: StreamBuilder<RealtimePlayingInfos>(
+          stream: _audioPlayer.realtimePlayingInfos,
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return ListTile(
@@ -22,16 +23,14 @@ class AudioPlayerBar extends StatelessWidget {
                 title: const Text("Let\'s start listening!"),
               );
             } else {
-              Episode currentEpisode = snapshot.data;
+              Metas metas = snapshot.data.current.audio.audio.metas;
               return FlatButton(
                 onPressed: () =>
                     Navigator.of(context).pushNamed(kAudioPlayerView),
                 child: ListTile(
-                  leading: Image.network(
-                      currentEpisode.partialPodcastInformation.imageUrl),
-                  title: Text(currentEpisode.episodeName),
-                  trailing:
-                      Hero(tag: kHeroPlayPauseButton, child: PlayPauseButton()),
+                  leading: Image.network(metas.image.path),
+                  title: Text(metas.title),
+                  trailing: PlayPauseButton(),
                 ),
               );
             }

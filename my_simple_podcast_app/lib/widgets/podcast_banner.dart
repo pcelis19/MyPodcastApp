@@ -40,10 +40,7 @@ class PodcastBanner extends StatelessWidget {
                     Expanded(
                       flex: 7,
                       child: Center(
-                        child: Hero(
-                          tag: podcastShow.imageUrl,
-                          child: Image.network(podcastShow.imageUrl),
-                        ),
+                        child: Image.network(podcastShow.imageUrl),
                       ),
                     ),
                     Expanded(
